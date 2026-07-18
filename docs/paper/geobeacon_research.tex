@@ -22,8 +22,8 @@ camera-space clustered lighting, aggregate-bounded diffuse-light pruning, tempor
 10 Hz budget controller. The artifact includes deterministic OSM preprocessing to glTF 2.0 and 3D
 Tiles 1.1, five recorded camera paths, dual-driver measurement classes, exact diffuse captures, raw
 frame CSVs, and figure regeneration. A 20-case dual-driver pilot completed without failures. On
-MoltenVK, bounded GeoBEACON reduced median measured cluster-plus-lighting GPU time from 0.2602 ms for
-fixed LOD1/fixed clusters to 0.1308 ms in this 100-light validation workload; the result is reported
+MoltenVK, bounded GeoBEACON reduced median measured cluster-plus-lighting GPU time from 0.3086 ms for
+fixed LOD1/fixed clusters to 0.2621 ms in this 100-light validation workload; the result is reported
 as artifact evidence rather than a general performance claim.
 \end{abstract}
 
@@ -235,12 +235,12 @@ five-repeat matrix.
 Driver & Policy & CPU50 & CPU95 & GPU50\\
  & & ms & ms & ms\\
 \midrule
-MoltenVK & Fixed LOD1 & 7.221 & 8.709 & 0.2602\\
-MoltenVK & Geo exact & 8.331 & 12.156 & 0.1875\\
-MoltenVK & Geo bounded & 8.270 & 12.364 & 0.1308\\
-KosmicKrisp & Fixed LOD1 & 8.353 & 12.060 & --\\
-KosmicKrisp & Geo exact & 13.147 & 17.891 & --\\
-KosmicKrisp & Geo bounded & 12.914 & 18.185 & --\\
+MoltenVK & Fixed LOD1 & 8.232 & 11.920 & 0.3086\\
+MoltenVK & Geo exact & 8.108 & 12.651 & 0.2866\\
+MoltenVK & Geo bounded & 7.915 & 12.361 & 0.2621\\
+KosmicKrisp & Fixed LOD1 & 16.562 & 25.909 & --\\
+KosmicKrisp & Geo exact & 16.046 & 21.421 & --\\
+KosmicKrisp & Geo bounded & 16.105 & 21.838 & --\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -263,11 +263,11 @@ cross-scene causal claim. CPU p95 increased for adaptive policies because CPU hi
 and exact capture synchronization remain visible in the validation configuration. This negative
 result is retained.
 
-Exact and bounded capture pairs reported MSE separately from conservative bounds. The saved PPM
-captures verify that the compared buffers contain rendered city geometry rather than only a clear
-color. Bounded pilot MSE was zero at RGBA8 quantization on most cases and $2.26\times10^{-11}$ on
-KosmicKrisp in aggregate; this does not prove the analytical bound, but confirms the image-measurement
-path and motivates higher-light full runs.
+Every policy uses a separately streamed maximum-LOD diffuse reference. The saved PPM captures verify
+that the compared buffers contain rendered city geometry rather than only a clear color. Mean MSE
+was $3.09\times10^{-4}$ for fixed LOD1 and approximately $5.11\times10^{-4}$ for semantic adaptive
+policies on MoltenVK. Geometry allocation dominates these values in the pilot, while the conservative
+omitted-light bound remains a separate reported quantity.
 
 \clearpage
 \section{Verification and Reproduction}

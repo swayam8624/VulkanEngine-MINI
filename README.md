@@ -135,17 +135,19 @@ not the full repeated-trial claim.
 
 | Driver / timing class | Policy | CPU p50 ms | CPU p95 ms | GPU cluster + light p50 ms |
 | --- | --- | ---: | ---: | ---: |
-| MoltenVK / Vulkan timestamps | fixed LOD1 | 7.221 | 8.709 | 0.2602 |
-| MoltenVK / Vulkan timestamps | GeoBEACON exact | 8.331 | 12.156 | 0.1875 |
-| MoltenVK / Vulkan timestamps | GeoBEACON bounded | 8.270 | 12.364 | 0.1308 |
-| KosmicKrisp / Vulkan CPU fallback | fixed LOD1 | 8.353 | 12.060 | unavailable |
-| KosmicKrisp / Vulkan CPU fallback | GeoBEACON exact | 13.147 | 17.891 | unavailable |
-| KosmicKrisp / Vulkan CPU fallback | GeoBEACON bounded | 12.914 | 18.185 | unavailable |
+| MoltenVK / Vulkan timestamps | fixed LOD1 | 8.232 | 11.920 | 0.3086 |
+| MoltenVK / Vulkan timestamps | GeoBEACON exact | 8.108 | 12.651 | 0.2866 |
+| MoltenVK / Vulkan timestamps | GeoBEACON bounded | 7.915 | 12.361 | 0.2621 |
+| KosmicKrisp / Vulkan CPU fallback | fixed LOD1 | 16.562 | 25.909 | unavailable |
+| KosmicKrisp / Vulkan CPU fallback | GeoBEACON exact | 16.046 | 21.421 | unavailable |
+| KosmicKrisp / Vulkan CPU fallback | GeoBEACON bounded | 16.105 | 21.838 | unavailable |
 
 MoltenVK reports timestamp-query support on this Apple M2 Pro. KosmicKrisp does not, so its rows
 are explicitly classified as Vulkan CPU measurements. Exact and bounded runs store rendered MSE,
 PSNR, SSIM, maximum pixel error, and temporal MSE variation separately from conservative modeled
-bounds.
+bounds. Every policy is compared with a separately streamed maximum-LOD diffuse reference; the
+pilot's mean MSE ranges from `3.09e-4` for fixed LOD1 to approximately `5.11e-4` for the semantic
+adaptive policies.
 
 ## Key files
 

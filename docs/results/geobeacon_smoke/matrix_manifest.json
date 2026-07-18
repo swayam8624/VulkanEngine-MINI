@@ -1,7 +1,7 @@
 {
   "profile": "smoke",
   "caseCount": 20,
-  "elapsedSeconds": 26.279884815216064,
+  "elapsedSeconds": 31.263740062713623,
   "failures": [],
   "matrix": {
     "policies": [

@@ -3,34 +3,34 @@
 <text x="80" y="30" fill="#f4f7fb" font-family="Arial" font-size="20">vulkan_gpu_measurements p95 Time or Modeled Cost (ms)</text>
 <line x1="80" y1="340" x2="896" y2="340" stroke="#6b7280"/>
 <line x1="80" y1="48" x2="80" y2="340" stroke="#6b7280"/>
-<rect x="86.0" y="244.1" width="68.8" height="95.9" fill="#4cc9f0"/>
+<rect x="86.0" y="48.0" width="68.8" height="292.0" fill="#4cc9f0"/>
 <text transform="translate(120.4,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_distance-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="86.0" y="238.1" fill="#e5e7eb" font-family="Arial" font-size="11">0.377</text>
-<rect x="166.8" y="254.2" width="68.8" height="85.8" fill="#4cc9f0"/>
+<text x="86.0" y="44.0" fill="#e5e7eb" font-family="Arial" font-size="11">0.847</text>
+<rect x="166.8" y="153.3" width="68.8" height="186.7" fill="#4cc9f0"/>
 <text transform="translate(201.2,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_distance-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="166.8" y="248.2" fill="#e5e7eb" font-family="Arial" font-size="11">0.337</text>
-<rect x="247.6" y="231.3" width="68.8" height="108.7" fill="#4cc9f0"/>
+<text x="166.8" y="147.3" fill="#e5e7eb" font-family="Arial" font-size="11">0.542</text>
+<rect x="247.6" y="158.9" width="68.8" height="181.1" fill="#4cc9f0"/>
 <text transform="translate(282.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_fixed-lod1_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="247.6" y="225.3" fill="#e5e7eb" font-family="Arial" font-size="11">0.427</text>
-<rect x="328.4" y="257.0" width="68.8" height="83.0" fill="#4cc9f0"/>
+<text x="247.6" y="152.9" fill="#e5e7eb" font-family="Arial" font-size="11">0.525</text>
+<rect x="328.4" y="140.9" width="68.8" height="199.1" fill="#4cc9f0"/>
 <text transform="translate(362.8,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_fixed-lod1_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="328.4" y="251.0" fill="#e5e7eb" font-family="Arial" font-size="11">0.326</text>
-<rect x="409.2" y="149.1" width="68.8" height="190.9" fill="#4cc9f0"/>
+<text x="328.4" y="134.9" fill="#e5e7eb" font-family="Arial" font-size="11">0.578</text>
+<rect x="409.2" y="179.4" width="68.8" height="160.6" fill="#4cc9f0"/>
 <text transform="translate(443.6,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-bounded_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="409.2" y="143.1" fill="#e5e7eb" font-family="Arial" font-size="11">0.749</text>
-<rect x="490.0" y="124.1" width="68.8" height="215.9" fill="#4cc9f0"/>
+<text x="409.2" y="173.4" fill="#e5e7eb" font-family="Arial" font-size="11">0.466</text>
+<rect x="490.0" y="143.8" width="68.8" height="196.2" fill="#4cc9f0"/>
 <text transform="translate(524.4,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-bounded_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="490.0" y="118.1" fill="#e5e7eb" font-family="Arial" font-size="11">0.848</text>
-<rect x="570.8" y="117.1" width="68.8" height="222.9" fill="#4cc9f0"/>
+<text x="490.0" y="137.8" fill="#e5e7eb" font-family="Arial" font-size="11">0.569</text>
+<rect x="570.8" y="160.1" width="68.8" height="179.9" fill="#4cc9f0"/>
 <text transform="translate(605.2,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-exact_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="570.8" y="111.1" fill="#e5e7eb" font-family="Arial" font-size="11">0.875</text>
-<rect x="651.6" y="48.0" width="68.8" height="292.0" fill="#4cc9f0"/>
+<text x="570.8" y="154.1" fill="#e5e7eb" font-family="Arial" font-size="11">0.522</text>
+<rect x="651.6" y="178.3" width="68.8" height="161.7" fill="#4cc9f0"/>
 <text transform="translate(686.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-exact_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="651.6" y="44.0" fill="#e5e7eb" font-family="Arial" font-size="11">1.15</text>
-<rect x="732.4" y="222.4" width="68.8" height="117.6" fill="#4cc9f0"/>
+<text x="651.6" y="172.3" fill="#e5e7eb" font-family="Arial" font-size="11">0.469</text>
+<rect x="732.4" y="181.8" width="68.8" height="158.2" fill="#4cc9f0"/>
 <text transform="translate(766.8,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_semantic-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="732.4" y="216.4" fill="#e5e7eb" font-family="Arial" font-size="11">0.462</text>
-<rect x="813.2" y="248.6" width="68.8" height="91.4" fill="#4cc9f0"/>
+<text x="732.4" y="175.8" fill="#e5e7eb" font-family="Arial" font-size="11">0.459</text>
+<rect x="813.2" y="152.0" width="68.8" height="188.0" fill="#4cc9f0"/>
 <text transform="translate(847.6,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_semantic-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
-<text x="813.2" y="242.6" fill="#e5e7eb" font-family="Arial" font-size="11">0.359</text>
+<text x="813.2" y="146.0" fill="#e5e7eb" font-family="Arial" font-size="11">0.545</text>
 </svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420">
+<rect width="100%" height="100%" fill="#101418"/>
+<text x="80" y="30" fill="#f4f7fb" font-family="Arial" font-size="20">vulkan_cpu_measurements Pruned Light-Sample Ratio</text>
+<line x1="80" y1="340" x2="896" y2="340" stroke="#6b7280"/>
+<line x1="80" y1="48" x2="80" y2="340" stroke="#6b7280"/>
+<rect x="86.0" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(120.4,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_distance-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="86.0" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="166.8" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(201.2,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_distance-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="166.8" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="247.6" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(282.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_fixed-lod1_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="247.6" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="328.4" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(362.8,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_fixed-lod1_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="328.4" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="409.2" y="48.0" width="68.8" height="292.0" fill="#4cc9f0"/>
+<text transform="translate(443.6,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_geo-beacon-bounded_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="409.2" y="44.0" fill="#e5e7eb" font-family="Arial" font-size="11">0.0518</text>
+<rect x="490.0" y="48.0" width="68.8" height="292.0" fill="#4cc9f0"/>
+<text transform="translate(524.4,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_geo-beacon-bounded_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="490.0" y="44.0" fill="#e5e7eb" font-family="Arial" font-size="11">0.0518</text>
+<rect x="570.8" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(605.2,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_geo-beacon-exact_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="570.8" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="651.6" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(686.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_geo-beacon-exact_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="651.6" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="732.4" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(766.8,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_semantic-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="732.4" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="813.2" y="340.0" width="68.8" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(847.6,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">kosmickrisp_semantic-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="813.2" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+</svg>

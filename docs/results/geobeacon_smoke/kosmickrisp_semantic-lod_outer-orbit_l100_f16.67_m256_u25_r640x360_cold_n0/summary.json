@@ -1,0 +1,7 @@
+{
+  "technique": "gpu-clustered",
+  "frames": 60,
+  "warmupFrames": 30,
+  "measurementGroup": "vulkan_windowed_measurements",
+  "path": "vulkan-windowed"
+}

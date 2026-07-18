@@ -1,0 +1,43 @@
+{
+  "profile": "smoke",
+  "caseCount": 20,
+  "elapsedSeconds": 26.279884815216064,
+  "failures": [],
+  "matrix": {
+    "policies": [
+      "fixed-lod1",
+      "distance-lod",
+      "semantic-lod",
+      "geo-beacon-exact",
+      "geo-beacon-bounded"
+    ],
+    "paths": [
+      "outer-orbit",
+      "rapid-teleport"
+    ],
+    "lights": [
+      100
+    ],
+    "frame_budgets": [
+      16.67
+    ],
+    "memory": [
+      256
+    ],
+    "upload": [
+      25
+    ],
+    "resolutions": [
+      [
+        640,
+        360
+      ]
+    ],
+    "cache": [
+      "cold"
+    ],
+    "repeats": 1,
+    "warmup": 30,
+    "frames": 60
+  }
+}

@@ -1,0 +1,22 @@
+| Case | Group | Technique | Frames | Time p50 | Time p95 | Modeled bound delta | Prune ratio | Light-list KB | Offscreen MSE | Offscreen PSNR | Offscreen SSIM |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| kosmickrisp_distance-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | gpu-clustered | 60 | 8.3237 | 11.9608 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| kosmickrisp_distance-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | gpu-clustered | 60 | 8.3554 | 12.5755 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| kosmickrisp_fixed-lod1_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | gpu-clustered | 60 | 8.3467 | 12.0612 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| kosmickrisp_fixed-lod1_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | gpu-clustered | 60 | 8.3194 | 12.0651 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| kosmickrisp_geo-beacon-bounded_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | beacon | 60 | 12.2037 | 17.7915 | 0.0000 | 0.0518 | 576.00 | 0.00000000 | 101.0286 | 1.000000 |
+| kosmickrisp_geo-beacon-bounded_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | beacon | 60 | 13.2139 | 18.4454 | 0.0000 | 0.0518 | 576.00 | 0.00000000 | 100.0844 | 1.000000 |
+| kosmickrisp_geo-beacon-exact_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | adaptive-exact | 60 | 11.7730 | 16.8244 | 0.0000 | 0.0000 | 576.00 | 0.00000000 | 99.0000 | 1.000000 |
+| kosmickrisp_geo-beacon-exact_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | adaptive-exact | 60 | 13.6900 | 17.9440 | 0.0000 | 0.0000 | 576.00 | 0.00000000 | 99.0000 | 1.000000 |
+| kosmickrisp_semantic-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | gpu-clustered | 60 | 8.3489 | 10.0118 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| kosmickrisp_semantic-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_cpu_measurements | gpu-clustered | 60 | 8.3333 | 12.1944 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| moltenvk_distance-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | gpu-clustered | 60 | 0.2750 | 0.3765 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| moltenvk_distance-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | gpu-clustered | 60 | 0.2506 | 0.3368 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| moltenvk_fixed-lod1_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | gpu-clustered | 60 | 0.2701 | 0.4267 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| moltenvk_fixed-lod1_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | gpu-clustered | 60 | 0.2506 | 0.3257 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| moltenvk_geo-beacon-bounded_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | beacon | 60 | 0.1114 | 0.7493 | 0.0000 | 0.0000 | 576.00 | 0.00000000 | 99.0000 | 1.000000 |
+| moltenvk_geo-beacon-bounded_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | beacon | 60 | 0.1527 | 0.8475 | 0.0000 | 0.0000 | 576.00 | 0.00000000 | 99.0000 | 1.000000 |
+| moltenvk_geo-beacon-exact_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | adaptive-exact | 60 | 0.1289 | 0.8750 | 0.0000 | 0.0000 | 576.00 | 0.00000000 | 99.0000 | 1.000000 |
+| moltenvk_geo-beacon-exact_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | adaptive-exact | 60 | 0.2318 | 1.1462 | 0.0000 | 0.0000 | 576.00 | 0.00000000 | 99.0000 | 1.000000 |
+| moltenvk_semantic-lod_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | gpu-clustered | 60 | 0.2598 | 0.4617 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |
+| moltenvk_semantic-lod_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0 | vulkan_gpu_measurements | gpu-clustered | 60 | 0.2580 | 0.3588 | 0.0000 | 0.0000 | 1728.00 | -1.00000000 | -1.0000 | -1.000000 |

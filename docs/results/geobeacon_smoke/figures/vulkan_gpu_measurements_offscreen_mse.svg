@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420">
+<rect width="100%" height="100%" fill="#101418"/>
+<text x="80" y="30" fill="#f4f7fb" font-family="Arial" font-size="20">vulkan_gpu_measurements Rendered Offscreen MSE</text>
+<line x1="80" y1="340" x2="896" y2="340" stroke="#6b7280"/>
+<line x1="80" y1="48" x2="80" y2="340" stroke="#6b7280"/>
+<rect x="86.0" y="340.0" width="190.0" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(181.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-bounded_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="86.0" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="288.0" y="340.0" width="190.0" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(383.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-bounded_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="288.0" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="490.0" y="340.0" width="190.0" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(585.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-exact_outer-orbit_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="490.0" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+<rect x="692.0" y="340.0" width="190.0" height="0.0" fill="#4cc9f0"/>
+<text transform="translate(787.0,366) rotate(-35)" fill="#d1d5db" font-family="Arial" font-size="11" text-anchor="end">moltenvk_geo-beacon-exact_rapid-teleport_l100_f16.67_m256_u25_r640x360_cold_n0</text>
+<text x="692.0" y="334.0" fill="#e5e7eb" font-family="Arial" font-size="11">0</text>
+</svg>

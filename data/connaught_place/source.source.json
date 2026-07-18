@@ -1,0 +1,17 @@
+{
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "query": "[out:xml][timeout:120];\n(\n  way[\"building\"](28.627,77.207,28.6365,77.2245);\n  relation[\"building\"](28.627,77.207,28.6365,77.2245);\n  way[\"highway\"](28.627,77.207,28.6365,77.2245);\n  relation[\"highway\"](28.627,77.207,28.6365,77.2245);\n  way[\"landuse\"](28.627,77.207,28.6365,77.2245);\n  relation[\"landuse\"](28.627,77.207,28.6365,77.2245);\n  way[\"natural\"=\"water\"](28.627,77.207,28.6365,77.2245);\n  relation[\"natural\"=\"water\"](28.627,77.207,28.6365,77.2245);\n  way[\"leisure\"=\"park\"](28.627,77.207,28.6365,77.2245);\n  relation[\"leisure\"=\"park\"](28.627,77.207,28.6365,77.2245);\n  node[\"public_transport\"](28.627,77.207,28.6365,77.2245);\n  way[\"public_transport\"](28.627,77.207,28.6365,77.2245);\n  node[\"barrier\"](28.627,77.207,28.6365,77.2245);\n  way[\"barrier\"](28.627,77.207,28.6365,77.2245);\n);\n(._;>;);\nout body;",
+  "bbox": [
+    28.627,
+    77.207,
+    28.6365,
+    77.2245
+  ],
+  "fetchedUtc": "2026-07-18T19:12:07.046290+00:00",
+  "sha256": "743df480b1c8671f0d17183c532fca96a66b37e6b5b56188ca97aa584aab5688",
+  "bytes": 1205464,
+  "userAgent": "GeoBEACON-Research/1.0 (https://github.com/swayam8624/VulkanEngine-MINI)",
+  "license": "ODbL-1.0",
+  "attribution": "\u00a9 OpenStreetMap contributors",
+  "copyrightUrl": "https://www.openstreetmap.org/copyright"
+}

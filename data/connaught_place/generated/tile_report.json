@@ -1,0 +1,6065 @@
+{
+  "attribution": "\u00a9 OpenStreetMap contributors",
+  "featureCount": 1526,
+  "intersectionCount": 118,
+  "invalidFeatures": {},
+  "license": "ODbL-1.0",
+  "originWgs84": [
+    28.63175,
+    77.21575,
+    0.0
+  ],
+  "semanticCounts": {
+    "0": 51,
+    "1": 559,
+    "2": 2,
+    "5": 491,
+    "6": 412,
+    "7": 11
+  },
+  "source": "data/connaught_place/source.osm",
+  "sourceSha256": "743df480b1c8671f0d17183c532fca96a66b37e6b5b56188ca97aa584aab5688",
+  "tileSizeMeters": 128.0,
+  "tiles": [
+    {
+      "bounds": [
+        -1024.0,
+        -120.0,
+        -512.0,
+        -896.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 3720,
+          "geometricError": 64.0,
+          "indexCount": 90,
+          "lod": 0,
+          "uri": "tiles/fffffff8fffffffc_lod0.glb",
+          "vertexCount": 60
+        },
+        {
+          "bytes": 3720,
+          "geometricError": 16.0,
+          "indexCount": 90,
+          "lod": 1,
+          "uri": "tiles/fffffff8fffffffc_lod1.glb",
+          "vertexCount": 60
+        },
+        {
+          "bytes": 3720,
+          "geometricError": 0.0,
+          "indexCount": 90,
+          "lod": 2,
+          "uri": "tiles/fffffff8fffffffc_lod2.glb",
+          "vertexCount": 60
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744043644780540,
+      "tileX": -8,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -1024.0,
+        -120.0,
+        -128.0,
+        -896.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/fffffff8ffffffff_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 7964,
+          "geometricError": 16.0,
+          "indexCount": 237,
+          "lod": 1,
+          "uri": "tiles/fffffff8ffffffff_lod1.glb",
+          "vertexCount": 151
+        },
+        {
+          "bytes": 7964,
+          "geometricError": 0.0,
+          "indexCount": 237,
+          "lod": 2,
+          "uri": "tiles/fffffff8ffffffff_lod2.glb",
+          "vertexCount": 151
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744043644780543,
+      "tileX": -8,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        -640.0,
+        -768.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 2616,
+          "geometricError": 64.0,
+          "indexCount": 54,
+          "lod": 0,
+          "uri": "tiles/fffffff9fffffffb_lod0.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 3592,
+          "geometricError": 16.0,
+          "indexCount": 105,
+          "lod": 1,
+          "uri": "tiles/fffffff9fffffffb_lod1.glb",
+          "vertexCount": 55
+        },
+        {
+          "bytes": 5636,
+          "geometricError": 0.0,
+          "indexCount": 171,
+          "lod": 2,
+          "uri": "tiles/fffffff9fffffffb_lod2.glb",
+          "vertexCount": 99
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747835,
+      "tileX": -7,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        -512.0,
+        -768.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 3060,
+          "geometricError": 64.0,
+          "indexCount": 69,
+          "lod": 0,
+          "uri": "tiles/fffffff9fffffffc_lod0.glb",
+          "vertexCount": 45
+        },
+        {
+          "bytes": 17248,
+          "geometricError": 16.0,
+          "indexCount": 573,
+          "lod": 1,
+          "uri": "tiles/fffffff9fffffffc_lod1.glb",
+          "vertexCount": 349
+        },
+        {
+          "bytes": 19460,
+          "geometricError": 0.0,
+          "indexCount": 645,
+          "lod": 2,
+          "uri": "tiles/fffffff9fffffffc_lod2.glb",
+          "vertexCount": 397
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747836,
+      "tileX": -7,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        -384.0,
+        -768.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1692,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffff9fffffffd_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 7068,
+          "geometricError": 16.0,
+          "indexCount": 198,
+          "lod": 1,
+          "uri": "tiles/fffffff9fffffffd_lod1.glb",
+          "vertexCount": 132
+        },
+        {
+          "bytes": 7068,
+          "geometricError": 0.0,
+          "indexCount": 198,
+          "lod": 2,
+          "uri": "tiles/fffffff9fffffffd_lod2.glb",
+          "vertexCount": 132
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747837,
+      "tileX": -7,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        -256.0,
+        -768.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 4128,
+          "geometricError": 64.0,
+          "indexCount": 102,
+          "lod": 0,
+          "uri": "tiles/fffffff9fffffffe_lod0.glb",
+          "vertexCount": 68
+        },
+        {
+          "bytes": 22140,
+          "geometricError": 16.0,
+          "indexCount": 702,
+          "lod": 1,
+          "uri": "tiles/fffffff9fffffffe_lod1.glb",
+          "vertexCount": 458
+        },
+        {
+          "bytes": 22140,
+          "geometricError": 0.0,
+          "indexCount": 702,
+          "lod": 2,
+          "uri": "tiles/fffffff9fffffffe_lod2.glb",
+          "vertexCount": 458
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747838,
+      "tileX": -7,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        -128.0,
+        -768.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 1704,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffff9ffffffff_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 9148,
+          "geometricError": 16.0,
+          "indexCount": 291,
+          "lod": 1,
+          "uri": "tiles/fffffff9ffffffff_lod1.glb",
+          "vertexCount": 175
+        },
+        {
+          "bytes": 9148,
+          "geometricError": 0.0,
+          "indexCount": 291,
+          "lod": 2,
+          "uri": "tiles/fffffff9ffffffff_lod2.glb",
+          "vertexCount": 175
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747839,
+      "tileX": -7,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        0.0,
+        -768.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 4484,
+          "geometricError": 64.0,
+          "indexCount": 114,
+          "lod": 0,
+          "uri": "tiles/fffffff900000000_lod0.glb",
+          "vertexCount": 76
+        },
+        {
+          "bytes": 25132,
+          "geometricError": 16.0,
+          "indexCount": 810,
+          "lod": 1,
+          "uri": "tiles/fffffff900000000_lod1.glb",
+          "vertexCount": 522
+        },
+        {
+          "bytes": 25132,
+          "geometricError": 0.0,
+          "indexCount": 810,
+          "lod": 2,
+          "uri": "tiles/fffffff900000000_lod2.glb",
+          "vertexCount": 522
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744043644780544,
+      "tileX": -7,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        128.0,
+        -768.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 5388,
+          "geometricError": 64.0,
+          "indexCount": 144,
+          "lod": 0,
+          "uri": "tiles/fffffff900000001_lod0.glb",
+          "vertexCount": 96
+        },
+        {
+          "bytes": 39180,
+          "geometricError": 16.0,
+          "indexCount": 1302,
+          "lod": 1,
+          "uri": "tiles/fffffff900000001_lod1.glb",
+          "vertexCount": 824
+        },
+        {
+          "bytes": 39180,
+          "geometricError": 0.0,
+          "indexCount": 1302,
+          "lod": 2,
+          "uri": "tiles/fffffff900000001_lod2.glb",
+          "vertexCount": 824
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744043644780545,
+      "tileX": -7,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        256.0,
+        -768.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 3560,
+          "geometricError": 64.0,
+          "indexCount": 84,
+          "lod": 0,
+          "uri": "tiles/fffffff900000002_lod0.glb",
+          "vertexCount": 56
+        },
+        {
+          "bytes": 17068,
+          "geometricError": 16.0,
+          "indexCount": 534,
+          "lod": 1,
+          "uri": "tiles/fffffff900000002_lod1.glb",
+          "vertexCount": 348
+        },
+        {
+          "bytes": 17068,
+          "geometricError": 0.0,
+          "indexCount": 534,
+          "lod": 2,
+          "uri": "tiles/fffffff900000002_lod2.glb",
+          "vertexCount": 348
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744043644780546,
+      "tileX": -7,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        384.0,
+        -768.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 2060,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/fffffff900000003_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 16832,
+          "geometricError": 16.0,
+          "indexCount": 558,
+          "lod": 1,
+          "uri": "tiles/fffffff900000003_lod1.glb",
+          "vertexCount": 340
+        },
+        {
+          "bytes": 16832,
+          "geometricError": 0.0,
+          "indexCount": 558,
+          "lod": 2,
+          "uri": "tiles/fffffff900000003_lod2.glb",
+          "vertexCount": 340
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744043644780547,
+      "tileX": -7,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        -896.0,
+        -120.0,
+        512.0,
+        -768.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1496,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffff900000004_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 7792,
+          "geometricError": 16.0,
+          "indexCount": 246,
+          "lod": 1,
+          "uri": "tiles/fffffff900000004_lod1.glb",
+          "vertexCount": 146
+        },
+        {
+          "bytes": 7792,
+          "geometricError": 0.0,
+          "indexCount": 246,
+          "lod": 2,
+          "uri": "tiles/fffffff900000004_lod2.glb",
+          "vertexCount": 146
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744043644780548,
+      "tileX": -7,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        -640.0,
+        -640.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1332,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/fffffffafffffffb_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 2072,
+          "geometricError": 16.0,
+          "indexCount": 36,
+          "lod": 1,
+          "uri": "tiles/fffffffafffffffb_lod1.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 2072,
+          "geometricError": 0.0,
+          "indexCount": 36,
+          "lod": 2,
+          "uri": "tiles/fffffffafffffffb_lod2.glb",
+          "vertexCount": 24
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715131,
+      "tileX": -6,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        -512.0,
+        -640.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2992,
+          "geometricError": 64.0,
+          "indexCount": 66,
+          "lod": 0,
+          "uri": "tiles/fffffffafffffffc_lod0.glb",
+          "vertexCount": 44
+        },
+        {
+          "bytes": 4936,
+          "geometricError": 16.0,
+          "indexCount": 132,
+          "lod": 1,
+          "uri": "tiles/fffffffafffffffc_lod1.glb",
+          "vertexCount": 86
+        },
+        {
+          "bytes": 4936,
+          "geometricError": 0.0,
+          "indexCount": 132,
+          "lod": 2,
+          "uri": "tiles/fffffffafffffffc_lod2.glb",
+          "vertexCount": 86
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715132,
+      "tileX": -6,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        -384.0,
+        -640.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1704,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffffafffffffd_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 21992,
+          "geometricError": 16.0,
+          "indexCount": 768,
+          "lod": 1,
+          "uri": "tiles/fffffffafffffffd_lod1.glb",
+          "vertexCount": 448
+        },
+        {
+          "bytes": 21992,
+          "geometricError": 0.0,
+          "indexCount": 768,
+          "lod": 2,
+          "uri": "tiles/fffffffafffffffd_lod2.glb",
+          "vertexCount": 448
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715133,
+      "tileX": -6,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        -256.0,
+        -640.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1892,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/fffffffafffffffe_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 24124,
+          "geometricError": 16.0,
+          "indexCount": 831,
+          "lod": 1,
+          "uri": "tiles/fffffffafffffffe_lod1.glb",
+          "vertexCount": 495
+        },
+        {
+          "bytes": 24124,
+          "geometricError": 0.0,
+          "indexCount": 831,
+          "lod": 2,
+          "uri": "tiles/fffffffafffffffe_lod2.glb",
+          "vertexCount": 495
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715134,
+      "tileX": -6,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        -128.0,
+        -640.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 2060,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/fffffffaffffffff_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 26576,
+          "geometricError": 16.0,
+          "indexCount": 921,
+          "lod": 1,
+          "uri": "tiles/fffffffaffffffff_lod1.glb",
+          "vertexCount": 547
+        },
+        {
+          "bytes": 26576,
+          "geometricError": 0.0,
+          "indexCount": 921,
+          "lod": 2,
+          "uri": "tiles/fffffffaffffffff_lod2.glb",
+          "vertexCount": 547
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715135,
+      "tileX": -6,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        0.0,
+        -640.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 4668,
+          "geometricError": 64.0,
+          "indexCount": 120,
+          "lod": 0,
+          "uri": "tiles/fffffffa00000000_lod0.glb",
+          "vertexCount": 80
+        },
+        {
+          "bytes": 29988,
+          "geometricError": 16.0,
+          "indexCount": 1008,
+          "lod": 1,
+          "uri": "tiles/fffffffa00000000_lod1.glb",
+          "vertexCount": 624
+        },
+        {
+          "bytes": 30360,
+          "geometricError": 0.0,
+          "indexCount": 1020,
+          "lod": 2,
+          "uri": "tiles/fffffffa00000000_lod2.glb",
+          "vertexCount": 632
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747840,
+      "tileX": -6,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        128.0,
+        -640.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 5944,
+          "geometricError": 64.0,
+          "indexCount": 162,
+          "lod": 0,
+          "uri": "tiles/fffffffa00000001_lod0.glb",
+          "vertexCount": 108
+        },
+        {
+          "bytes": 28112,
+          "geometricError": 16.0,
+          "indexCount": 891,
+          "lod": 1,
+          "uri": "tiles/fffffffa00000001_lod1.glb",
+          "vertexCount": 589
+        },
+        {
+          "bytes": 28112,
+          "geometricError": 0.0,
+          "indexCount": 891,
+          "lod": 2,
+          "uri": "tiles/fffffffa00000001_lod2.glb",
+          "vertexCount": 589
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747841,
+      "tileX": -6,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        256.0,
+        -640.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2620,
+          "geometricError": 64.0,
+          "indexCount": 54,
+          "lod": 0,
+          "uri": "tiles/fffffffa00000002_lod0.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 8676,
+          "geometricError": 16.0,
+          "indexCount": 255,
+          "lod": 1,
+          "uri": "tiles/fffffffa00000002_lod1.glb",
+          "vertexCount": 167
+        },
+        {
+          "bytes": 8676,
+          "geometricError": 0.0,
+          "indexCount": 255,
+          "lod": 2,
+          "uri": "tiles/fffffffa00000002_lod2.glb",
+          "vertexCount": 167
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747842,
+      "tileX": -6,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        384.0,
+        -640.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1888,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/fffffffa00000003_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 12532,
+          "geometricError": 16.0,
+          "indexCount": 417,
+          "lod": 1,
+          "uri": "tiles/fffffffa00000003_lod1.glb",
+          "vertexCount": 247
+        },
+        {
+          "bytes": 12532,
+          "geometricError": 0.0,
+          "indexCount": 417,
+          "lod": 2,
+          "uri": "tiles/fffffffa00000003_lod2.glb",
+          "vertexCount": 247
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747843,
+      "tileX": -6,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        -768.0,
+        -120.0,
+        512.0,
+        -640.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1520,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffa00000004_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 4884,
+          "geometricError": 16.0,
+          "indexCount": 138,
+          "lod": 1,
+          "uri": "tiles/fffffffa00000004_lod1.glb",
+          "vertexCount": 84
+        },
+        {
+          "bytes": 4884,
+          "geometricError": 0.0,
+          "indexCount": 138,
+          "lod": 2,
+          "uri": "tiles/fffffffa00000004_lod2.glb",
+          "vertexCount": 84
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744047939747844,
+      "tileX": -6,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        -640.0,
+        -512.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1508,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffbfffffffb_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 5432,
+          "geometricError": 16.0,
+          "indexCount": 150,
+          "lod": 1,
+          "uri": "tiles/fffffffbfffffffb_lod1.glb",
+          "vertexCount": 96
+        },
+        {
+          "bytes": 5996,
+          "geometricError": 0.0,
+          "indexCount": 168,
+          "lod": 2,
+          "uri": "tiles/fffffffbfffffffb_lod2.glb",
+          "vertexCount": 108
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682427,
+      "tileX": -5,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        -512.0,
+        -512.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/fffffffbfffffffc_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 2204,
+          "geometricError": 16.0,
+          "indexCount": 42,
+          "lod": 1,
+          "uri": "tiles/fffffffbfffffffc_lod1.glb",
+          "vertexCount": 26
+        },
+        {
+          "bytes": 2204,
+          "geometricError": 0.0,
+          "indexCount": 42,
+          "lod": 2,
+          "uri": "tiles/fffffffbfffffffc_lod2.glb",
+          "vertexCount": 26
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682428,
+      "tileX": -5,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        -384.0,
+        -512.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2076,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/fffffffbfffffffd_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 28736,
+          "geometricError": 16.0,
+          "indexCount": 1014,
+          "lod": 1,
+          "uri": "tiles/fffffffbfffffffd_lod1.glb",
+          "vertexCount": 592
+        },
+        {
+          "bytes": 28736,
+          "geometricError": 0.0,
+          "indexCount": 1014,
+          "lod": 2,
+          "uri": "tiles/fffffffbfffffffd_lod2.glb",
+          "vertexCount": 592
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682429,
+      "tileX": -5,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        -256.0,
+        -512.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 3192,
+          "geometricError": 64.0,
+          "indexCount": 72,
+          "lod": 0,
+          "uri": "tiles/fffffffbfffffffe_lod0.glb",
+          "vertexCount": 48
+        },
+        {
+          "bytes": 29952,
+          "geometricError": 16.0,
+          "indexCount": 1038,
+          "lod": 1,
+          "uri": "tiles/fffffffbfffffffe_lod1.glb",
+          "vertexCount": 620
+        },
+        {
+          "bytes": 29952,
+          "geometricError": 0.0,
+          "indexCount": 1038,
+          "lod": 2,
+          "uri": "tiles/fffffffbfffffffe_lod2.glb",
+          "vertexCount": 620
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682430,
+      "tileX": -5,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        -128.0,
+        -512.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 2444,
+          "geometricError": 64.0,
+          "indexCount": 48,
+          "lod": 0,
+          "uri": "tiles/fffffffbffffffff_lod0.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 13212,
+          "geometricError": 16.0,
+          "indexCount": 423,
+          "lod": 1,
+          "uri": "tiles/fffffffbffffffff_lod1.glb",
+          "vertexCount": 263
+        },
+        {
+          "bytes": 13212,
+          "geometricError": 0.0,
+          "indexCount": 423,
+          "lod": 2,
+          "uri": "tiles/fffffffbffffffff_lod2.glb",
+          "vertexCount": 263
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682431,
+      "tileX": -5,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        0.0,
+        -512.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 3012,
+          "geometricError": 64.0,
+          "indexCount": 66,
+          "lod": 0,
+          "uri": "tiles/fffffffb00000000_lod0.glb",
+          "vertexCount": 44
+        },
+        {
+          "bytes": 20012,
+          "geometricError": 16.0,
+          "indexCount": 672,
+          "lod": 1,
+          "uri": "tiles/fffffffb00000000_lod1.glb",
+          "vertexCount": 408
+        },
+        {
+          "bytes": 20012,
+          "geometricError": 0.0,
+          "indexCount": 672,
+          "lod": 2,
+          "uri": "tiles/fffffffb00000000_lod2.glb",
+          "vertexCount": 408
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715136,
+      "tileX": -5,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        128.0,
+        -512.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2084,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/fffffffb00000001_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 21208,
+          "geometricError": 16.0,
+          "indexCount": 732,
+          "lod": 1,
+          "uri": "tiles/fffffffb00000001_lod1.glb",
+          "vertexCount": 432
+        },
+        {
+          "bytes": 21208,
+          "geometricError": 0.0,
+          "indexCount": 732,
+          "lod": 2,
+          "uri": "tiles/fffffffb00000001_lod2.glb",
+          "vertexCount": 432
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715137,
+      "tileX": -5,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        256.0,
+        -512.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1508,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffb00000002_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 5776,
+          "geometricError": 16.0,
+          "indexCount": 165,
+          "lod": 1,
+          "uri": "tiles/fffffffb00000002_lod1.glb",
+          "vertexCount": 103
+        },
+        {
+          "bytes": 5776,
+          "geometricError": 0.0,
+          "indexCount": 165,
+          "lod": 2,
+          "uri": "tiles/fffffffb00000002_lod2.glb",
+          "vertexCount": 103
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715138,
+      "tileX": -5,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        -640.0,
+        -120.0,
+        384.0,
+        -512.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1320,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/fffffffb00000003_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 9888,
+          "geometricError": 16.0,
+          "indexCount": 300,
+          "lod": 1,
+          "uri": "tiles/fffffffb00000003_lod1.glb",
+          "vertexCount": 192
+        },
+        {
+          "bytes": 9888,
+          "geometricError": 0.0,
+          "indexCount": 300,
+          "lod": 2,
+          "uri": "tiles/fffffffb00000003_lod2.glb",
+          "vertexCount": 192
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744052234715139,
+      "tileX": -5,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        -640.0,
+        -384.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1496,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffcfffffffb_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 12692,
+          "geometricError": 16.0,
+          "indexCount": 426,
+          "lod": 1,
+          "uri": "tiles/fffffffcfffffffb_lod1.glb",
+          "vertexCount": 250
+        },
+        {
+          "bytes": 12692,
+          "geometricError": 0.0,
+          "indexCount": 426,
+          "lod": 2,
+          "uri": "tiles/fffffffcfffffffb_lod2.glb",
+          "vertexCount": 250
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649723,
+      "tileX": -4,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        -512.0,
+        -384.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2052,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/fffffffcfffffffc_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 28348,
+          "geometricError": 16.0,
+          "indexCount": 987,
+          "lod": 1,
+          "uri": "tiles/fffffffcfffffffc_lod1.glb",
+          "vertexCount": 585
+        },
+        {
+          "bytes": 28348,
+          "geometricError": 0.0,
+          "indexCount": 987,
+          "lod": 2,
+          "uri": "tiles/fffffffcfffffffc_lod2.glb",
+          "vertexCount": 585
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649724,
+      "tileX": -4,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        -384.0,
+        -384.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 9656,
+          "geometricError": 64.0,
+          "indexCount": 282,
+          "lod": 0,
+          "uri": "tiles/fffffffcfffffffd_lod0.glb",
+          "vertexCount": 188
+        },
+        {
+          "bytes": 30764,
+          "geometricError": 16.0,
+          "indexCount": 1038,
+          "lod": 1,
+          "uri": "tiles/fffffffcfffffffd_lod1.glb",
+          "vertexCount": 640
+        },
+        {
+          "bytes": 30764,
+          "geometricError": 0.0,
+          "indexCount": 1038,
+          "lod": 2,
+          "uri": "tiles/fffffffcfffffffd_lod2.glb",
+          "vertexCount": 640
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649725,
+      "tileX": -4,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        -256.0,
+        -384.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 2996,
+          "geometricError": 64.0,
+          "indexCount": 66,
+          "lod": 0,
+          "uri": "tiles/fffffffcfffffffe_lod0.glb",
+          "vertexCount": 44
+        },
+        {
+          "bytes": 20344,
+          "geometricError": 16.0,
+          "indexCount": 672,
+          "lod": 1,
+          "uri": "tiles/fffffffcfffffffe_lod1.glb",
+          "vertexCount": 416
+        },
+        {
+          "bytes": 20344,
+          "geometricError": 0.0,
+          "indexCount": 672,
+          "lod": 2,
+          "uri": "tiles/fffffffcfffffffe_lod2.glb",
+          "vertexCount": 416
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649726,
+      "tileX": -4,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        -128.0,
+        -384.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 2520,
+          "geometricError": 64.0,
+          "indexCount": 69,
+          "lod": 0,
+          "uri": "tiles/fffffffcffffffff_lod0.glb",
+          "vertexCount": 31
+        },
+        {
+          "bytes": 5408,
+          "geometricError": 16.0,
+          "indexCount": 171,
+          "lod": 1,
+          "uri": "tiles/fffffffcffffffff_lod1.glb",
+          "vertexCount": 93
+        },
+        {
+          "bytes": 13332,
+          "geometricError": 0.0,
+          "indexCount": 429,
+          "lod": 2,
+          "uri": "tiles/fffffffcffffffff_lod2.glb",
+          "vertexCount": 265
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649727,
+      "tileX": -4,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        0.0,
+        -384.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 2800,
+          "geometricError": 64.0,
+          "indexCount": 60,
+          "lod": 0,
+          "uri": "tiles/fffffffc00000000_lod0.glb",
+          "vertexCount": 40
+        },
+        {
+          "bytes": 15456,
+          "geometricError": 16.0,
+          "indexCount": 474,
+          "lod": 1,
+          "uri": "tiles/fffffffc00000000_lod1.glb",
+          "vertexCount": 314
+        },
+        {
+          "bytes": 15456,
+          "geometricError": 0.0,
+          "indexCount": 474,
+          "lod": 2,
+          "uri": "tiles/fffffffc00000000_lod2.glb",
+          "vertexCount": 314
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682432,
+      "tileX": -4,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        128.0,
+        -384.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1508,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffc00000001_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 6764,
+          "geometricError": 16.0,
+          "indexCount": 210,
+          "lod": 1,
+          "uri": "tiles/fffffffc00000001_lod1.glb",
+          "vertexCount": 124
+        },
+        {
+          "bytes": 9004,
+          "geometricError": 0.0,
+          "indexCount": 282,
+          "lod": 2,
+          "uri": "tiles/fffffffc00000001_lod2.glb",
+          "vertexCount": 172
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682433,
+      "tileX": -4,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        256.0,
+        -384.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2084,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/fffffffc00000002_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 13532,
+          "geometricError": 16.0,
+          "indexCount": 441,
+          "lod": 1,
+          "uri": "tiles/fffffffc00000002_lod1.glb",
+          "vertexCount": 269
+        },
+        {
+          "bytes": 13532,
+          "geometricError": 0.0,
+          "indexCount": 441,
+          "lod": 2,
+          "uri": "tiles/fffffffc00000002_lod2.glb",
+          "vertexCount": 269
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682434,
+      "tileX": -4,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        384.0,
+        -384.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1876,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/fffffffc00000003_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 10504,
+          "geometricError": 16.0,
+          "indexCount": 327,
+          "lod": 1,
+          "uri": "tiles/fffffffc00000003_lod1.glb",
+          "vertexCount": 205
+        },
+        {
+          "bytes": 10504,
+          "geometricError": 0.0,
+          "indexCount": 327,
+          "lod": 2,
+          "uri": "tiles/fffffffc00000003_lod2.glb",
+          "vertexCount": 205
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682435,
+      "tileX": -4,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        -512.0,
+        -120.0,
+        512.0,
+        -384.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 3760,
+          "geometricError": 64.0,
+          "indexCount": 90,
+          "lod": 0,
+          "uri": "tiles/fffffffc00000004_lod0.glb",
+          "vertexCount": 60
+        },
+        {
+          "bytes": 4500,
+          "geometricError": 16.0,
+          "indexCount": 114,
+          "lod": 1,
+          "uri": "tiles/fffffffc00000004_lod1.glb",
+          "vertexCount": 76
+        },
+        {
+          "bytes": 4500,
+          "geometricError": 0.0,
+          "indexCount": 114,
+          "lod": 2,
+          "uri": "tiles/fffffffc00000004_lod2.glb",
+          "vertexCount": 76
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744056529682436,
+      "tileX": -4,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        -640.0,
+        -256.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1532,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffdfffffffb_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 6912,
+          "geometricError": 16.0,
+          "indexCount": 192,
+          "lod": 1,
+          "uri": "tiles/fffffffdfffffffb_lod1.glb",
+          "vertexCount": 128
+        },
+        {
+          "bytes": 6912,
+          "geometricError": 0.0,
+          "indexCount": 192,
+          "lod": 2,
+          "uri": "tiles/fffffffdfffffffb_lod2.glb",
+          "vertexCount": 128
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617019,
+      "tileX": -3,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        -512.0,
+        -256.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2260,
+          "geometricError": 64.0,
+          "indexCount": 42,
+          "lod": 0,
+          "uri": "tiles/fffffffdfffffffc_lod0.glb",
+          "vertexCount": 28
+        },
+        {
+          "bytes": 10176,
+          "geometricError": 16.0,
+          "indexCount": 318,
+          "lod": 1,
+          "uri": "tiles/fffffffdfffffffc_lod1.glb",
+          "vertexCount": 198
+        },
+        {
+          "bytes": 10176,
+          "geometricError": 0.0,
+          "indexCount": 318,
+          "lod": 2,
+          "uri": "tiles/fffffffdfffffffc_lod2.glb",
+          "vertexCount": 198
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617020,
+      "tileX": -3,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        -384.0,
+        -256.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 3172,
+          "geometricError": 64.0,
+          "indexCount": 72,
+          "lod": 0,
+          "uri": "tiles/fffffffdfffffffd_lod0.glb",
+          "vertexCount": 48
+        },
+        {
+          "bytes": 17744,
+          "geometricError": 16.0,
+          "indexCount": 555,
+          "lod": 1,
+          "uri": "tiles/fffffffdfffffffd_lod1.glb",
+          "vertexCount": 363
+        },
+        {
+          "bytes": 17744,
+          "geometricError": 0.0,
+          "indexCount": 555,
+          "lod": 2,
+          "uri": "tiles/fffffffdfffffffd_lod2.glb",
+          "vertexCount": 363
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617021,
+      "tileX": -3,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        -256.0,
+        -256.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1344,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/fffffffdfffffffe_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 8372,
+          "geometricError": 16.0,
+          "indexCount": 273,
+          "lod": 1,
+          "uri": "tiles/fffffffdfffffffe_lod1.glb",
+          "vertexCount": 157
+        },
+        {
+          "bytes": 8372,
+          "geometricError": 0.0,
+          "indexCount": 273,
+          "lod": 2,
+          "uri": "tiles/fffffffdfffffffe_lod2.glb",
+          "vertexCount": 157
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617022,
+      "tileX": -3,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        -128.0,
+        -256.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 1700,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffffdffffffff_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 15828,
+          "geometricError": 16.0,
+          "indexCount": 537,
+          "lod": 1,
+          "uri": "tiles/fffffffdffffffff_lod1.glb",
+          "vertexCount": 317
+        },
+        {
+          "bytes": 15828,
+          "geometricError": 0.0,
+          "indexCount": 537,
+          "lod": 2,
+          "uri": "tiles/fffffffdffffffff_lod2.glb",
+          "vertexCount": 317
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617023,
+      "tileX": -3,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        0.0,
+        -256.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 2276,
+          "geometricError": 64.0,
+          "indexCount": 42,
+          "lod": 0,
+          "uri": "tiles/fffffffd00000000_lod0.glb",
+          "vertexCount": 28
+        },
+        {
+          "bytes": 33484,
+          "geometricError": 16.0,
+          "indexCount": 1200,
+          "lod": 1,
+          "uri": "tiles/fffffffd00000000_lod1.glb",
+          "vertexCount": 692
+        },
+        {
+          "bytes": 33484,
+          "geometricError": 0.0,
+          "indexCount": 1200,
+          "lod": 2,
+          "uri": "tiles/fffffffd00000000_lod2.glb",
+          "vertexCount": 692
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649728,
+      "tileX": -3,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        128.0,
+        -256.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1520,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffd00000001_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 9728,
+          "geometricError": 16.0,
+          "indexCount": 306,
+          "lod": 1,
+          "uri": "tiles/fffffffd00000001_lod1.glb",
+          "vertexCount": 188
+        },
+        {
+          "bytes": 9728,
+          "geometricError": 0.0,
+          "indexCount": 306,
+          "lod": 2,
+          "uri": "tiles/fffffffd00000001_lod2.glb",
+          "vertexCount": 188
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649729,
+      "tileX": -3,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        256.0,
+        -256.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1888,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/fffffffd00000002_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 10932,
+          "geometricError": 16.0,
+          "indexCount": 357,
+          "lod": 1,
+          "uri": "tiles/fffffffd00000002_lod1.glb",
+          "vertexCount": 213
+        },
+        {
+          "bytes": 10932,
+          "geometricError": 0.0,
+          "indexCount": 357,
+          "lod": 2,
+          "uri": "tiles/fffffffd00000002_lod2.glb",
+          "vertexCount": 213
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649730,
+      "tileX": -3,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        384.0,
+        -256.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1496,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/fffffffd00000003_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 4012,
+          "geometricError": 16.0,
+          "indexCount": 102,
+          "lod": 1,
+          "uri": "tiles/fffffffd00000003_lod1.glb",
+          "vertexCount": 66
+        },
+        {
+          "bytes": 4012,
+          "geometricError": 0.0,
+          "indexCount": 102,
+          "lod": 2,
+          "uri": "tiles/fffffffd00000003_lod2.glb",
+          "vertexCount": 66
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649731,
+      "tileX": -3,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        -384.0,
+        -120.0,
+        512.0,
+        -256.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 3388,
+          "geometricError": 64.0,
+          "indexCount": 78,
+          "lod": 0,
+          "uri": "tiles/fffffffd00000004_lod0.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 3388,
+          "geometricError": 16.0,
+          "indexCount": 78,
+          "lod": 1,
+          "uri": "tiles/fffffffd00000004_lod1.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 3388,
+          "geometricError": 0.0,
+          "indexCount": 78,
+          "lod": 2,
+          "uri": "tiles/fffffffd00000004_lod2.glb",
+          "vertexCount": 52
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744060824649732,
+      "tileX": -3,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        -768.0,
+        -128.0,
+        10.0,
+        -640.0
+      ],
+      "representations": [
+        {
+          "bytes": 4864,
+          "geometricError": 64.0,
+          "indexCount": 126,
+          "lod": 0,
+          "uri": "tiles/fffffffefffffffa_lod0.glb",
+          "vertexCount": 84
+        },
+        {
+          "bytes": 5360,
+          "geometricError": 16.0,
+          "indexCount": 150,
+          "lod": 1,
+          "uri": "tiles/fffffffefffffffa_lod1.glb",
+          "vertexCount": 94
+        },
+        {
+          "bytes": 5360,
+          "geometricError": 0.0,
+          "indexCount": 150,
+          "lod": 2,
+          "uri": "tiles/fffffffefffffffa_lod2.glb",
+          "vertexCount": 94
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584314,
+      "tileX": -2,
+      "tileY": -6
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        -640.0,
+        -128.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/fffffffefffffffb_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 4848,
+          "geometricError": 16.0,
+          "indexCount": 126,
+          "lod": 1,
+          "uri": "tiles/fffffffefffffffb_lod1.glb",
+          "vertexCount": 84
+        },
+        {
+          "bytes": 4848,
+          "geometricError": 0.0,
+          "indexCount": 126,
+          "lod": 2,
+          "uri": "tiles/fffffffefffffffb_lod2.glb",
+          "vertexCount": 84
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584315,
+      "tileX": -2,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        -512.0,
+        -128.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2088,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/fffffffefffffffc_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 8352,
+          "geometricError": 16.0,
+          "indexCount": 249,
+          "lod": 1,
+          "uri": "tiles/fffffffefffffffc_lod1.glb",
+          "vertexCount": 159
+        },
+        {
+          "bytes": 8352,
+          "geometricError": 0.0,
+          "indexCount": 249,
+          "lod": 2,
+          "uri": "tiles/fffffffefffffffc_lod2.glb",
+          "vertexCount": 159
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584316,
+      "tileX": -2,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        -384.0,
+        -128.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2628,
+          "geometricError": 64.0,
+          "indexCount": 54,
+          "lod": 0,
+          "uri": "tiles/fffffffefffffffd_lod0.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 15480,
+          "geometricError": 16.0,
+          "indexCount": 507,
+          "lod": 1,
+          "uri": "tiles/fffffffefffffffd_lod1.glb",
+          "vertexCount": 311
+        },
+        {
+          "bytes": 15480,
+          "geometricError": 0.0,
+          "indexCount": 507,
+          "lod": 2,
+          "uri": "tiles/fffffffefffffffd_lod2.glb",
+          "vertexCount": 311
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584317,
+      "tileX": -2,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        -256.0,
+        -128.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1708,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffffefffffffe_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 4860,
+          "geometricError": 16.0,
+          "indexCount": 126,
+          "lod": 1,
+          "uri": "tiles/fffffffefffffffe_lod1.glb",
+          "vertexCount": 84
+        },
+        {
+          "bytes": 4860,
+          "geometricError": 0.0,
+          "indexCount": 126,
+          "lod": 2,
+          "uri": "tiles/fffffffefffffffe_lod2.glb",
+          "vertexCount": 84
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584318,
+      "tileX": -2,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        -128.0,
+        -128.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 3380,
+          "geometricError": 64.0,
+          "indexCount": 78,
+          "lod": 0,
+          "uri": "tiles/fffffffeffffffff_lod0.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 14444,
+          "geometricError": 16.0,
+          "indexCount": 438,
+          "lod": 1,
+          "uri": "tiles/fffffffeffffffff_lod1.glb",
+          "vertexCount": 292
+        },
+        {
+          "bytes": 14444,
+          "geometricError": 0.0,
+          "indexCount": 438,
+          "lod": 2,
+          "uri": "tiles/fffffffeffffffff_lod2.glb",
+          "vertexCount": 292
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584319,
+      "tileX": -2,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        0.0,
+        -128.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1732,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffffe00000000_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 10016,
+          "geometricError": 16.0,
+          "indexCount": 312,
+          "lod": 1,
+          "uri": "tiles/fffffffe00000000_lod1.glb",
+          "vertexCount": 194
+        },
+        {
+          "bytes": 10016,
+          "geometricError": 0.0,
+          "indexCount": 312,
+          "lod": 2,
+          "uri": "tiles/fffffffe00000000_lod2.glb",
+          "vertexCount": 194
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617024,
+      "tileX": -2,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        128.0,
+        -128.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1320,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/fffffffe00000001_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 24348,
+          "geometricError": 16.0,
+          "indexCount": 867,
+          "lod": 1,
+          "uri": "tiles/fffffffe00000001_lod1.glb",
+          "vertexCount": 497
+        },
+        {
+          "bytes": 24348,
+          "geometricError": 0.0,
+          "indexCount": 867,
+          "lod": 2,
+          "uri": "tiles/fffffffe00000001_lod2.glb",
+          "vertexCount": 497
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617025,
+      "tileX": -2,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        256.0,
+        -128.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2852,
+          "geometricError": 64.0,
+          "indexCount": 60,
+          "lod": 0,
+          "uri": "tiles/fffffffe00000002_lod0.glb",
+          "vertexCount": 40
+        },
+        {
+          "bytes": 18000,
+          "geometricError": 16.0,
+          "indexCount": 597,
+          "lod": 1,
+          "uri": "tiles/fffffffe00000002_lod1.glb",
+          "vertexCount": 365
+        },
+        {
+          "bytes": 18000,
+          "geometricError": 0.0,
+          "indexCount": 597,
+          "lod": 2,
+          "uri": "tiles/fffffffe00000002_lod2.glb",
+          "vertexCount": 365
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617026,
+      "tileX": -2,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        384.0,
+        -128.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1692,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffffe00000003_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 7968,
+          "geometricError": 16.0,
+          "indexCount": 246,
+          "lod": 1,
+          "uri": "tiles/fffffffe00000003_lod1.glb",
+          "vertexCount": 150
+        },
+        {
+          "bytes": 7968,
+          "geometricError": 0.0,
+          "indexCount": 246,
+          "lod": 2,
+          "uri": "tiles/fffffffe00000003_lod2.glb",
+          "vertexCount": 150
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617027,
+      "tileX": -2,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        -256.0,
+        -120.0,
+        512.0,
+        -128.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/fffffffe00000004_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 1680,
+          "geometricError": 16.0,
+          "indexCount": 24,
+          "lod": 1,
+          "uri": "tiles/fffffffe00000004_lod1.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 1680,
+          "geometricError": 0.0,
+          "indexCount": 24,
+          "lod": 2,
+          "uri": "tiles/fffffffe00000004_lod2.glb",
+          "vertexCount": 16
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744065119617028,
+      "tileX": -2,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        -640.0,
+        0.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1304,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/fffffffffffffffb_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 4824,
+          "geometricError": 16.0,
+          "indexCount": 126,
+          "lod": 1,
+          "uri": "tiles/fffffffffffffffb_lod1.glb",
+          "vertexCount": 84
+        },
+        {
+          "bytes": 6304,
+          "geometricError": 0.0,
+          "indexCount": 174,
+          "lod": 2,
+          "uri": "tiles/fffffffffffffffb_lod2.glb",
+          "vertexCount": 116
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744073709551611,
+      "tileX": -1,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        -512.0,
+        0.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/fffffffffffffffc_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 6324,
+          "geometricError": 16.0,
+          "indexCount": 174,
+          "lod": 1,
+          "uri": "tiles/fffffffffffffffc_lod1.glb",
+          "vertexCount": 116
+        },
+        {
+          "bytes": 6696,
+          "geometricError": 0.0,
+          "indexCount": 186,
+          "lod": 2,
+          "uri": "tiles/fffffffffffffffc_lod2.glb",
+          "vertexCount": 124
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744073709551612,
+      "tileX": -1,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        -384.0,
+        0.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2440,
+          "geometricError": 64.0,
+          "indexCount": 48,
+          "lod": 0,
+          "uri": "tiles/fffffffffffffffd_lod0.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 12052,
+          "geometricError": 16.0,
+          "indexCount": 360,
+          "lod": 1,
+          "uri": "tiles/fffffffffffffffd_lod1.glb",
+          "vertexCount": 240
+        },
+        {
+          "bytes": 12052,
+          "geometricError": 0.0,
+          "indexCount": 360,
+          "lod": 2,
+          "uri": "tiles/fffffffffffffffd_lod2.glb",
+          "vertexCount": 240
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744073709551613,
+      "tileX": -1,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        -256.0,
+        0.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1724,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/fffffffffffffffe_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 7000,
+          "geometricError": 16.0,
+          "indexCount": 207,
+          "lod": 1,
+          "uri": "tiles/fffffffffffffffe_lod1.glb",
+          "vertexCount": 129
+        },
+        {
+          "bytes": 7744,
+          "geometricError": 0.0,
+          "indexCount": 231,
+          "lod": 2,
+          "uri": "tiles/fffffffffffffffe_lod2.glb",
+          "vertexCount": 145
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744073709551614,
+      "tileX": -1,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        -128.0,
+        0.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 2440,
+          "geometricError": 64.0,
+          "indexCount": 48,
+          "lod": 0,
+          "uri": "tiles/ffffffffffffffff_lod0.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 9316,
+          "geometricError": 16.0,
+          "indexCount": 273,
+          "lod": 1,
+          "uri": "tiles/ffffffffffffffff_lod1.glb",
+          "vertexCount": 181
+        },
+        {
+          "bytes": 9316,
+          "geometricError": 0.0,
+          "indexCount": 273,
+          "lod": 2,
+          "uri": "tiles/ffffffffffffffff_lod2.glb",
+          "vertexCount": 181
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744073709551615,
+      "tileX": -1,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        0.0,
+        0.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1316,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/ffffffff00000000_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 5564,
+          "geometricError": 16.0,
+          "indexCount": 150,
+          "lod": 1,
+          "uri": "tiles/ffffffff00000000_lod1.glb",
+          "vertexCount": 100
+        },
+        {
+          "bytes": 5564,
+          "geometricError": 0.0,
+          "indexCount": 150,
+          "lod": 2,
+          "uri": "tiles/ffffffff00000000_lod2.glb",
+          "vertexCount": 100
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584320,
+      "tileX": -1,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        128.0,
+        0.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1492,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/ffffffff00000001_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 6652,
+          "geometricError": 16.0,
+          "indexCount": 204,
+          "lod": 1,
+          "uri": "tiles/ffffffff00000001_lod1.glb",
+          "vertexCount": 122
+        },
+        {
+          "bytes": 6652,
+          "geometricError": 0.0,
+          "indexCount": 204,
+          "lod": 2,
+          "uri": "tiles/ffffffff00000001_lod2.glb",
+          "vertexCount": 122
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584321,
+      "tileX": -1,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        256.0,
+        0.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1888,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/ffffffff00000002_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 14424,
+          "geometricError": 16.0,
+          "indexCount": 483,
+          "lod": 1,
+          "uri": "tiles/ffffffff00000002_lod1.glb",
+          "vertexCount": 287
+        },
+        {
+          "bytes": 14424,
+          "geometricError": 0.0,
+          "indexCount": 483,
+          "lod": 2,
+          "uri": "tiles/ffffffff00000002_lod2.glb",
+          "vertexCount": 287
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584322,
+      "tileX": -1,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        384.0,
+        0.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1700,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/ffffffff00000003_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 13680,
+          "geometricError": 16.0,
+          "indexCount": 450,
+          "lod": 1,
+          "uri": "tiles/ffffffff00000003_lod1.glb",
+          "vertexCount": 272
+        },
+        {
+          "bytes": 13680,
+          "geometricError": 0.0,
+          "indexCount": 450,
+          "lod": 2,
+          "uri": "tiles/ffffffff00000003_lod2.glb",
+          "vertexCount": 272
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584323,
+      "tileX": -1,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        512.0,
+        0.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1304,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/ffffffff00000004_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 4508,
+          "geometricError": 16.0,
+          "indexCount": 126,
+          "lod": 1,
+          "uri": "tiles/ffffffff00000004_lod1.glb",
+          "vertexCount": 76
+        },
+        {
+          "bytes": 4508,
+          "geometricError": 0.0,
+          "indexCount": 126,
+          "lod": 2,
+          "uri": "tiles/ffffffff00000004_lod2.glb",
+          "vertexCount": 76
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584324,
+      "tileX": -1,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        -128.0,
+        -120.0,
+        768.0,
+        0.0,
+        10.0,
+        896.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/ffffffff00000006_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 2836,
+          "geometricError": 16.0,
+          "indexCount": 60,
+          "lod": 1,
+          "uri": "tiles/ffffffff00000006_lod1.glb",
+          "vertexCount": 40
+        },
+        {
+          "bytes": 2836,
+          "geometricError": 0.0,
+          "indexCount": 60,
+          "lod": 2,
+          "uri": "tiles/ffffffff00000006_lod2.glb",
+          "vertexCount": 40
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 18446744069414584326,
+      "tileX": -1,
+      "tileY": 6
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        -640.0,
+        128.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 2096,
+          "geometricError": 64.0,
+          "indexCount": 51,
+          "lod": 0,
+          "uri": "tiles/00000000fffffffb_lod0.glb",
+          "vertexCount": 23
+        },
+        {
+          "bytes": 7796,
+          "geometricError": 16.0,
+          "indexCount": 264,
+          "lod": 1,
+          "uri": "tiles/00000000fffffffb_lod1.glb",
+          "vertexCount": 144
+        },
+        {
+          "bytes": 11484,
+          "geometricError": 0.0,
+          "indexCount": 384,
+          "lod": 2,
+          "uri": "tiles/00000000fffffffb_lod2.glb",
+          "vertexCount": 224
+        }
+      ],
+      "semanticImportance": 3.0,
+      "tileId": 4294967291,
+      "tileX": 0,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        -512.0,
+        128.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 3020,
+          "geometricError": 64.0,
+          "indexCount": 66,
+          "lod": 0,
+          "uri": "tiles/00000000fffffffc_lod0.glb",
+          "vertexCount": 44
+        },
+        {
+          "bytes": 5884,
+          "geometricError": 16.0,
+          "indexCount": 171,
+          "lod": 1,
+          "uri": "tiles/00000000fffffffc_lod1.glb",
+          "vertexCount": 105
+        },
+        {
+          "bytes": 13624,
+          "geometricError": 0.0,
+          "indexCount": 423,
+          "lod": 2,
+          "uri": "tiles/00000000fffffffc_lod2.glb",
+          "vertexCount": 273
+        }
+      ],
+      "semanticImportance": 3.0,
+      "tileId": 4294967292,
+      "tileX": 0,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        -384.0,
+        128.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1880,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/00000000fffffffd_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 13584,
+          "geometricError": 16.0,
+          "indexCount": 435,
+          "lod": 1,
+          "uri": "tiles/00000000fffffffd_lod1.glb",
+          "vertexCount": 271
+        },
+        {
+          "bytes": 13584,
+          "geometricError": 0.0,
+          "indexCount": 435,
+          "lod": 2,
+          "uri": "tiles/00000000fffffffd_lod2.glb",
+          "vertexCount": 271
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967293,
+      "tileX": 0,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        -256.0,
+        128.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 2836,
+          "geometricError": 64.0,
+          "indexCount": 60,
+          "lod": 0,
+          "uri": "tiles/00000000fffffffe_lod0.glb",
+          "vertexCount": 40
+        },
+        {
+          "bytes": 26612,
+          "geometricError": 16.0,
+          "indexCount": 900,
+          "lod": 1,
+          "uri": "tiles/00000000fffffffe_lod1.glb",
+          "vertexCount": 550
+        },
+        {
+          "bytes": 26612,
+          "geometricError": 0.0,
+          "indexCount": 900,
+          "lod": 2,
+          "uri": "tiles/00000000fffffffe_lod2.glb",
+          "vertexCount": 550
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967294,
+      "tileX": 0,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        -128.0,
+        128.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 3552,
+          "geometricError": 64.0,
+          "indexCount": 84,
+          "lod": 0,
+          "uri": "tiles/00000000ffffffff_lod0.glb",
+          "vertexCount": 56
+        },
+        {
+          "bytes": 20048,
+          "geometricError": 16.0,
+          "indexCount": 666,
+          "lod": 1,
+          "uri": "tiles/00000000ffffffff_lod1.glb",
+          "vertexCount": 410
+        },
+        {
+          "bytes": 25036,
+          "geometricError": 0.0,
+          "indexCount": 828,
+          "lod": 2,
+          "uri": "tiles/00000000ffffffff_lod2.glb",
+          "vertexCount": 518
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967295,
+      "tileX": 0,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        0.0,
+        128.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 2460,
+          "geometricError": 64.0,
+          "indexCount": 48,
+          "lod": 0,
+          "uri": "tiles/0000000000000000_lod0.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 17484,
+          "geometricError": 16.0,
+          "indexCount": 585,
+          "lod": 1,
+          "uri": "tiles/0000000000000000_lod1.glb",
+          "vertexCount": 353
+        },
+        {
+          "bytes": 19696,
+          "geometricError": 0.0,
+          "indexCount": 657,
+          "lod": 2,
+          "uri": "tiles/0000000000000000_lod2.glb",
+          "vertexCount": 401
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 0,
+      "tileX": 0,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        128.0,
+        128.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 3196,
+          "geometricError": 64.0,
+          "indexCount": 72,
+          "lod": 0,
+          "uri": "tiles/0000000000000001_lod0.glb",
+          "vertexCount": 48
+        },
+        {
+          "bytes": 25420,
+          "geometricError": 16.0,
+          "indexCount": 882,
+          "lod": 1,
+          "uri": "tiles/0000000000000001_lod1.glb",
+          "vertexCount": 522
+        },
+        {
+          "bytes": 25608,
+          "geometricError": 0.0,
+          "indexCount": 888,
+          "lod": 2,
+          "uri": "tiles/0000000000000001_lod2.glb",
+          "vertexCount": 526
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 1,
+      "tileX": 0,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        256.0,
+        128.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1892,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/0000000000000002_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 5236,
+          "geometricError": 16.0,
+          "indexCount": 144,
+          "lod": 1,
+          "uri": "tiles/0000000000000002_lod1.glb",
+          "vertexCount": 92
+        },
+        {
+          "bytes": 5616,
+          "geometricError": 0.0,
+          "indexCount": 156,
+          "lod": 2,
+          "uri": "tiles/0000000000000002_lod2.glb",
+          "vertexCount": 100
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 2,
+      "tileX": 0,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        384.0,
+        128.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 2260,
+          "geometricError": 64.0,
+          "indexCount": 42,
+          "lod": 0,
+          "uri": "tiles/0000000000000003_lod0.glb",
+          "vertexCount": 28
+        },
+        {
+          "bytes": 18220,
+          "geometricError": 16.0,
+          "indexCount": 582,
+          "lod": 1,
+          "uri": "tiles/0000000000000003_lod1.glb",
+          "vertexCount": 372
+        },
+        {
+          "bytes": 18220,
+          "geometricError": 0.0,
+          "indexCount": 582,
+          "lod": 2,
+          "uri": "tiles/0000000000000003_lod2.glb",
+          "vertexCount": 372
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 3,
+      "tileX": 0,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        0.0,
+        -120.0,
+        512.0,
+        128.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1304,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/0000000000000004_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 2992,
+          "geometricError": 16.0,
+          "indexCount": 72,
+          "lod": 1,
+          "uri": "tiles/0000000000000004_lod1.glb",
+          "vertexCount": 44
+        },
+        {
+          "bytes": 2992,
+          "geometricError": 0.0,
+          "indexCount": 72,
+          "lod": 2,
+          "uri": "tiles/0000000000000004_lod2.glb",
+          "vertexCount": 44
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4,
+      "tileX": 0,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        -640.0,
+        256.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1308,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/00000001fffffffb_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 3564,
+          "geometricError": 16.0,
+          "indexCount": 90,
+          "lod": 1,
+          "uri": "tiles/00000001fffffffb_lod1.glb",
+          "vertexCount": 56
+        },
+        {
+          "bytes": 3564,
+          "geometricError": 0.0,
+          "indexCount": 90,
+          "lod": 2,
+          "uri": "tiles/00000001fffffffb_lod2.glb",
+          "vertexCount": 56
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934587,
+      "tileX": 1,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        -512.0,
+        256.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2060,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/00000001fffffffc_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 14496,
+          "geometricError": 16.0,
+          "indexCount": 501,
+          "lod": 1,
+          "uri": "tiles/00000001fffffffc_lod1.glb",
+          "vertexCount": 287
+        },
+        {
+          "bytes": 14496,
+          "geometricError": 0.0,
+          "indexCount": 501,
+          "lod": 2,
+          "uri": "tiles/00000001fffffffc_lod2.glb",
+          "vertexCount": 287
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934588,
+      "tileX": 1,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        -384.0,
+        256.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2476,
+          "geometricError": 64.0,
+          "indexCount": 48,
+          "lod": 0,
+          "uri": "tiles/00000001fffffffd_lod0.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 16168,
+          "geometricError": 16.0,
+          "indexCount": 519,
+          "lod": 1,
+          "uri": "tiles/00000001fffffffd_lod1.glb",
+          "vertexCount": 327
+        },
+        {
+          "bytes": 16168,
+          "geometricError": 0.0,
+          "indexCount": 519,
+          "lod": 2,
+          "uri": "tiles/00000001fffffffd_lod2.glb",
+          "vertexCount": 327
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934589,
+      "tileX": 1,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        -256.0,
+        256.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 5572,
+          "geometricError": 64.0,
+          "indexCount": 150,
+          "lod": 0,
+          "uri": "tiles/00000001fffffffe_lod0.glb",
+          "vertexCount": 100
+        },
+        {
+          "bytes": 7040,
+          "geometricError": 16.0,
+          "indexCount": 198,
+          "lod": 1,
+          "uri": "tiles/00000001fffffffe_lod1.glb",
+          "vertexCount": 132
+        },
+        {
+          "bytes": 8520,
+          "geometricError": 0.0,
+          "indexCount": 246,
+          "lod": 2,
+          "uri": "tiles/00000001fffffffe_lod2.glb",
+          "vertexCount": 164
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934590,
+      "tileX": 1,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        -128.0,
+        256.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 2276,
+          "geometricError": 64.0,
+          "indexCount": 42,
+          "lod": 0,
+          "uri": "tiles/00000001ffffffff_lod0.glb",
+          "vertexCount": 28
+        },
+        {
+          "bytes": 3916,
+          "geometricError": 16.0,
+          "indexCount": 96,
+          "lod": 1,
+          "uri": "tiles/00000001ffffffff_lod1.glb",
+          "vertexCount": 64
+        },
+        {
+          "bytes": 15000,
+          "geometricError": 0.0,
+          "indexCount": 456,
+          "lod": 2,
+          "uri": "tiles/00000001ffffffff_lod2.glb",
+          "vertexCount": 304
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934591,
+      "tileX": 1,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        0.0,
+        256.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 2624,
+          "geometricError": 64.0,
+          "indexCount": 54,
+          "lod": 0,
+          "uri": "tiles/0000000100000000_lod0.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 20088,
+          "geometricError": 16.0,
+          "indexCount": 666,
+          "lod": 1,
+          "uri": "tiles/0000000100000000_lod1.glb",
+          "vertexCount": 410
+        },
+        {
+          "bytes": 24512,
+          "geometricError": 0.0,
+          "indexCount": 810,
+          "lod": 2,
+          "uri": "tiles/0000000100000000_lod2.glb",
+          "vertexCount": 506
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967296,
+      "tileX": 1,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        128.0,
+        256.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2244,
+          "geometricError": 64.0,
+          "indexCount": 42,
+          "lod": 0,
+          "uri": "tiles/0000000100000001_lod0.glb",
+          "vertexCount": 28
+        },
+        {
+          "bytes": 28792,
+          "geometricError": 16.0,
+          "indexCount": 1035,
+          "lod": 1,
+          "uri": "tiles/0000000100000001_lod1.glb",
+          "vertexCount": 591
+        },
+        {
+          "bytes": 35240,
+          "geometricError": 0.0,
+          "indexCount": 1245,
+          "lod": 2,
+          "uri": "tiles/0000000100000001_lod2.glb",
+          "vertexCount": 731
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967297,
+      "tileX": 1,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        256.0,
+        256.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1892,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/0000000100000002_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 3380,
+          "geometricError": 16.0,
+          "indexCount": 78,
+          "lod": 1,
+          "uri": "tiles/0000000100000002_lod1.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 5240,
+          "geometricError": 0.0,
+          "indexCount": 138,
+          "lod": 2,
+          "uri": "tiles/0000000100000002_lod2.glb",
+          "vertexCount": 92
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967298,
+      "tileX": 1,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        384.0,
+        256.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 2620,
+          "geometricError": 64.0,
+          "indexCount": 54,
+          "lod": 0,
+          "uri": "tiles/0000000100000003_lod0.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 11880,
+          "geometricError": 16.0,
+          "indexCount": 360,
+          "lod": 1,
+          "uri": "tiles/0000000100000003_lod1.glb",
+          "vertexCount": 236
+        },
+        {
+          "bytes": 12432,
+          "geometricError": 0.0,
+          "indexCount": 378,
+          "lod": 2,
+          "uri": "tiles/0000000100000003_lod2.glb",
+          "vertexCount": 248
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967299,
+      "tileX": 1,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        512.0,
+        256.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1712,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/0000000100000004_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 9360,
+          "geometricError": 16.0,
+          "indexCount": 303,
+          "lod": 1,
+          "uri": "tiles/0000000100000004_lod1.glb",
+          "vertexCount": 179
+        },
+        {
+          "bytes": 9360,
+          "geometricError": 0.0,
+          "indexCount": 303,
+          "lod": 2,
+          "uri": "tiles/0000000100000004_lod2.glb",
+          "vertexCount": 179
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967300,
+      "tileX": 1,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        128.0,
+        -120.0,
+        640.0,
+        256.0,
+        10.0,
+        768.0
+      ],
+      "representations": [
+        {
+          "bytes": 4664,
+          "geometricError": 64.0,
+          "indexCount": 120,
+          "lod": 0,
+          "uri": "tiles/0000000100000005_lod0.glb",
+          "vertexCount": 80
+        },
+        {
+          "bytes": 5772,
+          "geometricError": 16.0,
+          "indexCount": 156,
+          "lod": 1,
+          "uri": "tiles/0000000100000005_lod1.glb",
+          "vertexCount": 104
+        },
+        {
+          "bytes": 5772,
+          "geometricError": 0.0,
+          "indexCount": 156,
+          "lod": 2,
+          "uri": "tiles/0000000100000005_lod2.glb",
+          "vertexCount": 104
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 4294967301,
+      "tileX": 1,
+      "tileY": 5
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        -640.0,
+        384.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/00000002fffffffb_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 1116,
+          "geometricError": 16.0,
+          "indexCount": 6,
+          "lod": 1,
+          "uri": "tiles/00000002fffffffb_lod1.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 1692,
+          "geometricError": 0.0,
+          "indexCount": 24,
+          "lod": 2,
+          "uri": "tiles/00000002fffffffb_lod2.glb",
+          "vertexCount": 16
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901883,
+      "tileX": 2,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        -512.0,
+        384.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 5392,
+          "geometricError": 64.0,
+          "indexCount": 144,
+          "lod": 0,
+          "uri": "tiles/00000002fffffffc_lod0.glb",
+          "vertexCount": 96
+        },
+        {
+          "bytes": 20468,
+          "geometricError": 16.0,
+          "indexCount": 681,
+          "lod": 1,
+          "uri": "tiles/00000002fffffffc_lod1.glb",
+          "vertexCount": 419
+        },
+        {
+          "bytes": 20660,
+          "geometricError": 0.0,
+          "indexCount": 687,
+          "lod": 2,
+          "uri": "tiles/00000002fffffffc_lod2.glb",
+          "vertexCount": 423
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901884,
+      "tileX": 2,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        -384.0,
+        384.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1716,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/00000002fffffffd_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 12676,
+          "geometricError": 16.0,
+          "indexCount": 423,
+          "lod": 1,
+          "uri": "tiles/00000002fffffffd_lod1.glb",
+          "vertexCount": 249
+        },
+        {
+          "bytes": 12868,
+          "geometricError": 0.0,
+          "indexCount": 429,
+          "lod": 2,
+          "uri": "tiles/00000002fffffffd_lod2.glb",
+          "vertexCount": 253
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901885,
+      "tileX": 2,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        -256.0,
+        384.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 3364,
+          "geometricError": 64.0,
+          "indexCount": 78,
+          "lod": 0,
+          "uri": "tiles/00000002fffffffe_lod0.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 3976,
+          "geometricError": 16.0,
+          "indexCount": 108,
+          "lod": 1,
+          "uri": "tiles/00000002fffffffe_lod1.glb",
+          "vertexCount": 64
+        },
+        {
+          "bytes": 8784,
+          "geometricError": 0.0,
+          "indexCount": 264,
+          "lod": 2,
+          "uri": "tiles/00000002fffffffe_lod2.glb",
+          "vertexCount": 168
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901886,
+      "tileX": 2,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        -128.0,
+        384.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 2676,
+          "geometricError": 64.0,
+          "indexCount": 75,
+          "lod": 0,
+          "uri": "tiles/00000002ffffffff_lod0.glb",
+          "vertexCount": 35
+        },
+        {
+          "bytes": 10108,
+          "geometricError": 16.0,
+          "indexCount": 336,
+          "lod": 1,
+          "uri": "tiles/00000002ffffffff_lod1.glb",
+          "vertexCount": 194
+        },
+        {
+          "bytes": 18396,
+          "geometricError": 0.0,
+          "indexCount": 606,
+          "lod": 2,
+          "uri": "tiles/00000002ffffffff_lod2.glb",
+          "vertexCount": 374
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901887,
+      "tileX": 2,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        0.0,
+        384.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 8988,
+          "geometricError": 64.0,
+          "indexCount": 453,
+          "lod": 0,
+          "uri": "tiles/0000000200000000_lod0.glb",
+          "vertexCount": 155
+        },
+        {
+          "bytes": 8988,
+          "geometricError": 16.0,
+          "indexCount": 453,
+          "lod": 1,
+          "uri": "tiles/0000000200000000_lod1.glb",
+          "vertexCount": 155
+        },
+        {
+          "bytes": 29448,
+          "geometricError": 0.0,
+          "indexCount": 1119,
+          "lod": 2,
+          "uri": "tiles/0000000200000000_lod2.glb",
+          "vertexCount": 599
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934592,
+      "tileX": 2,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        128.0,
+        384.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1532,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/0000000200000001_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 26956,
+          "geometricError": 16.0,
+          "indexCount": 966,
+          "lod": 1,
+          "uri": "tiles/0000000200000001_lod1.glb",
+          "vertexCount": 552
+        },
+        {
+          "bytes": 52912,
+          "geometricError": 0.0,
+          "indexCount": 1812,
+          "lod": 2,
+          "uri": "tiles/0000000200000001_lod2.glb",
+          "vertexCount": 1116
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934593,
+      "tileX": 2,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        256.0,
+        384.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1912,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/0000000200000002_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 55024,
+          "geometricError": 16.0,
+          "indexCount": 2022,
+          "lod": 1,
+          "uri": "tiles/0000000200000002_lod1.glb",
+          "vertexCount": 1148
+        },
+        {
+          "bytes": 61468,
+          "geometricError": 0.0,
+          "indexCount": 2232,
+          "lod": 2,
+          "uri": "tiles/0000000200000002_lod2.glb",
+          "vertexCount": 1288
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934594,
+      "tileX": 2,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        384.0,
+        384.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1520,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/0000000200000003_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 2452,
+          "geometricError": 16.0,
+          "indexCount": 48,
+          "lod": 1,
+          "uri": "tiles/0000000200000003_lod1.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 3192,
+          "geometricError": 0.0,
+          "indexCount": 72,
+          "lod": 2,
+          "uri": "tiles/0000000200000003_lod2.glb",
+          "vertexCount": 48
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934595,
+      "tileX": 2,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        512.0,
+        384.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/0000000200000004_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 3588,
+          "geometricError": 16.0,
+          "indexCount": 108,
+          "lod": 1,
+          "uri": "tiles/0000000200000004_lod1.glb",
+          "vertexCount": 54
+        },
+        {
+          "bytes": 4144,
+          "geometricError": 0.0,
+          "indexCount": 126,
+          "lod": 2,
+          "uri": "tiles/0000000200000004_lod2.glb",
+          "vertexCount": 66
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934596,
+      "tileX": 2,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        256.0,
+        -120.0,
+        640.0,
+        384.0,
+        10.0,
+        768.0
+      ],
+      "representations": [
+        {
+          "bytes": 4664,
+          "geometricError": 64.0,
+          "indexCount": 120,
+          "lod": 0,
+          "uri": "tiles/0000000200000005_lod0.glb",
+          "vertexCount": 80
+        },
+        {
+          "bytes": 4664,
+          "geometricError": 16.0,
+          "indexCount": 120,
+          "lod": 1,
+          "uri": "tiles/0000000200000005_lod1.glb",
+          "vertexCount": 80
+        },
+        {
+          "bytes": 5776,
+          "geometricError": 0.0,
+          "indexCount": 156,
+          "lod": 2,
+          "uri": "tiles/0000000200000005_lod2.glb",
+          "vertexCount": 104
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 8589934597,
+      "tileX": 2,
+      "tileY": 5
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        -640.0,
+        512.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1332,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/00000003fffffffb_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 7980,
+          "geometricError": 16.0,
+          "indexCount": 261,
+          "lod": 1,
+          "uri": "tiles/00000003fffffffb_lod1.glb",
+          "vertexCount": 149
+        },
+        {
+          "bytes": 7980,
+          "geometricError": 0.0,
+          "indexCount": 261,
+          "lod": 2,
+          "uri": "tiles/00000003fffffffb_lod2.glb",
+          "vertexCount": 149
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869179,
+      "tileX": 3,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        -512.0,
+        512.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 3352,
+          "geometricError": 64.0,
+          "indexCount": 78,
+          "lod": 0,
+          "uri": "tiles/00000003fffffffc_lod0.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 16740,
+          "geometricError": 16.0,
+          "indexCount": 525,
+          "lod": 1,
+          "uri": "tiles/00000003fffffffc_lod1.glb",
+          "vertexCount": 341
+        },
+        {
+          "bytes": 16740,
+          "geometricError": 0.0,
+          "indexCount": 525,
+          "lod": 2,
+          "uri": "tiles/00000003fffffffc_lod2.glb",
+          "vertexCount": 341
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869180,
+      "tileX": 3,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        -384.0,
+        512.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2456,
+          "geometricError": 64.0,
+          "indexCount": 48,
+          "lod": 0,
+          "uri": "tiles/00000003fffffffd_lod0.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 18032,
+          "geometricError": 16.0,
+          "indexCount": 585,
+          "lod": 1,
+          "uri": "tiles/00000003fffffffd_lod1.glb",
+          "vertexCount": 367
+        },
+        {
+          "bytes": 18404,
+          "geometricError": 0.0,
+          "indexCount": 597,
+          "lod": 2,
+          "uri": "tiles/00000003fffffffd_lod2.glb",
+          "vertexCount": 375
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869181,
+      "tileX": 3,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        -256.0,
+        512.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 3408,
+          "geometricError": 64.0,
+          "indexCount": 78,
+          "lod": 0,
+          "uri": "tiles/00000003fffffffe_lod0.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 26684,
+          "geometricError": 16.0,
+          "indexCount": 918,
+          "lod": 1,
+          "uri": "tiles/00000003fffffffe_lod1.glb",
+          "vertexCount": 550
+        },
+        {
+          "bytes": 29820,
+          "geometricError": 0.0,
+          "indexCount": 1020,
+          "lod": 2,
+          "uri": "tiles/00000003fffffffe_lod2.glb",
+          "vertexCount": 618
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869182,
+      "tileX": 3,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        -128.0,
+        512.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 2428,
+          "geometricError": 64.0,
+          "indexCount": 48,
+          "lod": 0,
+          "uri": "tiles/00000003ffffffff_lod0.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 25476,
+          "geometricError": 16.0,
+          "indexCount": 927,
+          "lod": 1,
+          "uri": "tiles/00000003ffffffff_lod1.glb",
+          "vertexCount": 519
+        },
+        {
+          "bytes": 31744,
+          "geometricError": 0.0,
+          "indexCount": 1131,
+          "lod": 2,
+          "uri": "tiles/00000003ffffffff_lod2.glb",
+          "vertexCount": 655
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869183,
+      "tileX": 3,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        0.0,
+        512.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/0000000300000000_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 1112,
+          "geometricError": 16.0,
+          "indexCount": 6,
+          "lod": 1,
+          "uri": "tiles/0000000300000000_lod1.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 15712,
+          "geometricError": 0.0,
+          "indexCount": 480,
+          "lod": 2,
+          "uri": "tiles/0000000300000000_lod2.glb",
+          "vertexCount": 320
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901888,
+      "tileX": 3,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        128.0,
+        512.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1304,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/0000000300000001_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 32108,
+          "geometricError": 16.0,
+          "indexCount": 1014,
+          "lod": 1,
+          "uri": "tiles/0000000300000001_lod1.glb",
+          "vertexCount": 676
+        },
+        {
+          "bytes": 38372,
+          "geometricError": 0.0,
+          "indexCount": 1218,
+          "lod": 2,
+          "uri": "tiles/0000000300000001_lod2.glb",
+          "vertexCount": 812
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901889,
+      "tileX": 3,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        256.0,
+        512.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1716,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/0000000300000002_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 26756,
+          "geometricError": 16.0,
+          "indexCount": 960,
+          "lod": 1,
+          "uri": "tiles/0000000300000002_lod1.glb",
+          "vertexCount": 548
+        },
+        {
+          "bytes": 30456,
+          "geometricError": 0.0,
+          "indexCount": 1080,
+          "lod": 2,
+          "uri": "tiles/0000000300000002_lod2.glb",
+          "vertexCount": 628
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901890,
+      "tileX": 3,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        384.0,
+        512.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 4288,
+          "geometricError": 64.0,
+          "indexCount": 108,
+          "lod": 0,
+          "uri": "tiles/0000000300000003_lod0.glb",
+          "vertexCount": 72
+        },
+        {
+          "bytes": 12020,
+          "geometricError": 16.0,
+          "indexCount": 363,
+          "lod": 1,
+          "uri": "tiles/0000000300000003_lod1.glb",
+          "vertexCount": 239
+        },
+        {
+          "bytes": 13868,
+          "geometricError": 0.0,
+          "indexCount": 423,
+          "lod": 2,
+          "uri": "tiles/0000000300000003_lod2.glb",
+          "vertexCount": 279
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901891,
+      "tileX": 3,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        384.0,
+        -120.0,
+        512.0,
+        512.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 1304,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/0000000300000004_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 2260,
+          "geometricError": 16.0,
+          "indexCount": 42,
+          "lod": 1,
+          "uri": "tiles/0000000300000004_lod1.glb",
+          "vertexCount": 28
+        },
+        {
+          "bytes": 2260,
+          "geometricError": 0.0,
+          "indexCount": 42,
+          "lod": 2,
+          "uri": "tiles/0000000300000004_lod2.glb",
+          "vertexCount": 28
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 12884901892,
+      "tileX": 3,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        -640.0,
+        640.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1332,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/00000004fffffffb_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 3640,
+          "geometricError": 16.0,
+          "indexCount": 93,
+          "lod": 1,
+          "uri": "tiles/00000004fffffffb_lod1.glb",
+          "vertexCount": 57
+        },
+        {
+          "bytes": 3640,
+          "geometricError": 0.0,
+          "indexCount": 93,
+          "lod": 2,
+          "uri": "tiles/00000004fffffffb_lod2.glb",
+          "vertexCount": 57
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836475,
+      "tileX": 4,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        -512.0,
+        640.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1728,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/00000004fffffffc_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 17992,
+          "geometricError": 16.0,
+          "indexCount": 615,
+          "lod": 1,
+          "uri": "tiles/00000004fffffffc_lod1.glb",
+          "vertexCount": 363
+        },
+        {
+          "bytes": 17992,
+          "geometricError": 0.0,
+          "indexCount": 615,
+          "lod": 2,
+          "uri": "tiles/00000004fffffffc_lod2.glb",
+          "vertexCount": 363
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836476,
+      "tileX": 4,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        -384.0,
+        640.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 3748,
+          "geometricError": 64.0,
+          "indexCount": 90,
+          "lod": 0,
+          "uri": "tiles/00000004fffffffd_lod0.glb",
+          "vertexCount": 60
+        },
+        {
+          "bytes": 8496,
+          "geometricError": 16.0,
+          "indexCount": 252,
+          "lod": 1,
+          "uri": "tiles/00000004fffffffd_lod1.glb",
+          "vertexCount": 162
+        },
+        {
+          "bytes": 8688,
+          "geometricError": 0.0,
+          "indexCount": 258,
+          "lod": 2,
+          "uri": "tiles/00000004fffffffd_lod2.glb",
+          "vertexCount": 166
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836477,
+      "tileX": 4,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        -256.0,
+        640.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 5016,
+          "geometricError": 64.0,
+          "indexCount": 132,
+          "lod": 0,
+          "uri": "tiles/00000004fffffffe_lod0.glb",
+          "vertexCount": 88
+        },
+        {
+          "bytes": 13780,
+          "geometricError": 16.0,
+          "indexCount": 432,
+          "lod": 1,
+          "uri": "tiles/00000004fffffffe_lod1.glb",
+          "vertexCount": 276
+        },
+        {
+          "bytes": 18940,
+          "geometricError": 0.0,
+          "indexCount": 600,
+          "lod": 2,
+          "uri": "tiles/00000004fffffffe_lod2.glb",
+          "vertexCount": 388
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836478,
+      "tileX": 4,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        -128.0,
+        640.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 3776,
+          "geometricError": 64.0,
+          "indexCount": 90,
+          "lod": 0,
+          "uri": "tiles/00000004ffffffff_lod0.glb",
+          "vertexCount": 60
+        },
+        {
+          "bytes": 23112,
+          "geometricError": 16.0,
+          "indexCount": 795,
+          "lod": 1,
+          "uri": "tiles/00000004ffffffff_lod1.glb",
+          "vertexCount": 473
+        },
+        {
+          "bytes": 26612,
+          "geometricError": 0.0,
+          "indexCount": 909,
+          "lod": 2,
+          "uri": "tiles/00000004ffffffff_lod2.glb",
+          "vertexCount": 549
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836479,
+      "tileX": 4,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        0.0,
+        640.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1688,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/0000000400000000_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 24136,
+          "geometricError": 16.0,
+          "indexCount": 864,
+          "lod": 1,
+          "uri": "tiles/0000000400000000_lod1.glb",
+          "vertexCount": 492
+        },
+        {
+          "bytes": 27280,
+          "geometricError": 0.0,
+          "indexCount": 966,
+          "lod": 2,
+          "uri": "tiles/0000000400000000_lod2.glb",
+          "vertexCount": 560
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869184,
+      "tileX": 4,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        128.0,
+        640.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 2660,
+          "geometricError": 64.0,
+          "indexCount": 54,
+          "lod": 0,
+          "uri": "tiles/0000000400000001_lod0.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 22392,
+          "geometricError": 16.0,
+          "indexCount": 762,
+          "lod": 1,
+          "uri": "tiles/0000000400000001_lod1.glb",
+          "vertexCount": 458
+        },
+        {
+          "bytes": 28100,
+          "geometricError": 0.0,
+          "indexCount": 948,
+          "lod": 2,
+          "uri": "tiles/0000000400000001_lod2.glb",
+          "vertexCount": 582
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869185,
+      "tileX": 4,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        256.0,
+        640.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1900,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/0000000400000002_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 16804,
+          "geometricError": 16.0,
+          "indexCount": 579,
+          "lod": 1,
+          "uri": "tiles/0000000400000002_lod1.glb",
+          "vertexCount": 337
+        },
+        {
+          "bytes": 20492,
+          "geometricError": 0.0,
+          "indexCount": 699,
+          "lod": 2,
+          "uri": "tiles/0000000400000002_lod2.glb",
+          "vertexCount": 417
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869186,
+      "tileX": 4,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        512.0,
+        -120.0,
+        384.0,
+        640.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1904,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/0000000400000003_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 2644,
+          "geometricError": 16.0,
+          "indexCount": 54,
+          "lod": 1,
+          "uri": "tiles/0000000400000003_lod1.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 2644,
+          "geometricError": 0.0,
+          "indexCount": 54,
+          "lod": 2,
+          "uri": "tiles/0000000400000003_lod2.glb",
+          "vertexCount": 36
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 17179869187,
+      "tileX": 4,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        -640.0,
+        768.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/00000005fffffffb_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 2732,
+          "geometricError": 16.0,
+          "indexCount": 60,
+          "lod": 1,
+          "uri": "tiles/00000005fffffffb_lod1.glb",
+          "vertexCount": 38
+        },
+        {
+          "bytes": 3288,
+          "geometricError": 0.0,
+          "indexCount": 78,
+          "lod": 2,
+          "uri": "tiles/00000005fffffffb_lod2.glb",
+          "vertexCount": 50
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803771,
+      "tileX": 5,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        -512.0,
+        768.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 4496,
+          "geometricError": 64.0,
+          "indexCount": 114,
+          "lod": 0,
+          "uri": "tiles/00000005fffffffc_lod0.glb",
+          "vertexCount": 76
+        },
+        {
+          "bytes": 10312,
+          "geometricError": 16.0,
+          "indexCount": 306,
+          "lod": 1,
+          "uri": "tiles/00000005fffffffc_lod1.glb",
+          "vertexCount": 202
+        },
+        {
+          "bytes": 10312,
+          "geometricError": 0.0,
+          "indexCount": 306,
+          "lod": 2,
+          "uri": "tiles/00000005fffffffc_lod2.glb",
+          "vertexCount": 202
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803772,
+      "tileX": 5,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        -384.0,
+        768.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1692,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/00000005fffffffd_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 15016,
+          "geometricError": 16.0,
+          "indexCount": 504,
+          "lod": 1,
+          "uri": "tiles/00000005fffffffd_lod1.glb",
+          "vertexCount": 300
+        },
+        {
+          "bytes": 15016,
+          "geometricError": 0.0,
+          "indexCount": 504,
+          "lod": 2,
+          "uri": "tiles/00000005fffffffd_lod2.glb",
+          "vertexCount": 300
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803773,
+      "tileX": 5,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        -256.0,
+        768.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1716,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/00000005fffffffe_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 15136,
+          "geometricError": 16.0,
+          "indexCount": 492,
+          "lod": 1,
+          "uri": "tiles/00000005fffffffe_lod1.glb",
+          "vertexCount": 304
+        },
+        {
+          "bytes": 21032,
+          "geometricError": 0.0,
+          "indexCount": 684,
+          "lod": 2,
+          "uri": "tiles/00000005fffffffe_lod2.glb",
+          "vertexCount": 432
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803774,
+      "tileX": 5,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        -128.0,
+        768.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 1880,
+          "geometricError": 64.0,
+          "indexCount": 30,
+          "lod": 0,
+          "uri": "tiles/00000005ffffffff_lod0.glb",
+          "vertexCount": 20
+        },
+        {
+          "bytes": 10808,
+          "geometricError": 16.0,
+          "indexCount": 363,
+          "lod": 1,
+          "uri": "tiles/00000005ffffffff_lod1.glb",
+          "vertexCount": 209
+        },
+        {
+          "bytes": 15416,
+          "geometricError": 0.0,
+          "indexCount": 513,
+          "lod": 2,
+          "uri": "tiles/00000005ffffffff_lod2.glb",
+          "vertexCount": 309
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803775,
+      "tileX": 5,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        0.0,
+        768.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1740,
+          "geometricError": 64.0,
+          "indexCount": 24,
+          "lod": 0,
+          "uri": "tiles/0000000500000000_lod0.glb",
+          "vertexCount": 16
+        },
+        {
+          "bytes": 35728,
+          "geometricError": 16.0,
+          "indexCount": 1314,
+          "lod": 1,
+          "uri": "tiles/0000000500000000_lod1.glb",
+          "vertexCount": 736
+        },
+        {
+          "bytes": 36648,
+          "geometricError": 0.0,
+          "indexCount": 1344,
+          "lod": 2,
+          "uri": "tiles/0000000500000000_lod2.glb",
+          "vertexCount": 756
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836480,
+      "tileX": 5,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        128.0,
+        768.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 7076,
+          "geometricError": 64.0,
+          "indexCount": 198,
+          "lod": 0,
+          "uri": "tiles/0000000500000001_lod0.glb",
+          "vertexCount": 132
+        },
+        {
+          "bytes": 22788,
+          "geometricError": 16.0,
+          "indexCount": 735,
+          "lod": 1,
+          "uri": "tiles/0000000500000001_lod1.glb",
+          "vertexCount": 471
+        },
+        {
+          "bytes": 26476,
+          "geometricError": 0.0,
+          "indexCount": 855,
+          "lod": 2,
+          "uri": "tiles/0000000500000001_lod2.glb",
+          "vertexCount": 551
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836481,
+      "tileX": 5,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        256.0,
+        768.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 2612,
+          "geometricError": 64.0,
+          "indexCount": 54,
+          "lod": 0,
+          "uri": "tiles/0000000500000002_lod0.glb",
+          "vertexCount": 36
+        },
+        {
+          "bytes": 11072,
+          "geometricError": 16.0,
+          "indexCount": 333,
+          "lod": 1,
+          "uri": "tiles/0000000500000002_lod1.glb",
+          "vertexCount": 219
+        },
+        {
+          "bytes": 11276,
+          "geometricError": 0.0,
+          "indexCount": 339,
+          "lod": 2,
+          "uri": "tiles/0000000500000002_lod2.glb",
+          "vertexCount": 223
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836482,
+      "tileX": 5,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        384.0,
+        768.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 2072,
+          "geometricError": 64.0,
+          "indexCount": 36,
+          "lod": 0,
+          "uri": "tiles/0000000500000003_lod0.glb",
+          "vertexCount": 24
+        },
+        {
+          "bytes": 6684,
+          "geometricError": 16.0,
+          "indexCount": 186,
+          "lod": 1,
+          "uri": "tiles/0000000500000003_lod1.glb",
+          "vertexCount": 124
+        },
+        {
+          "bytes": 6684,
+          "geometricError": 0.0,
+          "indexCount": 186,
+          "lod": 2,
+          "uri": "tiles/0000000500000003_lod2.glb",
+          "vertexCount": 124
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836483,
+      "tileX": 5,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        512.0,
+        768.0,
+        10.0,
+        640.0
+      ],
+      "representations": [
+        {
+          "bytes": 3200,
+          "geometricError": 64.0,
+          "indexCount": 72,
+          "lod": 0,
+          "uri": "tiles/0000000500000004_lod0.glb",
+          "vertexCount": 48
+        },
+        {
+          "bytes": 3200,
+          "geometricError": 16.0,
+          "indexCount": 72,
+          "lod": 1,
+          "uri": "tiles/0000000500000004_lod1.glb",
+          "vertexCount": 48
+        },
+        {
+          "bytes": 3200,
+          "geometricError": 0.0,
+          "indexCount": 72,
+          "lod": 2,
+          "uri": "tiles/0000000500000004_lod2.glb",
+          "vertexCount": 48
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836484,
+      "tileX": 5,
+      "tileY": 4
+    },
+    {
+      "bounds": [
+        640.0,
+        -120.0,
+        640.0,
+        768.0,
+        10.0,
+        768.0
+      ],
+      "representations": [
+        {
+          "bytes": 4124,
+          "geometricError": 64.0,
+          "indexCount": 102,
+          "lod": 0,
+          "uri": "tiles/0000000500000005_lod0.glb",
+          "vertexCount": 68
+        },
+        {
+          "bytes": 4124,
+          "geometricError": 16.0,
+          "indexCount": 102,
+          "lod": 1,
+          "uri": "tiles/0000000500000005_lod1.glb",
+          "vertexCount": 68
+        },
+        {
+          "bytes": 4124,
+          "geometricError": 0.0,
+          "indexCount": 102,
+          "lod": 2,
+          "uri": "tiles/0000000500000005_lod2.glb",
+          "vertexCount": 68
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 21474836485,
+      "tileX": 5,
+      "tileY": 5
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        -640.0,
+        896.0,
+        10.0,
+        -512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1328,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/00000006fffffffb_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 4784,
+          "geometricError": 16.0,
+          "indexCount": 132,
+          "lod": 1,
+          "uri": "tiles/00000006fffffffb_lod1.glb",
+          "vertexCount": 82
+        },
+        {
+          "bytes": 4784,
+          "geometricError": 0.0,
+          "indexCount": 132,
+          "lod": 2,
+          "uri": "tiles/00000006fffffffb_lod2.glb",
+          "vertexCount": 82
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771067,
+      "tileX": 6,
+      "tileY": -5
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        -512.0,
+        896.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1496,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/00000006fffffffc_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 8112,
+          "geometricError": 16.0,
+          "indexCount": 240,
+          "lod": 1,
+          "uri": "tiles/00000006fffffffc_lod1.glb",
+          "vertexCount": 154
+        },
+        {
+          "bytes": 8112,
+          "geometricError": 0.0,
+          "indexCount": 240,
+          "lod": 2,
+          "uri": "tiles/00000006fffffffc_lod2.glb",
+          "vertexCount": 154
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771068,
+      "tileX": 6,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        -384.0,
+        896.0,
+        10.0,
+        -256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1520,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/00000006fffffffd_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 19092,
+          "geometricError": 16.0,
+          "indexCount": 660,
+          "lod": 1,
+          "uri": "tiles/00000006fffffffd_lod1.glb",
+          "vertexCount": 386
+        },
+        {
+          "bytes": 19092,
+          "geometricError": 0.0,
+          "indexCount": 660,
+          "lod": 2,
+          "uri": "tiles/00000006fffffffd_lod2.glb",
+          "vertexCount": 386
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771069,
+      "tileX": 6,
+      "tileY": -3
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        -256.0,
+        896.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 7828,
+          "geometricError": 64.0,
+          "indexCount": 222,
+          "lod": 0,
+          "uri": "tiles/00000006fffffffe_lod0.glb",
+          "vertexCount": 148
+        },
+        {
+          "bytes": 20876,
+          "geometricError": 16.0,
+          "indexCount": 666,
+          "lod": 1,
+          "uri": "tiles/00000006fffffffe_lod1.glb",
+          "vertexCount": 430
+        },
+        {
+          "bytes": 22724,
+          "geometricError": 0.0,
+          "indexCount": 726,
+          "lod": 2,
+          "uri": "tiles/00000006fffffffe_lod2.glb",
+          "vertexCount": 470
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771070,
+      "tileX": 6,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        -128.0,
+        896.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 1520,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/00000006ffffffff_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 13912,
+          "geometricError": 16.0,
+          "indexCount": 459,
+          "lod": 1,
+          "uri": "tiles/00000006ffffffff_lod1.glb",
+          "vertexCount": 277
+        },
+        {
+          "bytes": 14100,
+          "geometricError": 0.0,
+          "indexCount": 465,
+          "lod": 2,
+          "uri": "tiles/00000006ffffffff_lod2.glb",
+          "vertexCount": 281
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771071,
+      "tileX": 6,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        0.0,
+        896.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1520,
+          "geometricError": 64.0,
+          "indexCount": 18,
+          "lod": 0,
+          "uri": "tiles/0000000600000000_lod0.glb",
+          "vertexCount": 12
+        },
+        {
+          "bytes": 6376,
+          "geometricError": 16.0,
+          "indexCount": 186,
+          "lod": 1,
+          "uri": "tiles/0000000600000000_lod1.glb",
+          "vertexCount": 116
+        },
+        {
+          "bytes": 6376,
+          "geometricError": 0.0,
+          "indexCount": 186,
+          "lod": 2,
+          "uri": "tiles/0000000600000000_lod2.glb",
+          "vertexCount": 116
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803776,
+      "tileX": 6,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        128.0,
+        896.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 3360,
+          "geometricError": 64.0,
+          "indexCount": 78,
+          "lod": 0,
+          "uri": "tiles/0000000600000001_lod0.glb",
+          "vertexCount": 52
+        },
+        {
+          "bytes": 45288,
+          "geometricError": 16.0,
+          "indexCount": 1599,
+          "lod": 1,
+          "uri": "tiles/0000000600000001_lod1.glb",
+          "vertexCount": 947
+        },
+        {
+          "bytes": 45288,
+          "geometricError": 0.0,
+          "indexCount": 1599,
+          "lod": 2,
+          "uri": "tiles/0000000600000001_lod2.glb",
+          "vertexCount": 947
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803777,
+      "tileX": 6,
+      "tileY": 1
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        256.0,
+        896.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/0000000600000002_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 3176,
+          "geometricError": 16.0,
+          "indexCount": 72,
+          "lod": 1,
+          "uri": "tiles/0000000600000002_lod1.glb",
+          "vertexCount": 48
+        },
+        {
+          "bytes": 3176,
+          "geometricError": 0.0,
+          "indexCount": 72,
+          "lod": 2,
+          "uri": "tiles/0000000600000002_lod2.glb",
+          "vertexCount": 48
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803778,
+      "tileX": 6,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        768.0,
+        -120.0,
+        384.0,
+        896.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1316,
+          "geometricError": 64.0,
+          "indexCount": 12,
+          "lod": 0,
+          "uri": "tiles/0000000600000003_lod0.glb",
+          "vertexCount": 8
+        },
+        {
+          "bytes": 2448,
+          "geometricError": 16.0,
+          "indexCount": 48,
+          "lod": 1,
+          "uri": "tiles/0000000600000003_lod1.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 2448,
+          "geometricError": 0.0,
+          "indexCount": 48,
+          "lod": 2,
+          "uri": "tiles/0000000600000003_lod2.glb",
+          "vertexCount": 32
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 25769803779,
+      "tileX": 6,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        896.0,
+        -120.0,
+        -512.0,
+        1024.0,
+        10.0,
+        -384.0
+      ],
+      "representations": [
+        {
+          "bytes": 5044,
+          "geometricError": 64.0,
+          "indexCount": 132,
+          "lod": 0,
+          "uri": "tiles/00000007fffffffc_lod0.glb",
+          "vertexCount": 88
+        },
+        {
+          "bytes": 5044,
+          "geometricError": 16.0,
+          "indexCount": 132,
+          "lod": 1,
+          "uri": "tiles/00000007fffffffc_lod1.glb",
+          "vertexCount": 88
+        },
+        {
+          "bytes": 11312,
+          "geometricError": 0.0,
+          "indexCount": 336,
+          "lod": 2,
+          "uri": "tiles/00000007fffffffc_lod2.glb",
+          "vertexCount": 224
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 34359738364,
+      "tileX": 7,
+      "tileY": -4
+    },
+    {
+      "bounds": [
+        896.0,
+        -120.0,
+        -256.0,
+        1024.0,
+        10.0,
+        -128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/00000007fffffffe_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 3180,
+          "geometricError": 16.0,
+          "indexCount": 72,
+          "lod": 1,
+          "uri": "tiles/00000007fffffffe_lod1.glb",
+          "vertexCount": 48
+        },
+        {
+          "bytes": 3180,
+          "geometricError": 0.0,
+          "indexCount": 72,
+          "lod": 2,
+          "uri": "tiles/00000007fffffffe_lod2.glb",
+          "vertexCount": 48
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 34359738366,
+      "tileX": 7,
+      "tileY": -2
+    },
+    {
+      "bounds": [
+        896.0,
+        -120.0,
+        -128.0,
+        1024.0,
+        10.0,
+        0.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/00000007ffffffff_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 3940,
+          "geometricError": 16.0,
+          "indexCount": 96,
+          "lod": 1,
+          "uri": "tiles/00000007ffffffff_lod1.glb",
+          "vertexCount": 64
+        },
+        {
+          "bytes": 3940,
+          "geometricError": 0.0,
+          "indexCount": 96,
+          "lod": 2,
+          "uri": "tiles/00000007ffffffff_lod2.glb",
+          "vertexCount": 64
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 34359738367,
+      "tileX": 7,
+      "tileY": -1
+    },
+    {
+      "bounds": [
+        896.0,
+        -120.0,
+        0.0,
+        1024.0,
+        10.0,
+        128.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/0000000700000000_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 2136,
+          "geometricError": 16.0,
+          "indexCount": 57,
+          "lod": 1,
+          "uri": "tiles/0000000700000000_lod1.glb",
+          "vertexCount": 23
+        },
+        {
+          "bytes": 2136,
+          "geometricError": 0.0,
+          "indexCount": 57,
+          "lod": 2,
+          "uri": "tiles/0000000700000000_lod2.glb",
+          "vertexCount": 23
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771072,
+      "tileX": 7,
+      "tileY": 0
+    },
+    {
+      "bounds": [
+        896.0,
+        -120.0,
+        256.0,
+        1024.0,
+        10.0,
+        384.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/0000000700000002_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 7620,
+          "geometricError": 16.0,
+          "indexCount": 216,
+          "lod": 1,
+          "uri": "tiles/0000000700000002_lod1.glb",
+          "vertexCount": 144
+        },
+        {
+          "bytes": 7620,
+          "geometricError": 0.0,
+          "indexCount": 216,
+          "lod": 2,
+          "uri": "tiles/0000000700000002_lod2.glb",
+          "vertexCount": 144
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771074,
+      "tileX": 7,
+      "tileY": 2
+    },
+    {
+      "bounds": [
+        896.0,
+        -120.0,
+        384.0,
+        1024.0,
+        10.0,
+        512.0
+      ],
+      "representations": [
+        {
+          "bytes": 1112,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/0000000700000003_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 2428,
+          "geometricError": 16.0,
+          "indexCount": 48,
+          "lod": 1,
+          "uri": "tiles/0000000700000003_lod1.glb",
+          "vertexCount": 32
+        },
+        {
+          "bytes": 2428,
+          "geometricError": 0.0,
+          "indexCount": 48,
+          "lod": 2,
+          "uri": "tiles/0000000700000003_lod2.glb",
+          "vertexCount": 32
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 30064771075,
+      "tileX": 7,
+      "tileY": 3
+    },
+    {
+      "bounds": [
+        1024.0,
+        -120.0,
+        128.0,
+        1152.0,
+        10.0,
+        256.0
+      ],
+      "representations": [
+        {
+          "bytes": 1116,
+          "geometricError": 64.0,
+          "indexCount": 6,
+          "lod": 0,
+          "uri": "tiles/0000000800000001_lod0.glb",
+          "vertexCount": 4
+        },
+        {
+          "bytes": 2760,
+          "geometricError": 16.0,
+          "indexCount": 93,
+          "lod": 1,
+          "uri": "tiles/0000000800000001_lod1.glb",
+          "vertexCount": 35
+        },
+        {
+          "bytes": 2760,
+          "geometricError": 0.0,
+          "indexCount": 93,
+          "lod": 2,
+          "uri": "tiles/0000000800000001_lod2.glb",
+          "vertexCount": 35
+        }
+      ],
+      "semanticImportance": 1.0,
+      "tileId": 34359738369,
+      "tileX": 8,
+      "tileY": 1
+    }
+  ]
+}

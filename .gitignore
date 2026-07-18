@@ -1,6 +1,7 @@
 **/a.out
 build
 build/**
+CMakeFiles/
 .vscode
 .idea/
 .DS_Store

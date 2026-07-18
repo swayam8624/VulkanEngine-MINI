@@ -115,7 +115,8 @@ class GeoScene {
       std::filesystem::path manifestPath,
       beacon::GeoRenderPolicy policy,
       beacon::GeoCacheMode cacheMode,
-      GeoBudgetConfig budget);
+      GeoBudgetConfig budget,
+      bool forceMaximumLod = false);
   ~GeoScene();
 
   GeoScene(const GeoScene&) = delete;
@@ -186,6 +187,7 @@ class GeoScene {
   beacon::GeoRenderPolicy policy;
   beacon::GeoCacheMode cacheMode;
   GeoBudgetConfig budget;
+  bool forceMaximumLod = false;
   GeoFrameStats frameStats{};
   std::vector<std::unique_ptr<TileRuntime>> runtime;
   std::vector<RetiredModel> retired;

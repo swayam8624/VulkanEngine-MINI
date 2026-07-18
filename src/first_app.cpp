@@ -318,6 +318,7 @@ void FirstApp::run() {
       globalSetLayout->getDescriptorSetLayout(),
       config.technique};
   std::unique_ptr<geo::GeoScene> geoScene;
+  std::unique_ptr<geo::GeoScene> referenceGeoScene;
   if (config.geoEnabled) {
     geo::GeoBudgetConfig geoBudget{};
     geoBudget.targetFrameMs = config.geoTargetFrameMs;
@@ -327,6 +328,19 @@ void FirstApp::run() {
     geoBudget.maxTileChangesPerFrame = config.geoMaxTileChangesPerFrame;
     geoScene = std::make_unique<geo::GeoScene>(
         lveDevice, config.geoManifest, config.geoPolicy, config.geoCacheMode, geoBudget);
+    if (config.captureReference) {
+      auto referenceBudget = geoBudget;
+      referenceBudget.gpuMemoryBudgetBytes = std::numeric_limits<uint64_t>::max() / 4u;
+      referenceBudget.uploadBudgetMiBPerSecond = 100000.f;
+      referenceBudget.maxTileChangesPerFrame = std::max(32u, geoBudget.maxTileChangesPerFrame);
+      referenceGeoScene = std::make_unique<geo::GeoScene>(
+          lveDevice,
+          config.geoManifest,
+          beacon::GeoRenderPolicy::GeoBeaconExact,
+          beacon::GeoCacheMode::Warm,
+          referenceBudget,
+          true);
+    }
   }
   std::unique_ptr<beacon::OffscreenComparison> offscreenComparison;
   std::unique_ptr<SimpleRenderSystem> offscreenReferenceSystem;
@@ -493,6 +507,14 @@ void FirstApp::run() {
         glfwSetWindowTitle(lveWindow.getGLFWwindow(), title.c_str());
       }
     }
+    if (referenceGeoScene != nullptr) {
+      referenceGeoScene->update(
+          viewerObject.transform.translation,
+          camera.getProjection() * camera.getView(),
+          std::min(frameTime, 1.f / 15.f),
+          frameNumber,
+          previousFrameMs);
+    }
 
     if (auto commandBuffer = lveRenderer.beginFrame()) {
       gpuProfiler.reset(commandBuffer);
@@ -624,9 +646,9 @@ void FirstApp::run() {
       if (offscreenComparison != nullptr) {
         offscreenComparison->begin(commandBuffer, beacon::OffscreenComparison::TARGET_REFERENCE);
         offscreenReferenceSystem->renderGameObjects(frameInfo);
-        if (geoScene != nullptr) {
+        if (referenceGeoScene != nullptr) {
           offscreenReferenceSystem->begin(frameInfo);
-          for (const auto& item : geoScene->drawItems()) {
+          for (const auto& item : referenceGeoScene->drawItems()) {
             offscreenReferenceSystem->renderModel(frameInfo, *item.model, item.transform);
           }
         }

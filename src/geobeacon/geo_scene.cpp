@@ -158,14 +158,16 @@ GeoScene::GeoScene(
     std::filesystem::path manifestPath,
     beacon::GeoRenderPolicy policy,
     beacon::GeoCacheMode cacheMode,
-    GeoBudgetConfig budget)
+    GeoBudgetConfig budget,
+    bool forceMaximumLod)
     : device{device},
       manifestPath{std::move(manifestPath)},
       baseDirectory{this->manifestPath.parent_path()},
       dataset{loadManifest(this->manifestPath)},
       policy{policy},
       cacheMode{cacheMode},
-      budget{budget} {
+      budget{budget},
+      forceMaximumLod{forceMaximumLod} {
   runtime.reserve(dataset.tiles.size());
   for (size_t i = 0; i < dataset.tiles.size(); ++i) runtime.push_back(std::make_unique<TileRuntime>());
   uint32_t workerCount = std::max(1u, std::min(4u, std::thread::hardware_concurrency() / 2u));
@@ -232,6 +234,7 @@ double GeoScene::distanceTo(const GeoTileRecord& tile, const glm::vec3& position
 }
 
 uint32_t GeoScene::desiredLod(const GeoTileRecord& tile, double distance) const {
+  if (forceMaximumLod) return 2;
   if (policy == beacon::GeoRenderPolicy::FixedLod1) return 1;
   double importance = policy == beacon::GeoRenderPolicy::DistanceLod ? 1.0 : tile.semanticImportance;
   double adjusted = distance / std::max(importance, 0.25);

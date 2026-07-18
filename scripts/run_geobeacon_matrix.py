@@ -114,7 +114,7 @@ def main() -> int:
             "--height", str(height),
             "--warmup-frames", str(matrix["warmup"]),
             "--frames", str(matrix["frames"]),
-            "--capture-reference", "true" if policy in ("geo-beacon-exact", "geo-beacon-bounded") else "false",
+            "--capture-reference", "true",
             "--output", str(case_dir),
             "--quiet",
         ]

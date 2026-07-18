@@ -7,6 +7,8 @@
 #include "beacon/gpu_profiler.hpp"
 #include "beacon/offscreen_comparison.hpp"
 #include "beacon/adaptive_vulkan_builder.hpp"
+#include "geobeacon/geo_scene.hpp"
+#include "geobeacon/geo_camera_path.hpp"
 #include "systems/clustered_lighting_system.hpp"
 #include "systems/point_light_system.hpp"
 #include "systems/simple_render_system.hpp"
@@ -60,6 +62,7 @@ std::string currentGitCommit() {
 
 bool usesSsboLightBuffer(beacon::RenderTechnique technique) {
   return technique == beacon::RenderTechnique::SsboForward ||
+         technique == beacon::RenderTechnique::SsboDiffuseReference ||
          technique == beacon::RenderTechnique::InstancedForward ||
          technique == beacon::RenderTechnique::GpuClusteredFixed ||
          technique == beacon::RenderTechnique::AdaptiveClusteredExact ||
@@ -134,6 +137,7 @@ ClusterConfigData makeClusterRuntimeConfig(const ClusterBuildPushConstants& buil
   runtime.worldMin = buildConfig.worldMin;
   runtime.worldMax = buildConfig.worldMax;
   runtime.gridSize = buildConfig.gridSize;
+  runtime.viewportNearFar = buildConfig.viewportNearFar;
   runtime.clusterCount = buildConfig.clusterCount;
   runtime.maxLightsPerCluster = buildConfig.maxLightsPerCluster;
   runtime.lightIndexCapacity = buildConfig.lightIndexCapacity;
@@ -149,11 +153,21 @@ FirstApp::FirstApp(beacon::BenchmarkConfig appConfig)
           static_cast<int>(config.width),
           static_cast<int>(config.height),
           "BEACON Little Vulkan Engine"} {
+  if (config.geoEnabled) {
+    if (config.geoPolicy == beacon::GeoRenderPolicy::GeoBeaconExact) {
+      config.technique = beacon::RenderTechnique::AdaptiveClusteredExact;
+    } else if (config.geoPolicy == beacon::GeoRenderPolicy::GeoBeaconBounded) {
+      config.technique = beacon::RenderTechnique::BeaconFull;
+    } else {
+      config.technique = beacon::RenderTechnique::GpuClusteredFixed;
+    }
+    config.showLightBillboards = false;
+  }
   globalPool =
       LveDescriptorPool::Builder(lveDevice)
           .setMaxSets(LveSwapChain::MAX_FRAMES_IN_FLIGHT)
           .addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, LveSwapChain::MAX_FRAMES_IN_FLIGHT * 2)
-          .addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, LveSwapChain::MAX_FRAMES_IN_FLIGHT * 5)
+          .addPoolSize(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, LveSwapChain::MAX_FRAMES_IN_FLIGHT * 7)
           .build();
   loadGameObjects();
 }
@@ -161,6 +175,7 @@ FirstApp::FirstApp(beacon::BenchmarkConfig appConfig)
 FirstApp::~FirstApp() {}
 
 void FirstApp::run() {
+  if (config.listDevices) return;
   std::vector<std::unique_ptr<LveBuffer>> uboBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
   std::vector<std::unique_ptr<LveBuffer>> lightBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
   std::vector<std::unique_ptr<LveBuffer>> objectBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
@@ -168,6 +183,8 @@ void FirstApp::run() {
   std::vector<std::unique_ptr<LveBuffer>> clusterHeaderBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
   std::vector<std::unique_ptr<LveBuffer>> clusterLightIndexBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
   std::vector<std::unique_ptr<LveBuffer>> adaptiveNodeBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
+  std::vector<std::unique_ptr<LveBuffer>> clusterCursorBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
+  std::vector<std::unique_ptr<LveBuffer>> clusterBlockSumBuffers(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
   ClusterBuildPushConstants clusterBuildConfig = makeClusterBuildConfig(gameObjects);
   uint32_t lightBufferCapacity = std::max<uint32_t>({1, config.lightCount, MAX_LIGHTS});
   uint32_t objectBufferCapacity = std::max<uint32_t>(1, static_cast<uint32_t>(gameObjects.size()));
@@ -212,7 +229,7 @@ void FirstApp::run() {
         lveDevice,
         sizeof(ClusterHeaderData),
         headerCapacity,
-        VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
+        VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
         VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
     clusterHeaderBuffers[i]->map();
 
@@ -231,6 +248,19 @@ void FirstApp::run() {
         VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
         VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
     adaptiveNodeBuffers[i]->map();
+
+    clusterCursorBuffers[i] = std::make_unique<LveBuffer>(
+        lveDevice,
+        sizeof(uint32_t),
+        headerCapacity,
+        VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+    clusterBlockSumBuffers[i] = std::make_unique<LveBuffer>(
+        lveDevice,
+        sizeof(uint32_t),
+        std::max(1u, (headerCapacity + 255u) / 256u),
+        VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
   }
 
   auto globalSetLayout =
@@ -251,6 +281,8 @@ void FirstApp::run() {
               VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
               VK_SHADER_STAGE_FRAGMENT_BIT | VK_SHADER_STAGE_COMPUTE_BIT)
           .addBinding(6, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT)
+          .addBinding(7, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_COMPUTE_BIT)
+          .addBinding(8, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_COMPUTE_BIT)
           .build();
 
   std::vector<VkDescriptorSet> globalDescriptorSets(LveSwapChain::MAX_FRAMES_IN_FLIGHT);
@@ -262,6 +294,8 @@ void FirstApp::run() {
     auto clusterHeaderInfo = clusterHeaderBuffers[i]->descriptorInfo();
     auto clusterLightIndexInfo = clusterLightIndexBuffers[i]->descriptorInfo();
     auto adaptiveNodeInfo = adaptiveNodeBuffers[i]->descriptorInfo();
+    auto clusterCursorInfo = clusterCursorBuffers[i]->descriptorInfo();
+    auto clusterBlockSumInfo = clusterBlockSumBuffers[i]->descriptorInfo();
     LveDescriptorWriter(*globalSetLayout, *globalPool)
         .writeBuffer(0, &bufferInfo)
         .writeBuffer(1, &lightBufferInfo)
@@ -270,6 +304,8 @@ void FirstApp::run() {
         .writeBuffer(4, &clusterHeaderInfo)
         .writeBuffer(5, &clusterLightIndexInfo)
         .writeBuffer(6, &adaptiveNodeInfo)
+        .writeBuffer(7, &clusterCursorInfo)
+        .writeBuffer(8, &clusterBlockSumInfo)
         .build(globalDescriptorSets[i]);
   }
 
@@ -278,6 +314,17 @@ void FirstApp::run() {
       lveRenderer.getSwapChainRenderPass(),
       globalSetLayout->getDescriptorSetLayout(),
       config.technique};
+  std::unique_ptr<geo::GeoScene> geoScene;
+  if (config.geoEnabled) {
+    geo::GeoBudgetConfig geoBudget{};
+    geoBudget.targetFrameMs = config.geoTargetFrameMs;
+    geoBudget.gpuMemoryBudgetBytes = config.geoMemoryBudgetMiB * 1024ull * 1024ull;
+    geoBudget.uploadBudgetMiBPerSecond = config.geoUploadBudgetMiBPerSecond;
+    geoBudget.lightingErrorBudget = config.imageErrorBudget;
+    geoBudget.maxTileChangesPerFrame = config.geoMaxTileChangesPerFrame;
+    geoScene = std::make_unique<geo::GeoScene>(
+        lveDevice, config.geoManifest, config.geoPolicy, config.geoCacheMode, geoBudget);
+  }
   std::unique_ptr<beacon::OffscreenComparison> offscreenComparison;
   std::unique_ptr<SimpleRenderSystem> offscreenReferenceSystem;
   std::unique_ptr<SimpleRenderSystem> offscreenClusteredSystem;
@@ -288,7 +335,7 @@ void FirstApp::run() {
         lveDevice,
         offscreenComparison->getRenderPass(),
         globalSetLayout->getDescriptorSetLayout(),
-        beacon::RenderTechnique::SsboForward);
+        beacon::RenderTechnique::SsboDiffuseReference);
     offscreenClusteredSystem = std::make_unique<SimpleRenderSystem>(
         lveDevice,
         offscreenComparison->getRenderPass(),
@@ -312,12 +359,18 @@ void FirstApp::run() {
   LveCamera camera{};
 
   auto viewerObject = LveGameObject::createGameObject();
-  viewerObject.transform.translation.z = -2.5f;
+  if (config.geoEnabled) {
+    viewerObject.transform.translation = {0.f, -130.f, -720.f};
+    viewerObject.transform.rotation.x = -0.18f;
+  } else {
+    viewerObject.transform.translation.z = -2.5f;
+  }
   KeyboardMovementController cameraController{};
 
   auto currentTime = std::chrono::high_resolution_clock::now();
   uint32_t submittedFrames = 0;
   uint32_t measuredFrames = 0;
+  double previousImageMse = 0.0;
   uint32_t targetSubmittedFrames =
       config.benchmark && config.frameCount > 0 ? config.warmupFrames + config.frameCount : 0;
   std::ofstream benchmarkFrames;
@@ -325,11 +378,16 @@ void FirstApp::run() {
     std::filesystem::create_directories(config.outputDirectory);
     benchmarkFrames.open(config.outputDirectory / "frames.csv");
     benchmarkFrames
-        << "frame,technique,cpuFrameMs,cpuClusterBuildMs,gpuClusterBuildMs,gpuLightingPassMs,gpuObjectPassMs,"
+        << "frame,technique,cpuFrameMs,cpuClusterBuildMs,gpuClusterBuildMs,gpuClusterCountMs,"
+           "gpuClusterScanMs,gpuClusterScatterMs,gpuLightingPassMs,gpuObjectPassMs,"
            "timingSource,activeLights,drawCalls,visibleObjects,activeClusters,maxLightsPerCluster,"
            "lightIndexCapacity,explicitClusters,bitsetClusters,overflowCount,evaluatedLightSamples,"
            "prunedLightSamples,predictedErrorBound,splitCount,mergeCount,clusterChurn,"
-           "offscreenMse,offscreenPsnr,offscreenSsim,measurementGroup\n";
+           "offscreenMse,offscreenPsnr,offscreenSsim,offscreenMaxError,offscreenTemporalError,"
+           "geoVisibleTiles,geoResidentTiles,"
+           "geoRequestedTiles,geoResidentBytes,geoUploadedBytes,geoStreamingP95Ms,"
+           "geoSemanticUtility,geoSemanticWeightedError,geoRepresentationChurn,"
+           "geoBudgetViolation,measurementGroup\n";
     std::ofstream manifest{config.outputDirectory / "manifest.json"};
     const auto capabilities = lveDevice.getCapabilities();
     manifest << "{\n";
@@ -342,6 +400,11 @@ void FirstApp::run() {
     manifest << "  \"warmupFrames\": " << config.warmupFrames << ",\n";
     manifest << "  \"showLightBillboards\": " << (config.showLightBillboards ? "true" : "false") << ",\n";
     manifest << "  \"captureReference\": " << (config.captureReference ? "true" : "false") << ",\n";
+    manifest << "  \"geoEnabled\": " << (config.geoEnabled ? "true" : "false") << ",\n";
+    manifest << "  \"geoPolicy\": \"" << beacon::toString(config.geoPolicy) << "\",\n";
+    manifest << "  \"geoCacheMode\": \"" << beacon::toString(config.geoCacheMode) << "\",\n";
+    manifest << "  \"geoCameraPath\": \"" << beacon::toString(config.geoCameraPath) << "\",\n";
+    manifest << "  \"geoManifest\": \"" << config.geoManifest.string() << "\",\n";
     manifest << "  \"gitCommit\": \"" << currentGitCommit() << "\",\n";
     manifest << "  \"deviceName\": \"" << capabilities.properties.deviceName << "\",\n";
     manifest << "  \"vendorId\": " << capabilities.properties.vendorID << ",\n";
@@ -381,7 +444,14 @@ void FirstApp::run() {
               << "  offscreen reference capture: "
               << (usesClusteredLighting(config.technique) && config.captureReference) << "\n"
               << "  show light billboards: " << config.showLightBillboards << std::endl;
+    if (geoScene != nullptr) {
+      std::cout << "  GeoBEACON policy: " << beacon::toString(config.geoPolicy) << "\n"
+                << "  GeoBEACON tiles: " << geoScene->manifest().tiles.size() << "\n"
+                << "  source: " << geoScene->manifest().sourceAttribution << std::endl;
+    }
   }
+  uint64_t frameNumber = 0;
+  double previousFrameMs = 0.0;
   while (!lveWindow.shouldClose()) {
     auto frameCpuStart = std::chrono::high_resolution_clock::now();
     double cpuClusterBuildMs = 0.0;
@@ -391,12 +461,35 @@ void FirstApp::run() {
     float frameTime =
         std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
     currentTime = newTime;
-
-    cameraController.moveInPlaneXZ(lveWindow.getGLFWwindow(), frameTime, viewerObject);
+    if (config.benchmark) frameTime = 1.f / 60.f;
+    if (config.geoEnabled && config.benchmark) {
+      auto sample = geo::sampleCameraPath(config.geoCameraPath, frameNumber);
+      viewerObject.transform.translation = sample.position;
+      viewerObject.transform.rotation = sample.rotation;
+    } else {
+      cameraController.moveInPlaneXZ(lveWindow.getGLFWwindow(), frameTime, viewerObject);
+    }
     camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
 
     float aspect = lveRenderer.getAspectRatio();
-    camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
+    camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, config.geoEnabled ? 3000.f : 100.f);
+    if (geoScene != nullptr) {
+      geoScene->update(
+          viewerObject.transform.translation,
+          camera.getProjection() * camera.getView(),
+          std::min(frameTime, 1.f / 15.f),
+          frameNumber,
+          previousFrameMs);
+      if (frameNumber % 30 == 0) {
+        const auto& stats = geoScene->stats();
+        std::string title =
+            "GeoBEACON | " + beacon::toString(config.geoPolicy) + " | visible " +
+            std::to_string(stats.visibleTiles) + " | resident " +
+            std::to_string(stats.residentTiles) + " | " +
+            geoScene->manifest().sourceAttribution;
+        glfwSetWindowTitle(lveWindow.getGLFWwindow(), title.c_str());
+      }
+    }
 
     if (auto commandBuffer = lveRenderer.beginFrame()) {
       gpuProfiler.reset(commandBuffer);
@@ -448,6 +541,7 @@ void FirstApp::run() {
       ubo.projection = camera.getProjection();
       ubo.view = camera.getView();
       ubo.inverseView = camera.getInverseView();
+      if (config.geoEnabled) ubo.ambientLightColor = {1.f, 1.f, 1.f, 0.12f};
       std::vector<SsboPointLight> ssboLights;
       pointLightSystem.update(
           frameInfo,
@@ -466,16 +560,34 @@ void FirstApp::run() {
       }
       if (usesGpuClusteredLighting(config.technique)) {
         clusterBuildConfig = makeClusterBuildConfig(gameObjects);
+        if (geoScene != nullptr) {
+          clusterBuildConfig.worldMin = glm::vec4{glm::vec3{geoScene->manifest().localBounds.min}, 0.f};
+          clusterBuildConfig.worldMax = glm::vec4{glm::vec3{geoScene->manifest().localBounds.max}, 0.f};
+        }
         clusterBuildConfig.lightCount = static_cast<uint32_t>(ssboLights.size());
+        clusterBuildConfig.viewportNearFar =
+            glm::vec4{static_cast<float>(config.width), static_cast<float>(config.height), 0.1f,
+                      config.geoEnabled ? 3000.f : 100.f};
         auto clusterRuntimeConfig = makeClusterRuntimeConfig(clusterBuildConfig);
+        clusterRuntimeConfig.flags = 1u;
         clusterConfigBuffers[frameIndex]->writeToBuffer(&clusterRuntimeConfig);
         clusterConfigBuffers[frameIndex]->flush();
         gpuProfiler.writeTimestamp(commandBuffer, "cluster_build_start");
         clusteredLightingSystem->dispatch(
-            commandBuffer, globalDescriptorSets[frameIndex], clusterBuildConfig);
+            commandBuffer,
+            globalDescriptorSets[frameIndex],
+            clusterBuildConfig,
+            clusterHeaderBuffers[frameIndex]->getBuffer(),
+            clusterCursorBuffers[frameIndex]->getBuffer(),
+            clusterBlockSumBuffers[frameIndex]->getBuffer(),
+            &gpuProfiler);
         gpuProfiler.writeTimestamp(commandBuffer, "cluster_build_end");
       } else if (usesAdaptiveClusteredLighting(config.technique)) {
         clusterBuildConfig = makeClusterBuildConfig(gameObjects);
+        if (geoScene != nullptr) {
+          clusterBuildConfig.worldMin = glm::vec4{glm::vec3{geoScene->manifest().localBounds.min}, 0.f};
+          clusterBuildConfig.worldMax = glm::vec4{glm::vec3{geoScene->manifest().localBounds.max}, 0.f};
+        }
         gpuProfiler.writeTimestamp(commandBuffer, "cluster_build_start");
         auto clusterCpuStart = std::chrono::high_resolution_clock::now();
         auto adaptive = beacon::buildAdaptiveVulkanClusters(
@@ -509,10 +621,22 @@ void FirstApp::run() {
       if (offscreenComparison != nullptr) {
         offscreenComparison->begin(commandBuffer, beacon::OffscreenComparison::TARGET_REFERENCE);
         offscreenReferenceSystem->renderGameObjects(frameInfo);
+        if (geoScene != nullptr) {
+          offscreenReferenceSystem->begin(frameInfo);
+          for (const auto& item : geoScene->drawItems()) {
+            offscreenReferenceSystem->renderModel(frameInfo, *item.model, item.transform);
+          }
+        }
         offscreenComparison->end(commandBuffer);
 
         offscreenComparison->begin(commandBuffer, beacon::OffscreenComparison::TARGET_TEST);
         offscreenClusteredSystem->renderGameObjects(frameInfo);
+        if (geoScene != nullptr) {
+          offscreenClusteredSystem->begin(frameInfo);
+          for (const auto& item : geoScene->drawItems()) {
+            offscreenClusteredSystem->renderModel(frameInfo, *item.model, item.transform);
+          }
+        }
         offscreenComparison->end(commandBuffer);
         offscreenComparison->copyTargetsToBuffers(commandBuffer);
       }
@@ -523,6 +647,12 @@ void FirstApp::run() {
 
       // order here matters
       simpleRenderSystem.renderGameObjects(frameInfo);
+      if (geoScene != nullptr) {
+        simpleRenderSystem.begin(frameInfo);
+        for (const auto& item : geoScene->drawItems()) {
+          simpleRenderSystem.renderModel(frameInfo, *item.model, item.transform);
+        }
+      }
       if (config.showLightBillboards) {
         pointLightSystem.render(frameInfo);
       }
@@ -536,6 +666,14 @@ void FirstApp::run() {
         vkDeviceWaitIdle(lveDevice.device());
         imageMetrics = offscreenComparison->compare();
         hasImageMetrics = true;
+        if (config.benchmark && submittedFrames == config.warmupFrames) {
+          offscreenComparison->writePpm(
+              beacon::OffscreenComparison::TARGET_REFERENCE,
+              config.outputDirectory / "reference.ppm");
+          offscreenComparison->writePpm(
+              beacon::OffscreenComparison::TARGET_TEST,
+              config.outputDirectory / "test.ppm");
+        }
       }
       submittedFrames += 1;
       bool isWarmup = config.benchmark && submittedFrames <= config.warmupFrames;
@@ -556,17 +694,39 @@ void FirstApp::run() {
             if (kv.second.pointLight != nullptr) drawCalls += 1;
           }
         }
+        uint32_t geoDrawCount =
+            geoScene != nullptr ? static_cast<uint32_t>(geoScene->drawItems().size()) : 0u;
+        drawCalls += geoDrawCount;
+        uint32_t visibleObjects = geoDrawCount;
+        for (const auto& kv : gameObjects) {
+          if (kv.second.model != nullptr) visibleObjects++;
+        }
         auto frameCpuEnd = std::chrono::high_resolution_clock::now();
         double cpuFrameMs =
             std::chrono::duration<double, std::milli>(frameCpuEnd - frameCpuStart).count();
+        previousFrameMs = cpuFrameMs;
         auto gpuTimings = gpuProfiler.collectMilliseconds();
         double gpuObjectPassMs = 0.0;
         double gpuClusterBuildMs = 0.0;
+        double gpuClusterCountMs = 0.0;
+        double gpuClusterScanMs = 0.0;
+        double gpuClusterScatterMs = 0.0;
         double gpuLightingPassMs = 0.0;
         std::string timingSource = "cpu-fallback";
+        auto timingValue = [&](const char* key) {
+          auto it = gpuTimings.find(key);
+          return it == gpuTimings.end() ? 0.0 : it->second;
+        };
+        gpuClusterCountMs = timingValue("cluster_build_start_to_cluster_count_end");
+        gpuClusterScanMs =
+            timingValue("cluster_count_end_to_cluster_local_scan_end") +
+            timingValue("cluster_local_scan_end_to_cluster_block_scan_end") +
+            timingValue("cluster_block_scan_end_to_cluster_offsets_end");
+        gpuClusterScatterMs = timingValue("cluster_offsets_end_to_cluster_scatter_end");
+        gpuClusterBuildMs = gpuClusterCountMs + gpuClusterScanMs + gpuClusterScatterMs;
         auto clusterBuildIt = gpuTimings.find("cluster_build_start_to_cluster_build_end");
-        if (clusterBuildIt != gpuTimings.end()) {
-          gpuClusterBuildMs = clusterBuildIt->second;
+        if (gpuClusterBuildMs > 0.0 || clusterBuildIt != gpuTimings.end()) {
+          if (gpuClusterBuildMs == 0.0) gpuClusterBuildMs = clusterBuildIt->second;
           timingSource = "vulkan-query-pool";
         }
         auto objectPassIt = gpuTimings.find("lighting_pass_start_to_lighting_pass_end");
@@ -576,9 +736,11 @@ void FirstApp::run() {
           timingSource = "vulkan-query-pool";
         }
         benchmarkFrames << measuredFrames << "," << beacon::toString(config.technique) << ","
-                        << cpuFrameMs << "," << cpuClusterBuildMs << "," << gpuClusterBuildMs << "," << gpuLightingPassMs
+                        << cpuFrameMs << "," << cpuClusterBuildMs << "," << gpuClusterBuildMs << ","
+                        << gpuClusterCountMs << "," << gpuClusterScanMs << "," << gpuClusterScatterMs << ","
+                        << gpuLightingPassMs
                         << "," << gpuObjectPassMs << "," << timingSource << "," << activeLights
-                        << "," << drawCalls << "," << gameObjects.size() << ","
+                        << "," << drawCalls << "," << visibleObjects << ","
                         << (usesClusteredLighting(config.technique) ?
                               (usesAdaptiveClusteredLighting(config.technique) ? adaptiveStats.activeClusters
                                                                               : clusterBuildConfig.clusterCount) : 0)
@@ -600,9 +762,22 @@ void FirstApp::run() {
                         << (hasImageMetrics ? imageMetrics.mse : -1.0) << ","
                         << (hasImageMetrics ? imageMetrics.psnr : -1.0) << ","
                         << (hasImageMetrics ? imageMetrics.ssim : -1.0) << ","
+                        << (hasImageMetrics ? imageMetrics.maximumPixelError : -1.0) << ","
+                        << (hasImageMetrics ? std::abs(imageMetrics.mse - previousImageMse) : -1.0) << ","
+                        << (geoScene ? geoScene->stats().visibleTiles : 0) << ","
+                        << (geoScene ? geoScene->stats().residentTiles : 0) << ","
+                        << (geoScene ? geoScene->stats().requestedTiles : 0) << ","
+                        << (geoScene ? geoScene->stats().residentBytes : 0) << ","
+                        << (geoScene ? geoScene->stats().uploadedBytes : 0) << ","
+                        << (geoScene ? geoScene->stats().streamingLatencyP95Ms : 0.0) << ","
+                        << (geoScene ? geoScene->stats().semanticUtility : 0.f) << ","
+                        << (geoScene ? geoScene->stats().semanticWeightedError : 0.f) << ","
+                        << (geoScene ? geoScene->stats().representationChurn : 0) << ","
+                        << (geoScene ? geoScene->stats().budgetViolation : 0.f) << ","
                         << (timingSource == "vulkan-query-pool" ? "vulkan_gpu_measurements"
                                                                  : "vulkan_cpu_measurements")
                         << "\n";
+        if (hasImageMetrics) previousImageMse = imageMetrics.mse;
         if (config.technique == beacon::RenderTechnique::BeaconFull) {
           adaptiveStats.gpu.clusterBuildMs = gpuClusterBuildMs > 0.0 ? gpuClusterBuildMs : cpuClusterBuildMs;
           adaptiveStats.gpu.lightingPassMs = gpuLightingPassMs > 0.0 ? gpuLightingPassMs : cpuFrameMs;
@@ -610,6 +785,7 @@ void FirstApp::run() {
         }
         measuredFrames += 1;
       }
+      frameNumber++;
       if (config.benchmark && targetSubmittedFrames > 0) {
         beacon::printProgressBar("Vulkan", submittedFrames, targetSubmittedFrames, config.verbose);
       }
@@ -640,11 +816,34 @@ void FirstApp::run() {
 }
 
 void FirstApp::loadGameObjects() {
+  if (config.geoEnabled) {
+    loadGeoLights();
+    return;
+  }
   if (config.scene == beacon::ScenePreset::Tutorial && config.lightDistribution == beacon::LightDistribution::Tutorial &&
       config.objectCount <= 3 && config.lightCount <= 6) {
     loadTutorialScene();
   } else {
     loadGeneratedScene();
+  }
+}
+
+void FirstApp::loadGeoLights() {
+  std::mt19937 rng{config.randomSeed};
+  std::uniform_real_distribution<float> position{-480.f, 480.f};
+  std::uniform_real_distribution<float> color{0.35f, 1.f};
+  uint32_t count = std::max(1u, config.lightCount);
+  for (uint32_t i = 0; i < count; ++i) {
+    float radius = config.lightDistribution == beacon::LightDistribution::LargeRadiusAdversarial
+                       ? 260.f
+                       : 85.f;
+    auto light = LveGameObject::makePointLight(90.f, 0.45f, glm::vec3{1.f}, radius);
+    light.color = {color(rng), color(rng), color(rng)};
+    light.transform.translation = {
+        position(rng),
+        -8.f - 8.f * static_cast<float>(i % 3),
+        position(rng)};
+    gameObjects.emplace(light.getId(), std::move(light));
   }
 }
 

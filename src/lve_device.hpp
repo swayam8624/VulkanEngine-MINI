@@ -1,5 +1,6 @@
 #pragma once
 
+#include "beacon/benchmark_config.hpp"
 #include "lve_window.hpp"
 
 // std lib headers
@@ -43,7 +44,7 @@ class LveDevice {
   const bool enableValidationLayers = true;
 #endif
 
-  LveDevice(LveWindow &window);
+  LveDevice(LveWindow &window, const beacon::BenchmarkConfig& config);
   ~LveDevice();
 
   // Not copyable or movable
@@ -58,6 +59,7 @@ class LveDevice {
   VkQueue graphicsQueue() { return graphicsQueue_; }
   VkQueue presentQueue() { return presentQueue_; }
   DeviceCapabilities getCapabilities() const { return capabilities; }
+  const std::string& selectedDeviceUuid() const { return deviceUuid; }
 
   SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
@@ -107,6 +109,8 @@ class LveDevice {
   VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;
   VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+  beacon::BenchmarkConfig selectionConfig{};
+  std::string deviceUuid;
   DeviceCapabilities capabilities{};
   LveWindow &window;
   VkCommandPool commandPool;

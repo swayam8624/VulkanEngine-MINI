@@ -4,6 +4,7 @@
 #include "lve_device.hpp"
 
 #include <memory>
+#include <filesystem>
 
 namespace lve::beacon {
 
@@ -11,6 +12,7 @@ struct ImageComparisonMetrics {
   double mse = 0.0;
   double psnr = 99.0;
   double ssim = 1.0;
+  double maximumPixelError = 0.0;
 };
 
 class OffscreenComparison {
@@ -30,6 +32,7 @@ class OffscreenComparison {
   void end(VkCommandBuffer commandBuffer);
   void copyTargetsToBuffers(VkCommandBuffer commandBuffer);
   ImageComparisonMetrics compare();
+  void writePpm(uint32_t target, const std::filesystem::path& path) const;
 
  private:
   struct Target {

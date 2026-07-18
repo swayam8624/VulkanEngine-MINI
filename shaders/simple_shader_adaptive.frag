@@ -17,6 +17,7 @@ layout(set = 0, binding = 0) uniform GlobalUbo {
 layout(std430, set = 0, binding = 1) readonly buffer Lights { PointLight lights[]; } lightBuffer;
 layout(set = 0, binding = 3) uniform ClusterConfig {
   vec4 worldMin; vec4 worldMax; uvec4 gridSize;
+  vec4 viewportNearFar;
   uint clusterCount; uint stride; uint lightIndexCapacity; uint flags;
 } config;
 layout(std430, set = 0, binding = 4) readonly buffer Headers { ClusterHeader headers[]; } clusterHeaders;
@@ -55,9 +56,15 @@ void main() {
       if (fragPosWorld.z < node.boundsMin.z || fragPosWorld.z >= node.boundsMax.z) continue;
       found = true;
       if ((header.flags & BITSET) != 0u) {
-        for (uint lightId = 0; lightId < uint(ubo.numLights); ++lightId) {
-          uint word = clusterData.data[header.dataOffset + lightId / 32u];
-          if ((word & (1u << (lightId % 32u))) != 0u) diffuse += evaluateLight(lightId, normalWorld);
+        uint wordCount = (uint(ubo.numLights) + 31u) / 32u;
+        for (uint wordId = 0; wordId < wordCount; ++wordId) {
+          uint word = clusterData.data[header.dataOffset + wordId];
+          while (word != 0u) {
+            uint bit = uint(findLSB(word));
+            uint lightId = wordId * 32u + bit;
+            if (lightId < uint(ubo.numLights)) diffuse += evaluateLight(lightId, normalWorld);
+            word &= word - 1u;
+          }
         }
       } else {
         for (uint i = 0; i < header.storedCount; ++i) {

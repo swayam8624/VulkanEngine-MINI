@@ -1,8 +1,11 @@
 #include "lve_device.hpp"
 
 // std headers
+#include <algorithm>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <set>
 #include <unordered_set>
 
@@ -47,7 +50,50 @@ void DestroyDebugUtilsMessengerEXT(
 }
 
 // class member functions
-LveDevice::LveDevice(LveWindow &window) : window{window} {
+namespace {
+bool hasInstanceExtension(const char* name) {
+  uint32_t count = 0;
+  vkEnumerateInstanceExtensionProperties(nullptr, &count, nullptr);
+  std::vector<VkExtensionProperties> extensions(count);
+  vkEnumerateInstanceExtensionProperties(nullptr, &count, extensions.data());
+  return std::any_of(extensions.begin(), extensions.end(), [&](const VkExtensionProperties& extension) {
+    return std::strcmp(extension.extensionName, name) == 0;
+  });
+}
+
+bool hasDeviceExtension(VkPhysicalDevice device, const char* name) {
+  uint32_t count = 0;
+  vkEnumerateDeviceExtensionProperties(device, nullptr, &count, nullptr);
+  std::vector<VkExtensionProperties> extensions(count);
+  vkEnumerateDeviceExtensionProperties(device, nullptr, &count, extensions.data());
+  return std::any_of(extensions.begin(), extensions.end(), [&](const VkExtensionProperties& extension) {
+    return std::strcmp(extension.extensionName, name) == 0;
+  });
+}
+
+std::string uuidString(const uint8_t* bytes) {
+  std::ostringstream out;
+  out << std::hex << std::setfill('0');
+  for (uint32_t i = 0; i < VK_UUID_SIZE; ++i) {
+    if (i == 4 || i == 6 || i == 8 || i == 10) out << '-';
+    out << std::setw(2) << static_cast<uint32_t>(bytes[i]);
+  }
+  return out.str();
+}
+
+std::string physicalDeviceUuid(VkPhysicalDevice device) {
+  VkPhysicalDeviceIDProperties id{};
+  id.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ID_PROPERTIES;
+  VkPhysicalDeviceProperties2 properties{};
+  properties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
+  properties.pNext = &id;
+  vkGetPhysicalDeviceProperties2(device, &properties);
+  return uuidString(id.deviceUUID);
+}
+}  // namespace
+
+LveDevice::LveDevice(LveWindow &window, const beacon::BenchmarkConfig& config)
+    : selectionConfig{config}, window{window} {
   createInstance();
   setupDebugMessenger();
   createSurface();
@@ -79,13 +125,22 @@ void LveDevice::createInstance() {
   appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
   appInfo.pEngineName = "No Engine";
   appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-  appInfo.apiVersion = VK_API_VERSION_1_0;
+  uint32_t loaderVersion = VK_API_VERSION_1_0;
+  auto enumerateVersion =
+      reinterpret_cast<PFN_vkEnumerateInstanceVersion>(vkGetInstanceProcAddr(nullptr, "vkEnumerateInstanceVersion"));
+  if (enumerateVersion != nullptr) enumerateVersion(&loaderVersion);
+  appInfo.apiVersion = std::min(loaderVersion, VK_API_VERSION_1_2);
 
   VkInstanceCreateInfo createInfo = {};
   createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
   createInfo.pApplicationInfo = &appInfo;
 
   auto extensions = getRequiredExtensions();
+  bool portabilityEnumeration = hasInstanceExtension(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+  if (portabilityEnumeration) {
+    extensions.push_back(VK_KHR_PORTABILITY_ENUMERATION_EXTENSION_NAME);
+    createInfo.flags |= VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR;
+  }
   createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
   createInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -101,8 +156,9 @@ void LveDevice::createInstance() {
     createInfo.pNext = nullptr;
   }
 
-  if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-    throw std::runtime_error("failed to create instance!");
+  VkResult instanceResult = vkCreateInstance(&createInfo, nullptr, &instance);
+  if (instanceResult != VK_SUCCESS) {
+    throw std::runtime_error("failed to create Vulkan instance, VkResult=" + std::to_string(instanceResult));
   }
 
   hasGflwRequiredInstanceExtensions();
@@ -118,9 +174,28 @@ void LveDevice::pickPhysicalDevice() {
   std::vector<VkPhysicalDevice> devices(deviceCount);
   vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
-  for (const auto &device : devices) {
-    if (isDeviceSuitable(device)) {
-      physicalDevice = device;
+  for (uint32_t index = 0; index < devices.size(); ++index) {
+    VkPhysicalDeviceProperties candidate{};
+    vkGetPhysicalDeviceProperties(devices[index], &candidate);
+    std::string uuid = physicalDeviceUuid(devices[index]);
+    std::cout << "  [" << index << "] " << candidate.deviceName << " uuid=" << uuid
+              << " api=" << VK_VERSION_MAJOR(candidate.apiVersion) << "."
+              << VK_VERSION_MINOR(candidate.apiVersion) << "." << VK_VERSION_PATCH(candidate.apiVersion)
+              << std::endl;
+  }
+
+  for (uint32_t index = 0; index < devices.size(); ++index) {
+    VkPhysicalDeviceProperties candidate{};
+    vkGetPhysicalDeviceProperties(devices[index], &candidate);
+    std::string uuid = physicalDeviceUuid(devices[index]);
+    bool indexMatches = selectionConfig.deviceIndex < 0 ||
+                        static_cast<uint32_t>(selectionConfig.deviceIndex) == index;
+    bool nameMatches = selectionConfig.deviceName.empty() ||
+                       std::string{candidate.deviceName}.find(selectionConfig.deviceName) != std::string::npos;
+    bool uuidMatches = selectionConfig.deviceUuid.empty() || uuid == selectionConfig.deviceUuid;
+    if (indexMatches && nameMatches && uuidMatches && isDeviceSuitable(devices[index])) {
+      physicalDevice = devices[index];
+      deviceUuid = uuid;
       break;
     }
   }
@@ -171,8 +246,12 @@ void LveDevice::createLogicalDevice() {
   createInfo.pQueueCreateInfos = queueCreateInfos.data();
 
   createInfo.pEnabledFeatures = &deviceFeatures;
-  createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
-  createInfo.ppEnabledExtensionNames = deviceExtensions.data();
+  std::vector<const char*> enabledExtensions = deviceExtensions;
+  if (hasDeviceExtension(physicalDevice, "VK_KHR_portability_subset")) {
+    enabledExtensions.push_back("VK_KHR_portability_subset");
+  }
+  createInfo.enabledExtensionCount = static_cast<uint32_t>(enabledExtensions.size());
+  createInfo.ppEnabledExtensionNames = enabledExtensions.data();
 
   // might not really be necessary anymore because device specific validation layers
   // have been deprecated

@@ -18,8 +18,12 @@ ClusteredLightingSystem::ClusteredLightingSystem(
 }
 
 ClusteredLightingSystem::~ClusteredLightingSystem() {
-  vkDestroyShaderModule(lveDevice.device(), shaderModule, nullptr);
-  vkDestroyPipeline(lveDevice.device(), pipeline, nullptr);
+  for (auto shaderModule : shaderModules) {
+    vkDestroyShaderModule(lveDevice.device(), shaderModule, nullptr);
+  }
+  for (auto pipeline : pipelines) {
+    vkDestroyPipeline(lveDevice.device(), pipeline, nullptr);
+  }
   vkDestroyPipelineLayout(lveDevice.device(), pipelineLayout, nullptr);
 }
 
@@ -58,23 +62,35 @@ void ClusteredLightingSystem::createPipelineLayout(VkDescriptorSetLayout globalS
 
 void ClusteredLightingSystem::createPipeline() {
   assert(pipelineLayout != VK_NULL_HANDLE && "compute pipeline layout must be created first");
-  auto shaderCode = readFile("shaders/cluster_build.comp.spv");
-  createShaderModule(shaderCode, &shaderModule);
+  const std::vector<std::string> shaderPaths{
+      "shaders/cluster_count.comp.spv",
+      "shaders/cluster_scan.comp.spv",
+      "shaders/cluster_scan_sums.comp.spv",
+      "shaders/cluster_add_offsets.comp.spv",
+      "shaders/cluster_scatter.comp.spv"};
+  pipelines.reserve(shaderPaths.size());
+  shaderModules.reserve(shaderPaths.size());
+  for (const auto& path : shaderPaths) {
+    VkShaderModule module = VK_NULL_HANDLE;
+    createShaderModule(readFile(path), &module);
+    shaderModules.push_back(module);
 
-  VkPipelineShaderStageCreateInfo shaderStage{};
-  shaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-  shaderStage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-  shaderStage.module = shaderModule;
-  shaderStage.pName = "main";
+    VkPipelineShaderStageCreateInfo shaderStage{};
+    shaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    shaderStage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+    shaderStage.module = module;
+    shaderStage.pName = "main";
 
-  VkComputePipelineCreateInfo pipelineInfo{};
-  pipelineInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
-  pipelineInfo.stage = shaderStage;
-  pipelineInfo.layout = pipelineLayout;
-
-  if (vkCreateComputePipelines(
-          lveDevice.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline) != VK_SUCCESS) {
-    throw std::runtime_error("failed to create clustered compute pipeline!");
+    VkComputePipelineCreateInfo pipelineInfo{};
+    pipelineInfo.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+    pipelineInfo.stage = shaderStage;
+    pipelineInfo.layout = pipelineLayout;
+    VkPipeline pipeline = VK_NULL_HANDLE;
+    if (vkCreateComputePipelines(
+            lveDevice.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &pipeline) != VK_SUCCESS) {
+      throw std::runtime_error("failed to create clustered compute pipeline: " + path);
+    }
+    pipelines.push_back(pipeline);
   }
 }
 
@@ -94,10 +110,13 @@ void ClusteredLightingSystem::createShaderModule(
 void ClusteredLightingSystem::dispatch(
     VkCommandBuffer commandBuffer,
     VkDescriptorSet globalDescriptorSet,
-    const ClusterBuildPushConstants& push) {
+    const ClusterBuildPushConstants& push,
+    VkBuffer headerBuffer,
+    VkBuffer cursorBuffer,
+    VkBuffer blockSumBuffer,
+    beacon::GpuProfiler* profiler) {
   if (push.clusterCount == 0) return;
 
-  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pipeline);
   vkCmdBindDescriptorSets(
       commandBuffer,
       VK_PIPELINE_BIND_POINT_COMPUTE,
@@ -114,35 +133,45 @@ void ClusteredLightingSystem::dispatch(
       0,
       sizeof(ClusterBuildPushConstants),
       &push);
+  vkCmdFillBuffer(commandBuffer, headerBuffer, 0, VK_WHOLE_SIZE, 0);
+  vkCmdFillBuffer(commandBuffer, cursorBuffer, 0, VK_WHOLE_SIZE, 0);
+  vkCmdFillBuffer(commandBuffer, blockSumBuffer, 0, VK_WHOLE_SIZE, 0);
 
-  uint32_t groups = (push.clusterCount + 63u) / 64u;
-  vkCmdDispatch(commandBuffer, groups, 1, 1);
+  auto barrier = [&](VkPipelineStageFlags source, VkPipelineStageFlags destination) {
+    VkMemoryBarrier memoryBarrier{};
+    memoryBarrier.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
+    memoryBarrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
+    memoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+    vkCmdPipelineBarrier(
+        commandBuffer, source, destination, 0, 1, &memoryBarrier, 0, nullptr, 0, nullptr);
+  };
+  barrier(VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT);
 
-  VkBufferMemoryBarrier barrier{};
-  barrier.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
-  barrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-  barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-  barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-  barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-  barrier.buffer = VK_NULL_HANDLE;
-  barrier.offset = 0;
-  barrier.size = VK_WHOLE_SIZE;
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pipelines[0]);
+  vkCmdDispatch(commandBuffer, (push.lightCount + 63u) / 64u, 1, 1);
+  barrier(VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT);
+  if (profiler != nullptr) profiler->writeTimestamp(commandBuffer, "cluster_count_end");
 
-  VkMemoryBarrier memoryBarrier{};
-  memoryBarrier.sType = VK_STRUCTURE_TYPE_MEMORY_BARRIER;
-  memoryBarrier.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-  memoryBarrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-  vkCmdPipelineBarrier(
-      commandBuffer,
-      VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-      VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
-      0,
-      1,
-      &memoryBarrier,
-      0,
-      nullptr,
-      0,
-      nullptr);
+  uint32_t blockCount = (push.clusterCount + 255u) / 256u;
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pipelines[1]);
+  vkCmdDispatch(commandBuffer, blockCount, 1, 1);
+  barrier(VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT);
+  if (profiler != nullptr) profiler->writeTimestamp(commandBuffer, "cluster_local_scan_end");
+
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pipelines[2]);
+  vkCmdDispatch(commandBuffer, 1, 1, 1);
+  barrier(VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT);
+  if (profiler != nullptr) profiler->writeTimestamp(commandBuffer, "cluster_block_scan_end");
+
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pipelines[3]);
+  vkCmdDispatch(commandBuffer, blockCount, 1, 1);
+  barrier(VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT);
+  if (profiler != nullptr) profiler->writeTimestamp(commandBuffer, "cluster_offsets_end");
+
+  vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, pipelines[4]);
+  vkCmdDispatch(commandBuffer, (push.lightCount + 63u) / 64u, 1, 1);
+  barrier(VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+  if (profiler != nullptr) profiler->writeTimestamp(commandBuffer, "cluster_scatter_end");
 }
 
 }  // namespace lve

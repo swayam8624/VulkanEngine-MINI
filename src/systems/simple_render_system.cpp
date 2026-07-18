@@ -71,24 +71,17 @@ void SimpleRenderSystem::createPipeline(VkRenderPass renderPass) {
           : technique == beacon::RenderTechnique::GpuClusteredFixed
           ? "shaders/simple_shader_clustered.frag.spv"
           : technique == beacon::RenderTechnique::SsboForward ||
+              technique == beacon::RenderTechnique::SsboDiffuseReference ||
               technique == beacon::RenderTechnique::InstancedForward
-          ? "shaders/simple_shader_ssbo.frag.spv"
+          ? (technique == beacon::RenderTechnique::SsboDiffuseReference
+                 ? "shaders/simple_shader_ssbo_diffuse.frag.spv"
+                 : "shaders/simple_shader_ssbo.frag.spv")
           : "shaders/simple_shader.frag.spv",
       pipelineConfig);
 }
 
 void SimpleRenderSystem::renderGameObjects(FrameInfo& frameInfo) {
-  lvePipeline->bind(frameInfo.commandBuffer);
-
-  vkCmdBindDescriptorSets(
-      frameInfo.commandBuffer,
-      VK_PIPELINE_BIND_POINT_GRAPHICS,
-      pipelineLayout,
-      0,
-      1,
-      &frameInfo.globalDescriptorSet,
-      0,
-      nullptr);
+  begin(frameInfo);
 
   if (technique == beacon::RenderTechnique::InstancedForward &&
       frameInfo.instancedDrawBatches != nullptr) {
@@ -104,20 +97,44 @@ void SimpleRenderSystem::renderGameObjects(FrameInfo& frameInfo) {
   for (auto& kv : frameInfo.gameObjects) {
     auto& obj = kv.second;
     if (obj.model == nullptr) continue;
-    SimplePushConstantData push{};
-    push.modelMatrix = obj.transform.mat4();
-    push.normalMatrix = obj.transform.normalMatrix();
-
-    vkCmdPushConstants(
-        frameInfo.commandBuffer,
-        pipelineLayout,
-        VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-        0,
-        sizeof(SimplePushConstantData),
-        &push);
-    obj.model->bind(frameInfo.commandBuffer);
-    obj.model->draw(frameInfo.commandBuffer);
+    renderModel(
+        frameInfo,
+        *obj.model,
+        obj.transform.mat4(),
+        glm::mat4{obj.transform.normalMatrix()});
   }
+}
+
+void SimpleRenderSystem::begin(FrameInfo& frameInfo) {
+  lvePipeline->bind(frameInfo.commandBuffer);
+  vkCmdBindDescriptorSets(
+      frameInfo.commandBuffer,
+      VK_PIPELINE_BIND_POINT_GRAPHICS,
+      pipelineLayout,
+      0,
+      1,
+      &frameInfo.globalDescriptorSet,
+      0,
+      nullptr);
+}
+
+void SimpleRenderSystem::renderModel(
+    FrameInfo& frameInfo,
+    LveModel& model,
+    const glm::mat4& modelMatrix,
+    const glm::mat4& normalMatrix) {
+  SimplePushConstantData push{};
+  push.modelMatrix = modelMatrix;
+  push.normalMatrix = normalMatrix;
+  vkCmdPushConstants(
+      frameInfo.commandBuffer,
+      pipelineLayout,
+      VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+      0,
+      sizeof(SimplePushConstantData),
+      &push);
+  model.bind(frameInfo.commandBuffer);
+  model.draw(frameInfo.commandBuffer);
 }
 
 }  // namespace lve

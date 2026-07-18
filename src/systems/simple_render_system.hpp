@@ -25,6 +25,12 @@ class SimpleRenderSystem {
   SimpleRenderSystem &operator=(const SimpleRenderSystem &) = delete;
 
   void renderGameObjects(FrameInfo &frameInfo);
+  void begin(FrameInfo &frameInfo);
+  void renderModel(
+      FrameInfo &frameInfo,
+      LveModel &model,
+      const glm::mat4 &modelMatrix = glm::mat4{1.f},
+      const glm::mat4 &normalMatrix = glm::mat4{1.f});
 
  private:
   void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);

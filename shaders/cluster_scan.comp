@@ -1,0 +1,68 @@
+#version 450
+
+layout(local_size_x = 256) in;
+
+struct ClusterHeader {
+  uint dataOffset;
+  uint storedCount;
+  uint totalCandidateCount;
+  uint flags;
+};
+
+layout(push_constant) uniform ClusterBuildConfig {
+  uint clusterCount;
+  uint lightCount;
+  uint maxLightsPerCluster;
+  uint lightIndexCapacity;
+  vec4 worldMin;
+  vec4 worldMax;
+  uvec4 gridSize;
+  vec4 viewportNearFar;
+} config;
+
+layout(std430, set = 0, binding = 4) buffer ClusterHeaders {
+  ClusterHeader headers[];
+} clusterHeaders;
+
+layout(std430, set = 0, binding = 8) buffer BlockSums {
+  uint values[];
+} blockSums;
+
+shared uint scanValues[256];
+
+void main() {
+  uint localId = gl_LocalInvocationID.x;
+  uint clusterId = gl_WorkGroupID.x * 256u + localId;
+  uint stored = clusterId < config.clusterCount
+      ? min(clusterHeaders.headers[clusterId].totalCandidateCount, config.maxLightsPerCluster)
+      : 0u;
+  scanValues[localId] = stored;
+  barrier();
+
+  for (uint offset = 1u; offset < 256u; offset <<= 1u) {
+    uint index = (localId + 1u) * offset * 2u - 1u;
+    if (index < 256u) scanValues[index] += scanValues[index - offset];
+    barrier();
+  }
+  if (localId == 0u) {
+    blockSums.values[gl_WorkGroupID.x] = scanValues[255];
+    scanValues[255] = 0u;
+  }
+  barrier();
+  for (uint offset = 128u; offset > 0u; offset >>= 1u) {
+    uint index = (localId + 1u) * offset * 2u - 1u;
+    if (index < 256u) {
+      uint left = scanValues[index - offset];
+      scanValues[index - offset] = scanValues[index];
+      scanValues[index] += left;
+    }
+    barrier();
+  }
+
+  if (clusterId < config.clusterCount) {
+    clusterHeaders.headers[clusterId].dataOffset = scanValues[localId];
+    clusterHeaders.headers[clusterId].storedCount = stored;
+    clusterHeaders.headers[clusterId].flags =
+        clusterHeaders.headers[clusterId].totalCandidateCount > stored ? 1u : 0u;
+  }
+}

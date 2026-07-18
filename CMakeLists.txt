@@ -26,6 +26,8 @@ else()
   find_package(Vulkan REQUIRED) # throws error if could not find Vulkan
   message(STATUS "Found Vulkan: $ENV{VULKAN_SDK}")
 endif()
+find_package(nlohmann_json 3.2.0 REQUIRED)
+find_package(glm REQUIRED)
 if (NOT Vulkan_FOUND)
 	message(FATAL_ERROR "Could not find Vulkan library!")
 else()
@@ -68,6 +70,7 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_compile_definitions(${PROJECT_NAME} PRIVATE ENGINE_DIR="${PROJECT_SOURCE_DIR}/")
+target_link_libraries(${PROJECT_NAME} glm::glm)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
@@ -96,14 +99,14 @@ if (WIN32)
     ${GLFW_LIB}
   )
 
-  target_link_libraries(${PROJECT_NAME} glfw3 vulkan-1)
+  target_link_libraries(${PROJECT_NAME} glfw3 vulkan-1 nlohmann_json::nlohmann_json)
 elseif (UNIX)
     message(STATUS "CREATING BUILD FOR UNIX")
     target_include_directories(${PROJECT_NAME} PUBLIC
       ${PROJECT_SOURCE_DIR}/src
       ${TINYOBJ_PATH}
     )
-    target_link_libraries(${PROJECT_NAME} glfw ${Vulkan_LIBRARIES})
+    target_link_libraries(${PROJECT_NAME} glfw ${Vulkan_LIBRARIES} nlohmann_json::nlohmann_json)
 endif()
 
 
@@ -145,3 +148,23 @@ add_custom_target(
 )
 
 add_dependencies(${PROJECT_NAME} Shaders)
+
+include(CTest)
+if (BUILD_TESTING)
+  add_executable(
+    BeaconCoreTests
+    tests/beacon_core_tests.cpp
+    src/beacon/beacon_research.cpp
+    src/beacon/cluster_scan_reference.cpp
+  )
+  target_compile_features(BeaconCoreTests PRIVATE cxx_std_17)
+  target_include_directories(BeaconCoreTests PRIVATE ${PROJECT_SOURCE_DIR}/src ${TINYOBJ_PATH})
+  target_link_libraries(BeaconCoreTests PRIVATE glm::glm)
+  add_test(NAME beacon_core COMMAND BeaconCoreTests)
+
+  find_package(Python3 COMPONENTS Interpreter REQUIRED)
+  add_test(
+    NAME geobeacon_tools
+    COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tests/test_geobeacon_tools.py
+  )
+endif()

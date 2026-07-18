@@ -2,6 +2,7 @@
 
 #include "lve_device.hpp"
 #include "lve_frame_info.hpp"
+#include "beacon/gpu_profiler.hpp"
 
 #include <glm/glm.hpp>
 
@@ -18,6 +19,7 @@ struct ClusterBuildPushConstants {
   glm::vec4 worldMin{};
   glm::vec4 worldMax{};
   glm::uvec4 gridSize{};
+  glm::vec4 viewportNearFar{};
 };
 
 class ClusteredLightingSystem {
@@ -28,7 +30,14 @@ class ClusteredLightingSystem {
   ClusteredLightingSystem(const ClusteredLightingSystem&) = delete;
   ClusteredLightingSystem& operator=(const ClusteredLightingSystem&) = delete;
 
-  void dispatch(VkCommandBuffer commandBuffer, VkDescriptorSet globalDescriptorSet, const ClusterBuildPushConstants& push);
+  void dispatch(
+      VkCommandBuffer commandBuffer,
+      VkDescriptorSet globalDescriptorSet,
+      const ClusterBuildPushConstants& push,
+      VkBuffer headerBuffer,
+      VkBuffer cursorBuffer,
+      VkBuffer blockSumBuffer,
+      beacon::GpuProfiler* profiler = nullptr);
 
  private:
   static std::vector<char> readFile(const std::string& filepath);
@@ -38,8 +47,8 @@ class ClusteredLightingSystem {
 
   LveDevice& lveDevice;
   VkPipelineLayout pipelineLayout = VK_NULL_HANDLE;
-  VkPipeline pipeline = VK_NULL_HANDLE;
-  VkShaderModule shaderModule = VK_NULL_HANDLE;
+  std::vector<VkPipeline> pipelines;
+  std::vector<VkShaderModule> shaderModules;
 };
 
 }  // namespace lve

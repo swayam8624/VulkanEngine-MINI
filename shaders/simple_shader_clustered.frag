@@ -40,6 +40,7 @@ layout(set = 0, binding = 3) uniform ClusterRuntimeConfig {
   vec4 worldMin;
   vec4 worldMax;
   uvec4 gridSize;
+  vec4 viewportNearFar;
   uint clusterCount;
   uint maxLightsPerCluster;
   uint lightIndexCapacity;
@@ -67,6 +68,23 @@ vec3 evaluateLight(SsboPointLight light, vec3 normalWorld) {
 }
 
 uint findClusterIndex() {
+  if ((clusterConfig.flags & 1u) != 0u) {
+    vec2 normalizedScreen = gl_FragCoord.xy / max(clusterConfig.viewportNearFar.xy, vec2(1.0));
+    uvec2 xy = min(
+        uvec2(floor(normalizedScreen * vec2(clusterConfig.gridSize.xy))),
+        clusterConfig.gridSize.xy - uvec2(1));
+    float viewZ = (ubo.view * vec4(fragPosWorld, 1.0)).z;
+    float nearPlane = clusterConfig.viewportNearFar.z;
+    float farPlane = clusterConfig.viewportNearFar.w;
+    if (viewZ < nearPlane || viewZ > farPlane) return clusterConfig.clusterCount;
+    float normalizedZ = log(viewZ / nearPlane) / log(farPlane / nearPlane);
+    uint z = uint(clamp(
+        floor(normalizedZ * float(clusterConfig.gridSize.z)),
+        0.0,
+        float(clusterConfig.gridSize.z - 1u)));
+    return xy.x + xy.y * clusterConfig.gridSize.x +
+           z * clusterConfig.gridSize.x * clusterConfig.gridSize.y;
+  }
   vec3 extent = clusterConfig.worldMax.xyz - clusterConfig.worldMin.xyz;
   vec3 normalized = (fragPosWorld - clusterConfig.worldMin.xyz) / max(extent, vec3(0.0001));
   if (any(lessThan(normalized, vec3(0.0))) || any(greaterThanEqual(normalized, vec3(1.0)))) {
@@ -85,15 +103,21 @@ void main() {
   uint clusterId = findClusterIndex();
   if (clusterId < clusterConfig.clusterCount) {
     ClusterHeader header = clusterHeaders.headers[clusterId];
-    uint count = min(header.storedCount, clusterConfig.maxLightsPerCluster);
-    for (uint i = 0; i < count; ++i) {
-      uint indexOffset = header.dataOffset + i;
-      if (indexOffset >= clusterConfig.lightIndexCapacity) {
-        break;
+    if ((header.flags & 1u) != 0u) {
+      for (int i = 0; i < ubo.numLights; ++i) {
+        diffuseLight += evaluateLight(lightBuffer.lights[i], surfaceNormal);
       }
-      uint lightIndex = clusterLightIndices.indices[indexOffset];
-      if (lightIndex < uint(ubo.numLights)) {
-        diffuseLight += evaluateLight(lightBuffer.lights[lightIndex], surfaceNormal);
+    } else {
+      uint count = min(header.storedCount, clusterConfig.maxLightsPerCluster);
+      for (uint i = 0; i < count; ++i) {
+        uint indexOffset = header.dataOffset + i;
+        if (indexOffset >= clusterConfig.lightIndexCapacity) {
+          break;
+        }
+        uint lightIndex = clusterLightIndices.indices[indexOffset];
+        if (lightIndex < uint(ubo.numLights)) {
+          diffuseLight += evaluateLight(lightBuffer.lights[lightIndex], surfaceNormal);
+        }
       }
     }
   } else {

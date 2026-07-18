@@ -1,134 +1,176 @@
-# VulkanEngine-MINI: BEACON Research Renderer
+# GeoBEACON Vulkan Research Renderer
 
-BEACON is a reproducible Vulkan research renderer for **Budget- and Error-Aware Adaptive Clustered
-Lighting**. It dynamically allocates depth partitions per screen tile, chooses explicit or bitset
-light lists per cluster, conservatively bounds omitted diffuse contribution, and controls quality
-and hierarchy complexity from measured timing budgets.
-
-The repository contains real Vulkan rendering paths, analytical ablations, deterministic scene
-generation, raw benchmark output, exact-reference image comparison, generated figures, and a
-compiled research paper.
+GeoBEACON is a reproducible Vulkan urban digital-twin renderer built around a checked OpenStreetMap
+extract of Connaught Place, New Delhi. It extends BEACON's adaptive clustered lighting with
+semantic tile selection, asynchronous city streaming, memory and upload budgets, deterministic
+camera routes, exact diffuse reference captures, and separate GPU-query, CPU-fallback, and
+analytical measurement classes.
 
 ## Research claim
 
-BEACON studies the unified system, not the individual ingredients. Clustered lighting, bounded
-many-light approximation, SSBOs, instancing, and grid-based sampling are established techniques.
-The contribution evaluated here is their combination as a temporally stable adaptive hierarchy with
-aggregate error accounting, per-cluster representation selection, and online budget feedback.
+GeoBEACON evaluates whether joint semantic and view-aware allocation of geometry detail, streaming
+bandwidth, resident memory, and diffuse-light accuracy provides more task-relevant utility per
+millisecond than fixed LOD, distance-only LOD, semantic-only LOD, or lighting-only adaptation.
+SSBO lighting, instancing, clustered lighting, bounded pruning, glTF, and 3D Tiles are supporting
+infrastructure rather than novelty claims.
 
-## Techniques
+## Implemented policies
 
-| CLI name | Implementation |
-| --- | --- |
-| `baseline` | Original ten-light UBO forward reference |
-| `ssbo` | Exact SSBO forward lighting |
-| `instanced` | SSBO lighting with model-grouped instanced draws |
-| `cpu-clustered` | Fixed-grid analytical CPU baseline |
-| `fixed-cluster-cost-model` | Fixed-grid analytical cost ablation |
-| `gpu-clustered` | Compute-built fixed-grid Vulkan clustered forward |
-| `adaptive-exact` | Vulkan adaptive depth hierarchy, no pruning |
-| `adaptive-bounded` | Vulkan adaptive hierarchy with aggregate bounded pruning |
-| `beacon` | Full Vulkan BEACON with hybrid encoding, hysteresis, and controller |
+| CLI policy | Geometry allocation | Lighting |
+| --- | --- | --- |
+| `fixed-lod1` | LOD1 for every selected tile | camera-space fixed GPU clusters |
+| `distance-lod` | distance thresholds | camera-space fixed GPU clusters |
+| `semantic-lod` | distance scaled by semantic importance | camera-space fixed GPU clusters |
+| `geo-beacon-exact` | semantic budget controller | adaptive exact diffuse lists |
+| `geo-beacon-bounded` | semantic budget controller | adaptive aggregate-bounded pruning |
 
-Adaptive modes begin with a 16 x 9 XY grid. Each tile independently selects 1, 2, 4, or 8 depth
-leaves from local light pressure. Sparse leaves store explicit indices; dense leaves use bitsets.
-The exact mode retains every intersecting light. Bounded modes sort conservative diffuse bounds and
-remove lights only while the accumulated omitted bound remains within the configured cluster budget.
+The original BEACON CLI identifiers remain available: `baseline`, `ssbo`, `ssbo-diffuse`,
+`instanced`, `cpu-clustered`, `fixed-cluster-cost-model`, `gpu-clustered`, `adaptive-exact`,
+`adaptive-bounded`, and `beacon`.
 
-## Build
+The fixed GPU clustered path projects finite-radius lights into screen tiles and logarithmic
+camera-space depth slices. Assignment is implemented as clear, light-centric count, hierarchical
+exclusive scan, offset propagation, and scatter compute stages. Overflow is flagged and rendered
+through an exact all-light fallback.
 
-On macOS:
+## Dataset
 
-```bash
-brew install cmake glfw glm
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j 8
+The canonical study area is:
+
+```text
+Connaught Place, New Delhi
+south 28.6270, west 77.2070, north 28.6365, east 77.2245
 ```
 
-The Vulkan SDK must be discoverable by CMake. Vertex, fragment, and compute shaders are compiled to
-SPIR-V by the `Shaders` target.
+`data/connaught_place/source.osm` is the authoritative checked source. The deterministic
+preprocessor emits 151 spatial tiles, three GLB representations per tile, a 3D Tiles 1.1
+`tileset.json`, runtime metadata, checksums, and a validation report. Runtime rendering permanently
+shows `© OpenStreetMap contributors`.
+
+Regenerate the committed tile database:
+
+```bash
+python3 tools/build_geobeacon_tiles.py \
+  --source data/connaught_place/source.osm \
+  --output data/connaught_place/generated
+ctest --test-dir build --output-on-failure
+```
+
+Network acquisition is explicit and never runs during build or startup:
+
+```bash
+python3 tools/fetch_osm_extract.py --output data/connaught_place/source.osm
+```
+
+## Build and test
+
+macOS prerequisites include CMake, GLFW, GLM, nlohmann-json, a Vulkan loader, and
+`glslangValidator`.
+
+```bash
+brew install cmake glfw glm nlohmann-json vulkan-loader glslang
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+cmake --build build -j 8
+ctest --test-dir build --output-on-failure
+```
+
+List devices and select one deterministically:
+
+```bash
+build/LveEngine --list-devices
+build/LveEngine --geo --device-index 0
+build/LveEngine --geo --device-name "Apple M2 Pro"
+build/LveEngine --geo --device-uuid 0000106b-1a05-0208-0000-000000000000
+```
 
 ## Run
 
-Interactive full BEACON:
+Interactive city rendering:
 
 ```bash
-build/LveEngine --technique beacon --scene repeated \
-  --objects 1000 --lights 500 --light-distribution single-hotspot \
-  --cluster-build-budget-ms 0.7 --lighting-budget-ms 3.0 --quality-error 0.005
+build/LveEngine --geo --geo-policy geo-beacon-bounded \
+  --lights 500 --geo-budget-frame-ms 16.67 \
+  --geo-budget-memory-mib 512 --geo-budget-upload-mibps 100
 ```
 
-Measured run with exact offscreen comparison and terminal progress:
+Deterministic measured run:
 
 ```bash
-build/LveEngine --benchmark --technique beacon \
-  --scene repeated --objects 1000 --lights 500 \
-  --light-distribution single-hotspot \
-  --frames 300 --warmup-frames 120 \
-  --show-light-billboards false --capture-reference true \
-  --output beacon_results/beacon_hotspot
+build/LveEngine --geo --geo-policy geo-beacon-bounded \
+  --geo-camera-path landmark-approach --geo-cache-mode cold \
+  --lights 500 --width 1920 --height 1080 \
+  --warmup-frames 600 --frames 1800 --capture-reference true \
+  --output docs/results/my_run
 ```
 
-Use `--quiet` to suppress the progress bar. The benchmark writes `frames.csv`, `manifest.json`, and
-`summary.json`; analytical runs also write `clusters.csv`.
+Camera routes are `outer-orbit`, `street-drive`, `intersection-dwell`, `landmark-approach`, and
+`rapid-teleport`. Each measured run writes frame-level CSV, a reproducibility manifest, exact and
+test PPM captures when enabled, and a summary. Terminal runs include a progress bar unless
+`--quiet` is supplied.
 
-## Reproduce experiments
+## Experiments
+
+The full resumable matrix encodes five policies, five routes, 100/500/2,000 lights, two frame
+budgets, three memory budgets, three upload limits, three resolutions, cold/warm caches, two local
+ICDs, and five trials:
 
 ```bash
-scripts/run_beacon_matrix.sh build/LveEngine beacon_results_matrix
-python3 scripts/generate_beacon_figures.py beacon_results_matrix docs/results/reproduced
+python3 scripts/run_geobeacon_matrix.py \
+  --binary build/LveEngine \
+  --output docs/results/geobeacon_full \
+  --profile full
+python3 scripts/generate_beacon_figures.py \
+  docs/results/geobeacon_full \
+  docs/results/geobeacon_full/figures
 ```
 
-The matrix covers uniform, hotspot, depth-stacked, and adversarial distributions from 10 to 2,000
-lights and from 100 to 10,000 objects. Vulkan timestamp queries populate GPU pass timings when the
-device supports them; otherwise the CSV identifies CPU fallback timing explicitly.
+`smoke` and `core` profiles use the same runner for validation and intermediate studies.
 
-## Checked-in artifact results
+## Checked results
 
-The deterministic three-frame artifact-validation run in
-[docs/results/final](docs/results/final) was captured on an Apple M2 Pro through MoltenVK. This
-device reports timestamp queries unavailable, so these are CPU frame timings and must not be read as
-GPU kernel timings.
+`docs/results/geobeacon_smoke` contains 20 completed dual-driver pilot cases: all five policies,
+outer-orbit and rapid-teleport, 100 lights, a 256 MiB memory budget, a 25 MiB/s upload limit, 30
+warm-up frames, and 60 measured frames. This is an execution and instrumentation validation set,
+not the full repeated-trial claim.
 
-| Technique | p50 frame ms | p95 frame ms | Offscreen PSNR | SSIM |
-| --- | ---: | ---: | ---: | ---: |
-| `gpu-clustered` | 24.3365 | 25.5247 | 99.0000 | 1.000000 |
-| `adaptive-exact` | 20.2507 | 20.3952 | 99.0000 | 1.000000 |
-| `adaptive-bounded` | 24.6537 | 25.9196 | 86.5998 | 1.000000 |
-| `beacon` | 17.8998 | 18.3242 | 99.0000 | 1.000000 |
+| Driver / timing class | Policy | CPU p50 ms | CPU p95 ms | GPU cluster + light p50 ms |
+| --- | --- | ---: | ---: | ---: |
+| MoltenVK / Vulkan timestamps | fixed LOD1 | 7.221 | 8.709 | 0.2602 |
+| MoltenVK / Vulkan timestamps | GeoBEACON exact | 8.331 | 12.156 | 0.1875 |
+| MoltenVK / Vulkan timestamps | GeoBEACON bounded | 8.270 | 12.364 | 0.1308 |
+| KosmicKrisp / Vulkan CPU fallback | fixed LOD1 | 8.353 | 12.060 | unavailable |
+| KosmicKrisp / Vulkan CPU fallback | GeoBEACON exact | 13.147 | 17.891 | unavailable |
+| KosmicKrisp / Vulkan CPU fallback | GeoBEACON bounded | 12.914 | 18.185 | unavailable |
 
-This compact run validates execution and image comparison. It is not a substitute for the full
-repeated-trial matrix. The raw rows and regenerated summary are in
-[summary.md](docs/results/final/figures/summary.md).
+MoltenVK reports timestamp-query support on this Apple M2 Pro. KosmicKrisp does not, so its rows
+are explicitly classified as Vulkan CPU measurements. Exact and bounded runs store rendered MSE,
+PSNR, SSIM, maximum pixel error, and temporal MSE variation separately from conservative modeled
+bounds.
 
-## Research outputs
+## Key files
 
-- [Research paper (PDF)](docs/paper/beacon_research.pdf)
-- [LaTeX source](docs/paper/beacon_research.tex)
-- [Artifact status and limitations](docs/BEACON_STATUS.md)
-- [Paper-style implementation report](docs/BEACON_RESEARCH_REPORT.md)
-- [Raw final validation data](docs/results/final)
-- [Generated SVG figures](docs/results/final/figures)
+- `tools/build_geobeacon_tiles.py`: deterministic OSM-to-GLB/3D Tiles preprocessing
+- `src/geobeacon/geo_scene.cpp`: tile selection, worker loading, upload integration, and eviction
+- `src/geobeacon/geo_camera_path.cpp`: deterministic benchmark routes
+- `src/beacon/adaptive_vulkan_builder.cpp`: adaptive hierarchy, pruning, encoding, and hysteresis
+- `src/systems/clustered_lighting_system.cpp`: count/scan/scatter GPU assignment
+- `src/beacon/offscreen_comparison.cpp`: exact captures and image metrics
+- `scripts/run_geobeacon_matrix.py`: resumable research matrix
+- `scripts/generate_beacon_figures.py`: raw-CSV figure regeneration
+- `docs/paper/geobeacon_research.tex`: paper source
+- `docs/paper/geobeacon_research.pdf`: compiled paper
 
-## Key source files
+## Research scope
 
-- `src/beacon/adaptive_vulkan_builder.cpp`: hierarchy, pruning, encoding, hysteresis, and metrics
-- `src/systems/clustered_lighting_system.cpp`: fixed-grid compute dispatch
-- `shaders/cluster_build.comp`: fixed GPU cluster assignment
-- `shaders/simple_shader_adaptive.frag`: adaptive explicit/bitset traversal
-- `src/beacon/offscreen_comparison.cpp`: rendered MSE, PSNR, and SSIM
-- `src/beacon/gpu_profiler.cpp`: Vulkan timestamp query pool
-- `scripts/run_beacon_matrix.sh`: deterministic experiment matrix
-- `scripts/generate_beacon_figures.py`: dependency-free figure generation
+The formal error account covers opaque, unshadowed diffuse finite-radius point lighting. Strict
+specular bounds, shadows, transparency, neural rendering, imagery, Gaussian splats, sensor
+simulation, ROS, CARLA, and live network streaming are outside the evaluated claim.
 
-## Scope
+## Attribution and licenses
 
-The formal approximation claim covers opaque, unshadowed diffuse point lighting with finite-radius
-inverse-square attenuation. Specular, shadows, transparency, neural sampling, and reservoir methods
-are excluded from the claim and discussed only as related or future research directions.
+Engine and preprocessing code are MIT licensed. The renderer substrate derives from Brendan
+Galea's Little Vulkan Engine tutorial under MIT. The checked OSM extract and derived tile database
+are covered separately by ODbL; see `data/connaught_place/LICENSE-ODbL.md`.
 
-## Attribution and license
-
-The renderer substrate derives from Brendan Galea's Little Vulkan Engine tutorial under the MIT
-license. BEACON's research renderer, benchmarks, shaders, controller, measurements, and paper are
-the work contained in this repository. See [LICENSE](LICENSE).
+Map data: © OpenStreetMap contributors,
+[copyright and license](https://www.openstreetmap.org/copyright).

@@ -10,6 +10,12 @@ __pycache__/
 **/.env
 **/.obj
 *.spv
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
 littleVulkanEngine/sandbox/**
 *.a
 textures_

@@ -1,0 +1,88 @@
+#version 450
+
+layout(local_size_x = 64) in;
+
+struct PointLight {
+  vec4 positionRadius;
+  vec4 colorIntensity;
+};
+
+struct ClusterHeader {
+  uint dataOffset;
+  uint storedCount;
+  uint totalCandidateCount;
+  uint flags;
+};
+
+layout(push_constant) uniform ClusterBuildConfig {
+  uint clusterCount;
+  uint lightCount;
+  uint maxLightsPerCluster;
+  uint lightIndexCapacity;
+  vec4 worldMin;
+  vec4 worldMax;
+  uvec4 gridSize;
+  vec4 viewportNearFar;
+} config;
+
+layout(set = 0, binding = 0) uniform GlobalUbo {
+  mat4 projection;
+  mat4 view;
+  mat4 invView;
+  vec4 ambientLightColor;
+} ubo;
+layout(std430, set = 0, binding = 1) readonly buffer LightBuffer { PointLight lights[]; } lightBuffer;
+layout(std430, set = 0, binding = 4) readonly buffer ClusterHeaders { ClusterHeader headers[]; } clusterHeaders;
+layout(std430, set = 0, binding = 5) buffer ClusterLightIndices { uint indices[]; } outputIndices;
+layout(std430, set = 0, binding = 7) buffer ClusterCursors { uint values[]; } cursors;
+
+uvec3 clusterMinimum(vec3 p, float radius) {
+  float nearPlane = config.viewportNearFar.z;
+  float farPlane = config.viewportNearFar.w;
+  float z0 = max(p.z - radius, nearPlane);
+  vec2 ndc = vec2(ubo.projection[0][0] * p.x / z0, ubo.projection[1][1] * p.y / z0);
+  vec2 r = abs(vec2(ubo.projection[0][0], ubo.projection[1][1])) * radius / z0;
+  uvec2 xy = uvec2(clamp(floor(((ndc - r) * 0.5 + 0.5) * vec2(config.gridSize.xy)),
+                              vec2(0.0), vec2(config.gridSize.xy - 1u)));
+  uint z = uint(clamp(floor(log(z0 / nearPlane) / log(farPlane / nearPlane) *
+                              float(config.gridSize.z)), 0.0, float(config.gridSize.z - 1u)));
+  return uvec3(xy, z);
+}
+
+uvec3 clusterMaximum(vec3 p, float radius) {
+  float nearPlane = config.viewportNearFar.z;
+  float farPlane = config.viewportNearFar.w;
+  float z0 = max(p.z - radius, nearPlane);
+  float z1 = min(p.z + radius, farPlane);
+  vec2 ndc = vec2(ubo.projection[0][0] * p.x / z0, ubo.projection[1][1] * p.y / z0);
+  vec2 r = abs(vec2(ubo.projection[0][0], ubo.projection[1][1])) * radius / z0;
+  uvec2 xy = uvec2(clamp(floor(((ndc + r) * 0.5 + 0.5) * vec2(config.gridSize.xy)),
+                              vec2(0.0), vec2(config.gridSize.xy - 1u)));
+  uint z = uint(clamp(floor(log(z1 / nearPlane) / log(farPlane / nearPlane) *
+                              float(config.gridSize.z)), 0.0, float(config.gridSize.z - 1u)));
+  return uvec3(xy, z);
+}
+
+void main() {
+  uint lightIndex = gl_GlobalInvocationID.x;
+  if (lightIndex >= config.lightCount) return;
+  PointLight light = lightBuffer.lights[lightIndex];
+  vec3 p = (ubo.view * vec4(light.positionRadius.xyz, 1.0)).xyz;
+  float radius = max(light.positionRadius.w, 0.0001);
+  if (p.z + radius < config.viewportNearFar.z || p.z - radius > config.viewportNearFar.w) return;
+  uvec3 minimum = clusterMinimum(p, radius);
+  uvec3 maximum = clusterMaximum(p, radius);
+  for (uint z = minimum.z; z <= maximum.z; ++z) {
+    for (uint y = minimum.y; y <= maximum.y; ++y) {
+      for (uint x = minimum.x; x <= maximum.x; ++x) {
+        uint clusterId = x + y * config.gridSize.x + z * config.gridSize.x * config.gridSize.y;
+        if (clusterId >= config.clusterCount) continue;
+        uint slot = atomicAdd(cursors.values[clusterId], 1u);
+        ClusterHeader header = clusterHeaders.headers[clusterId];
+        if (slot < header.storedCount && header.dataOffset + slot < config.lightIndexCapacity) {
+          outputIndices.indices[header.dataOffset + slot] = lightIndex;
+        }
+      }
+    }
+  }
+}

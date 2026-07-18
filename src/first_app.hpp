@@ -29,10 +29,11 @@ class FirstApp {
   void loadGameObjects();
   void loadTutorialScene();
   void loadGeneratedScene();
+  void loadGeoLights();
 
   beacon::BenchmarkConfig config{};
   LveWindow lveWindow;
-  LveDevice lveDevice{lveWindow};
+  LveDevice lveDevice{lveWindow, config};
   LveRenderer lveRenderer{lveWindow, lveDevice};
 
   // note: order of declarations matters

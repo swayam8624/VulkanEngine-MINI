@@ -4,6 +4,7 @@
 #include <array>
 #include <cmath>
 #include <cstring>
+#include <fstream>
 #include <stdexcept>
 
 namespace lve::beacon {
@@ -226,6 +227,7 @@ ImageComparisonMetrics OffscreenComparison::compare() {
   }
 
   double mse = 0.0;
+  double maximumPixelError = 0.0;
   double meanA = 0.0;
   double meanB = 0.0;
   for (size_t i = 0; i < pixelCount; ++i) {
@@ -234,6 +236,7 @@ ImageComparisonMetrics OffscreenComparison::compare() {
     for (int c = 0; c < 3; ++c) {
       double d = (static_cast<double>(pa[c]) - pb[c]) / 255.0;
       mse += d * d;
+      maximumPixelError = std::max(maximumPixelError, std::abs(d));
     }
     meanA += luminance(pa);
     meanB += luminance(pb);
@@ -264,7 +267,22 @@ ImageComparisonMetrics OffscreenComparison::compare() {
   metrics.psnr = mse <= 0.0 ? 99.0 : 10.0 * std::log10(1.0 / mse);
   metrics.ssim = ((2.0 * meanA * meanB + c1) * (2.0 * covariance + c2)) /
                  ((meanA * meanA + meanB * meanB + c1) * (varianceA + varianceB + c2));
+  metrics.maximumPixelError = maximumPixelError;
   return metrics;
+}
+
+void OffscreenComparison::writePpm(uint32_t targetIndex, const std::filesystem::path& path) const {
+  if (targetIndex > TARGET_TEST) throw std::runtime_error("invalid offscreen target");
+  const auto* pixels =
+      static_cast<const unsigned char*>(targets[targetIndex].staging->getMappedMemory());
+  if (pixels == nullptr) throw std::runtime_error("offscreen target is not mapped");
+  std::filesystem::create_directories(path.parent_path());
+  std::ofstream output{path, std::ios::binary};
+  if (!output) throw std::runtime_error("failed to write offscreen capture: " + path.string());
+  output << "P6\n" << width << " " << height << "\n255\n";
+  for (size_t pixel = 0; pixel < static_cast<size_t>(width) * height; ++pixel) {
+    output.write(reinterpret_cast<const char*>(pixels + pixel * 4), 3);
+  }
 }
 
 }  // namespace lve::beacon

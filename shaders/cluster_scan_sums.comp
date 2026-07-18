@@ -1,0 +1,44 @@
+#version 450
+
+layout(local_size_x = 256) in;
+
+layout(push_constant) uniform ClusterBuildConfig {
+  uint clusterCount;
+  uint lightCount;
+  uint maxLightsPerCluster;
+  uint lightIndexCapacity;
+  vec4 worldMin;
+  vec4 worldMax;
+  uvec4 gridSize;
+  vec4 viewportNearFar;
+} config;
+
+layout(std430, set = 0, binding = 8) buffer BlockSums {
+  uint values[];
+} blockSums;
+
+shared uint scanValues[256];
+
+void main() {
+  uint id = gl_LocalInvocationID.x;
+  uint blockCount = (config.clusterCount + 255u) / 256u;
+  scanValues[id] = id < blockCount ? blockSums.values[id] : 0u;
+  barrier();
+  for (uint offset = 1u; offset < 256u; offset <<= 1u) {
+    uint index = (id + 1u) * offset * 2u - 1u;
+    if (index < 256u) scanValues[index] += scanValues[index - offset];
+    barrier();
+  }
+  if (id == 0u) scanValues[255] = 0u;
+  barrier();
+  for (uint offset = 128u; offset > 0u; offset >>= 1u) {
+    uint index = (id + 1u) * offset * 2u - 1u;
+    if (index < 256u) {
+      uint left = scanValues[index - offset];
+      scanValues[index - offset] = scanValues[index];
+      scanValues[index] += left;
+    }
+    barrier();
+  }
+  if (id < blockCount) blockSums.values[id] = scanValues[id];
+}

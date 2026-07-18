@@ -51,6 +51,7 @@ bool parseBool(const std::string& value, std::string_view name) {
 RenderTechnique parseTechnique(const std::string& value) {
   if (value == "baseline") return RenderTechnique::BaselineForward;
   if (value == "ssbo") return RenderTechnique::SsboForward;
+  if (value == "ssbo-diffuse") return RenderTechnique::SsboDiffuseReference;
   if (value == "instanced") return RenderTechnique::InstancedForward;
   if (value == "cpu-clustered") return RenderTechnique::CpuClusteredFixed;
   if (value == "fixed-cluster-cost-model") return RenderTechnique::FixedClusterCostModel;
@@ -82,6 +83,30 @@ LightDistribution parseDistribution(const std::string& value) {
   throw std::runtime_error("unknown light distribution: " + value);
 }
 
+GeoRenderPolicy parseGeoPolicy(const std::string& value) {
+  if (value == "fixed-lod1") return GeoRenderPolicy::FixedLod1;
+  if (value == "distance-lod") return GeoRenderPolicy::DistanceLod;
+  if (value == "semantic-lod") return GeoRenderPolicy::SemanticLod;
+  if (value == "geo-beacon-exact") return GeoRenderPolicy::GeoBeaconExact;
+  if (value == "geo-beacon-bounded") return GeoRenderPolicy::GeoBeaconBounded;
+  throw std::runtime_error("unknown GeoBEACON policy: " + value);
+}
+
+GeoCacheMode parseGeoCacheMode(const std::string& value) {
+  if (value == "cold") return GeoCacheMode::Cold;
+  if (value == "warm") return GeoCacheMode::Warm;
+  throw std::runtime_error("unknown GeoBEACON cache mode: " + value);
+}
+
+GeoCameraPath parseGeoCameraPath(const std::string& value) {
+  if (value == "outer-orbit") return GeoCameraPath::OuterOrbit;
+  if (value == "street-drive") return GeoCameraPath::StreetDrive;
+  if (value == "intersection-dwell") return GeoCameraPath::IntersectionDwell;
+  if (value == "landmark-approach") return GeoCameraPath::LandmarkApproach;
+  if (value == "rapid-teleport") return GeoCameraPath::RapidTeleport;
+  throw std::runtime_error("unknown GeoBEACON camera path: " + value);
+}
+
 }  // namespace
 
 BenchmarkConfig parseCommandLine(int argc, char** argv) {
@@ -91,6 +116,10 @@ BenchmarkConfig parseCommandLine(int argc, char** argv) {
     std::string_view arg{argv[i]};
     if (arg == "--benchmark") {
       config.benchmark = true;
+    } else if (arg == "--geo") {
+      config.geoEnabled = true;
+    } else if (arg == "--list-devices") {
+      config.listDevices = true;
     } else if (arg == "--quiet") {
       config.verbose = false;
     } else if (consumeValue(i, argc, argv, "--technique", value)) {
@@ -124,6 +153,30 @@ BenchmarkConfig parseCommandLine(int argc, char** argv) {
       config.showLightBillboards = parseBool(value, "--show-light-billboards");
     } else if (consumeValue(i, argc, argv, "--capture-reference", value)) {
       config.captureReference = parseBool(value, "--capture-reference");
+    } else if (consumeValue(i, argc, argv, "--device-index", value)) {
+      config.deviceIndex = static_cast<int32_t>(parseU32(value, "--device-index"));
+    } else if (consumeValue(i, argc, argv, "--device-name", value)) {
+      config.deviceName = value;
+    } else if (consumeValue(i, argc, argv, "--device-uuid", value)) {
+      config.deviceUuid = value;
+    } else if (consumeValue(i, argc, argv, "--geo-manifest", value)) {
+      config.geoManifest = value;
+      config.geoEnabled = true;
+    } else if (consumeValue(i, argc, argv, "--geo-policy", value)) {
+      config.geoPolicy = parseGeoPolicy(value);
+      config.geoEnabled = true;
+    } else if (consumeValue(i, argc, argv, "--geo-cache-mode", value)) {
+      config.geoCacheMode = parseGeoCacheMode(value);
+    } else if (consumeValue(i, argc, argv, "--geo-camera-path", value)) {
+      config.geoCameraPath = parseGeoCameraPath(value);
+    } else if (consumeValue(i, argc, argv, "--geo-budget-frame-ms", value)) {
+      config.geoTargetFrameMs = parseFloat(value, "--geo-budget-frame-ms");
+    } else if (consumeValue(i, argc, argv, "--geo-budget-memory-mib", value)) {
+      config.geoMemoryBudgetMiB = parseU32(value, "--geo-budget-memory-mib");
+    } else if (consumeValue(i, argc, argv, "--geo-budget-upload-mibps", value)) {
+      config.geoUploadBudgetMiBPerSecond = parseFloat(value, "--geo-budget-upload-mibps");
+    } else if (consumeValue(i, argc, argv, "--geo-max-tile-changes", value)) {
+      config.geoMaxTileChangesPerFrame = parseU32(value, "--geo-max-tile-changes");
     } else if (consumeValue(i, argc, argv, "--output", value)) {
       config.outputDirectory = value;
     } else {
@@ -137,6 +190,7 @@ std::string toString(RenderTechnique technique) {
   switch (technique) {
     case RenderTechnique::BaselineForward: return "baseline";
     case RenderTechnique::SsboForward: return "ssbo";
+    case RenderTechnique::SsboDiffuseReference: return "ssbo-diffuse";
     case RenderTechnique::InstancedForward: return "instanced";
     case RenderTechnique::CpuClusteredFixed: return "cpu-clustered";
     case RenderTechnique::FixedClusterCostModel: return "fixed-cluster-cost-model";
@@ -173,10 +227,37 @@ std::string toString(LightDistribution distribution) {
   return "unknown";
 }
 
+std::string toString(GeoRenderPolicy policy) {
+  switch (policy) {
+    case GeoRenderPolicy::FixedLod1: return "fixed-lod1";
+    case GeoRenderPolicy::DistanceLod: return "distance-lod";
+    case GeoRenderPolicy::SemanticLod: return "semantic-lod";
+    case GeoRenderPolicy::GeoBeaconExact: return "geo-beacon-exact";
+    case GeoRenderPolicy::GeoBeaconBounded: return "geo-beacon-bounded";
+  }
+  return "unknown";
+}
+
+std::string toString(GeoCacheMode mode) {
+  return mode == GeoCacheMode::Warm ? "warm" : "cold";
+}
+
+std::string toString(GeoCameraPath path) {
+  switch (path) {
+    case GeoCameraPath::OuterOrbit: return "outer-orbit";
+    case GeoCameraPath::StreetDrive: return "street-drive";
+    case GeoCameraPath::IntersectionDwell: return "intersection-dwell";
+    case GeoCameraPath::LandmarkApproach: return "landmark-approach";
+    case GeoCameraPath::RapidTeleport: return "rapid-teleport";
+  }
+  return "unknown";
+}
+
 std::vector<RenderTechnique> implementedTechniques() {
   return {
       RenderTechnique::BaselineForward,
       RenderTechnique::SsboForward,
+      RenderTechnique::SsboDiffuseReference,
       RenderTechnique::InstancedForward,
       RenderTechnique::CpuClusteredFixed,
       RenderTechnique::FixedClusterCostModel,

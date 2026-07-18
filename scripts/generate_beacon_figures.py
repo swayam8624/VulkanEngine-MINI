@@ -54,7 +54,11 @@ def summarize_case(case_dir: Path) -> dict[str, float | str]:
     modeled_cost = [number(r, "totalModeledCostMs") for r in rows]
     gpu_object = [number(r, "gpuObjectPassMs") for r in rows]
     cpu = [number(r, "cpuFrameMs") for r in rows]
-    timing_values = modeled_cost if any(modeled_cost) else gpu_object if any(gpu_object) else cpu
+    gpu_total = [
+        number(r, "gpuClusterBuildMs") + number(r, "gpuLightingPassMs")
+        for r in rows
+    ]
+    timing_values = modeled_cost if any(modeled_cost) else gpu_total if any(gpu_total) else cpu
     active_clusters = [number(r, "activeClusters") for r in rows]
     light_bytes = [
         number(r, "lightListBytes") or number(r, "lightIndexCapacity") * 4.0
@@ -66,6 +70,9 @@ def summarize_case(case_dir: Path) -> dict[str, float | str]:
     offscreen_mse = [number(r, "offscreenMse") for r in rows if number(r, "offscreenMse", -1.0) >= 0.0]
     offscreen_psnr = [number(r, "offscreenPsnr") for r in rows if number(r, "offscreenPsnr", -1.0) >= 0.0]
     offscreen_ssim = [number(r, "offscreenSsim") for r in rows if number(r, "offscreenSsim", -1.0) >= 0.0]
+    semantic_utility = [number(r, "geoSemanticUtility") for r in rows]
+    resident_bytes = [number(r, "geoResidentBytes") for r in rows]
+    budget_violations = [number(r, "geoBudgetViolation") for r in rows]
     group = rows[0].get("measurementGroup", "unknown") if rows else "unknown"
 
     return {
@@ -83,6 +90,12 @@ def summarize_case(case_dir: Path) -> dict[str, float | str]:
         "offscreen_mse": statistics.fmean(offscreen_mse) if offscreen_mse else -1.0,
         "offscreen_psnr": statistics.fmean(offscreen_psnr) if offscreen_psnr else -1.0,
         "offscreen_ssim": statistics.fmean(offscreen_ssim) if offscreen_ssim else -1.0,
+        "semantic_utility_per_ms": (
+            statistics.fmean(semantic_utility) / max(percentile(cpu, 0.50), 1e-6)
+            if semantic_utility else 0.0
+        ),
+        "resident_mib": statistics.fmean(resident_bytes) / (1024.0 * 1024.0) if resident_bytes else 0.0,
+        "budget_violation_ratio": statistics.fmean(budget_violations) if budget_violations else 0.0,
     }
 
 
@@ -153,6 +166,19 @@ def main() -> int:
         captured_rows = [row for row in group_rows if float(row["offscreen_mse"]) >= 0.0]
         if captured_rows:
             bar_svg(captured_rows, "offscreen_mse", f"{group} Rendered Offscreen MSE", figures_dir / f"{safe_group}_offscreen_mse.svg")
+        if any(float(row["semantic_utility_per_ms"]) for row in group_rows):
+            bar_svg(
+                group_rows,
+                "semantic_utility_per_ms",
+                f"{group} Semantic Utility per CPU Millisecond",
+                figures_dir / f"{safe_group}_semantic_utility.svg",
+            )
+            bar_svg(
+                group_rows,
+                "resident_mib",
+                f"{group} Mean Resident Memory (MiB)",
+                figures_dir / f"{safe_group}_resident_memory.svg",
+            )
 
     with (figures_dir / "summary.md").open("w") as out:
         out.write("| Case | Group | Technique | Frames | Time p50 | Time p95 | Modeled bound delta | Prune ratio | Light-list KB | Offscreen MSE | Offscreen PSNR | Offscreen SSIM |\n")

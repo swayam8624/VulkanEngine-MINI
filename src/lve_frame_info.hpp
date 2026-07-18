@@ -34,6 +34,7 @@ struct alignas(16) ClusterConfigData {
   glm::vec4 worldMin{};
   glm::vec4 worldMax{};
   glm::uvec4 gridSize{};
+  glm::vec4 viewportNearFar{};
   uint32_t clusterCount = 0;
   uint32_t maxLightsPerCluster = 0;
   uint32_t lightIndexCapacity = 0;
@@ -70,7 +71,7 @@ static_assert(std::is_standard_layout<GlobalUbo>::value, "GlobalUbo must remain 
 static_assert(sizeof(PointLight) == 32, "PointLight must match two std140 vec4 values");
 static_assert(sizeof(SsboPointLight) == 32, "SsboPointLight must match two std430 vec4 values");
 static_assert(sizeof(SsboObjectData) == 128, "SsboObjectData must match two std430 mat4 values");
-static_assert(sizeof(ClusterConfigData) == 64, "ClusterConfigData must match GLSL UBO layout");
+static_assert(sizeof(ClusterConfigData) == 80, "ClusterConfigData must match GLSL UBO layout");
 static_assert(sizeof(ClusterHeaderData) == 16, "ClusterHeaderData must match GLSL std430 layout");
 static_assert(sizeof(AdaptiveClusterNodeData) == 32, "AdaptiveClusterNodeData must match GLSL layout");
 static_assert(offsetof(GlobalUbo, projection) == 0, "GlobalUbo projection offset changed");

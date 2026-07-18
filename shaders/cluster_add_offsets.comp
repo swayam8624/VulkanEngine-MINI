@@ -1,0 +1,40 @@
+#version 450
+
+layout(local_size_x = 256) in;
+
+struct ClusterHeader {
+  uint dataOffset;
+  uint storedCount;
+  uint totalCandidateCount;
+  uint flags;
+};
+
+layout(push_constant) uniform ClusterBuildConfig {
+  uint clusterCount;
+  uint lightCount;
+  uint maxLightsPerCluster;
+  uint lightIndexCapacity;
+  vec4 worldMin;
+  vec4 worldMax;
+  uvec4 gridSize;
+  vec4 viewportNearFar;
+} config;
+
+layout(std430, set = 0, binding = 4) buffer ClusterHeaders {
+  ClusterHeader headers[];
+} clusterHeaders;
+
+layout(std430, set = 0, binding = 8) readonly buffer BlockSums {
+  uint values[];
+} blockSums;
+
+void main() {
+  uint clusterId = gl_GlobalInvocationID.x;
+  if (clusterId >= config.clusterCount) return;
+  uint offset = clusterHeaders.headers[clusterId].dataOffset + blockSums.values[gl_WorkGroupID.x];
+  clusterHeaders.headers[clusterId].dataOffset = offset;
+  if (offset + clusterHeaders.headers[clusterId].storedCount > config.lightIndexCapacity) {
+    clusterHeaders.headers[clusterId].storedCount = 0u;
+    clusterHeaders.headers[clusterId].flags = 1u;
+  }
+}

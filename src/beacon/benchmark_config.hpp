@@ -10,6 +10,7 @@ namespace lve::beacon {
 enum class RenderTechnique {
   BaselineForward,
   SsboForward,
+  SsboDiffuseReference,
   InstancedForward,
   CpuClusteredFixed,
   FixedClusterCostModel,
@@ -38,6 +39,24 @@ enum class LightDistribution {
   CameraAttached
 };
 
+enum class GeoRenderPolicy {
+  FixedLod1,
+  DistanceLod,
+  SemanticLod,
+  GeoBeaconExact,
+  GeoBeaconBounded
+};
+
+enum class GeoCacheMode { Cold, Warm };
+
+enum class GeoCameraPath {
+  OuterOrbit,
+  StreetDrive,
+  IntersectionDwell,
+  LandmarkApproach,
+  RapidTeleport
+};
+
 struct BenchmarkConfig {
   ScenePreset scene = ScenePreset::Tutorial;
   LightDistribution lightDistribution = LightDistribution::Tutorial;
@@ -56,6 +75,19 @@ struct BenchmarkConfig {
   bool verbose = true;
   bool showLightBillboards = true;
   bool captureReference = false;
+  bool listDevices = false;
+  int32_t deviceIndex = -1;
+  std::string deviceName;
+  std::string deviceUuid;
+  bool geoEnabled = false;
+  GeoRenderPolicy geoPolicy = GeoRenderPolicy::GeoBeaconBounded;
+  GeoCacheMode geoCacheMode = GeoCacheMode::Cold;
+  GeoCameraPath geoCameraPath = GeoCameraPath::OuterOrbit;
+  std::filesystem::path geoManifest = "data/connaught_place/generated/geobeacon.json";
+  float geoTargetFrameMs = 16.67f;
+  uint64_t geoMemoryBudgetMiB = 512;
+  float geoUploadBudgetMiBPerSecond = 100.f;
+  uint32_t geoMaxTileChangesPerFrame = 8;
   std::filesystem::path outputDirectory = "beacon_results";
 };
 
@@ -63,6 +95,9 @@ BenchmarkConfig parseCommandLine(int argc, char** argv);
 std::string toString(RenderTechnique technique);
 std::string toString(ScenePreset scene);
 std::string toString(LightDistribution distribution);
+std::string toString(GeoRenderPolicy policy);
+std::string toString(GeoCacheMode mode);
+std::string toString(GeoCameraPath path);
 std::vector<RenderTechnique> implementedTechniques();
 
 }  // namespace lve::beacon

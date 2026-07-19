@@ -5,11 +5,22 @@
 #include "atlas/navigation/navigation.hpp"
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include <glm/gtc/quaternion.hpp>
 
 namespace vulkax::atlas {
+
+enum class AtlasControlPolicy : uint8_t {
+  DistanceOnly,
+  VelocityOnly,
+  RouteOnly,
+  RouteSemantics,
+  GeometryOnly,
+  LightingOnly,
+  FullAtlas
+};
 
 struct AtlasBudgetConfig {
   double targetFrameMilliseconds = 16.67;
@@ -87,7 +98,9 @@ struct RoutePrediction {
 
 class RoutePredictiveScheduler {
  public:
-  explicit RoutePredictiveScheduler(AtlasBudgetConfig budget = {});
+  explicit RoutePredictiveScheduler(
+      AtlasBudgetConfig budget = {},
+      AtlasControlPolicy policy = AtlasControlPolicy::FullAtlas);
 
   std::vector<AtlasTileDecision> select(
       const AtlasFrameContext& frame,
@@ -97,6 +110,8 @@ class RoutePredictiveScheduler {
   const AtlasFrameStats& stats() const { return frameStats; }
   const AtlasBudgetConfig& budgetConfig() const { return budget; }
   void setBudget(AtlasBudgetConfig value) { budget = value; }
+  AtlasControlPolicy controlPolicy() const { return policy; }
+  void setControlPolicy(AtlasControlPolicy value) { policy = value; }
 
  private:
   struct RouteScore {
@@ -107,10 +122,17 @@ class RoutePredictiveScheduler {
   RouteScore scoreRoute(
       const AtlasTileCandidate& candidate,
       const RoutePrediction* route) const;
+  RouteScore scoreVelocity(
+      const AtlasTileCandidate& candidate,
+      const AtlasFrameContext& frame) const;
 
   AtlasBudgetConfig budget;
+  AtlasControlPolicy policy;
   AtlasFrameStats frameStats{};
   double frameTimeEwmaMilliseconds = 0.0;
 };
+
+const char* toString(AtlasControlPolicy policy);
+AtlasControlPolicy parseAtlasControlPolicy(const std::string& value);
 
 }  // namespace vulkax::atlas

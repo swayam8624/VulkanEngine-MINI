@@ -1,0 +1,65 @@
+{
+  "candidateTiles": 183,
+  "format": "Vulkax-Atlas-research-summary-1",
+  "framesPerPolicy": 600,
+  "measurementClass": "analytical-scheduler-simulation",
+  "policies": [
+    {
+      "deadlineMisses": 644,
+      "policy": "distance-only",
+      "requestedBytes": 4194304,
+      "routeCorridorQuality": 0.0,
+      "semanticUtility": 96.40469669211832,
+      "wastedPrefetchBytes": 3145728
+    },
+    {
+      "deadlineMisses": 204,
+      "policy": "velocity-only",
+      "requestedBytes": 4194304,
+      "routeCorridorQuality": 55.786847618991835,
+      "semanticUtility": 202.5430431140172,
+      "wastedPrefetchBytes": 2818048
+    },
+    {
+      "deadlineMisses": 8,
+      "policy": "route-only",
+      "requestedBytes": 4194304,
+      "routeCorridorQuality": 61.487811845775205,
+      "semanticUtility": 188.15724503247554,
+      "wastedPrefetchBytes": 2686976
+    },
+    {
+      "deadlineMisses": 4,
+      "policy": "route-semantics",
+      "requestedBytes": 4194304,
+      "routeCorridorQuality": 53.90100547801206,
+      "semanticUtility": 156.62806320923573,
+      "wastedPrefetchBytes": 2686976
+    },
+    {
+      "deadlineMisses": 644,
+      "policy": "geometry-only",
+      "requestedBytes": 4194304,
+      "routeCorridorQuality": 0.0,
+      "semanticUtility": 96.40469669211832,
+      "wastedPrefetchBytes": 3145728
+    },
+    {
+      "deadlineMisses": 644,
+      "policy": "lighting-only",
+      "requestedBytes": 4194304,
+      "routeCorridorQuality": 0.0,
+      "semanticUtility": 96.40469669211832,
+      "wastedPrefetchBytes": 3145728
+    },
+    {
+      "deadlineMisses": 4,
+      "policy": "full-atlas",
+      "requestedBytes": 4194304,
+      "routeCorridorQuality": 53.90100547801206,
+      "semanticUtility": 156.62806320923573,
+      "wastedPrefetchBytes": 2686976
+    }
+  ],
+  "seed": 1337
+}

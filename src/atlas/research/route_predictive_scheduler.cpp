@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <stdexcept>
 
 namespace vulkax::atlas {
 namespace {
@@ -21,8 +22,10 @@ double pointSegmentDistance(
 
 }  // namespace
 
-RoutePredictiveScheduler::RoutePredictiveScheduler(AtlasBudgetConfig budget)
-    : budget{budget} {}
+RoutePredictiveScheduler::RoutePredictiveScheduler(
+    AtlasBudgetConfig budget,
+    AtlasControlPolicy policy)
+    : budget{budget}, policy{policy} {}
 
 RoutePredictiveScheduler::RouteScore RoutePredictiveScheduler::scoreRoute(
     const AtlasTileCandidate& candidate,
@@ -72,6 +75,32 @@ RoutePredictiveScheduler::RouteScore RoutePredictiveScheduler::scoreRoute(
   };
 }
 
+RoutePredictiveScheduler::RouteScore
+RoutePredictiveScheduler::scoreVelocity(
+    const AtlasTileCandidate& candidate,
+    const AtlasFrameContext& frame) const {
+  const double speed =
+      glm::length(frame.cameraVelocityMetersPerSecond);
+  if (speed < 0.1) return {};
+  const glm::dvec3 direction =
+      frame.cameraVelocityMetersPerSecond / speed;
+  const glm::dvec3 offset =
+      candidate.center.meters - frame.cameraPosition.meters;
+  const double along = glm::dot(offset, direction);
+  const glm::dvec3 lateral = offset - direction * std::max(0.0, along);
+  const double lateralDistance =
+      std::max(
+          0.0,
+          glm::length(lateral) - candidate.boundingRadiusMeters);
+  const double probability =
+      along < 0.0
+          ? 0.0
+          : std::exp(
+                -(lateralDistance * lateralDistance) /
+                (2.0 * 500.0 * 500.0));
+  return {probability, std::max(0.0, along) / speed};
+}
+
 std::vector<AtlasTileDecision> RoutePredictiveScheduler::select(
     const AtlasFrameContext& frame,
     const std::vector<AtlasTileCandidate>& candidates,
@@ -97,13 +126,26 @@ std::vector<AtlasTileDecision> RoutePredictiveScheduler::select(
   for (const auto& candidate : candidates) {
     if (candidate.visible) frameStats.visibleTiles++;
     if (candidate.resident) frameStats.residentBytes += candidate.residentBytes;
-    const RouteScore routeScore = scoreRoute(candidate, route);
+    RouteScore routeScore{};
+    if (policy == AtlasControlPolicy::VelocityOnly) {
+      routeScore = scoreVelocity(candidate, frame);
+    } else if (
+        policy == AtlasControlPolicy::RouteOnly ||
+        policy == AtlasControlPolicy::RouteSemantics ||
+        policy == AtlasControlPolicy::FullAtlas) {
+      routeScore = scoreRoute(candidate, route);
+    }
     const bool routeCritical =
         routeScore.probability >= 0.6 || candidate.routeCriticalLabel;
     if (routeCritical) frameStats.routeCriticalTiles++;
 
+    const bool usesSemantics =
+        policy == AtlasControlPolicy::RouteSemantics ||
+        policy == AtlasControlPolicy::FullAtlas;
+    const double semanticWeight =
+        usesSemantics ? std::max(0.0, candidate.semanticImportance) : 1.0;
     const double visualImportance =
-        std::max(0.0, candidate.semanticImportance) *
+        semanticWeight *
         std::max(0.0, candidate.qualityGain) *
         (0.25 + std::max(0.0, candidate.visibilityConfidence));
     const double routeImportance =
@@ -115,11 +157,20 @@ std::vector<AtlasTileDecision> RoutePredictiveScheduler::select(
     const double utility =
         visualImportance + routeImportance * deadlineWeight +
         std::max(0.0, candidate.screenSpaceErrorPixels) * 0.02;
+    const double geometryCost =
+        policy == AtlasControlPolicy::LightingOnly
+            ? 0.0
+            : static_cast<double>(candidate.uploadBytes) /
+                  (1024.0 * 1024.0);
+    const double lightingCost =
+        policy == AtlasControlPolicy::GeometryOnly
+            ? 0.0
+            : candidate.lightingCostMilliseconds * 8.0;
     const double cost =
         1.0 +
-        static_cast<double>(candidate.uploadBytes) / (1024.0 * 1024.0) +
+        geometryCost +
         candidate.gpuCostMilliseconds * 8.0 +
-        candidate.lightingCostMilliseconds * 8.0;
+        lightingCost;
     const bool speculative = !candidate.visible && routeScore.probability > 0.05;
     ranked.push_back(
         {
@@ -196,6 +247,30 @@ std::vector<AtlasTileDecision> RoutePredictiveScheduler::select(
   const double timeViolation = framePressure > 1.0 ? framePressure - 1.0 : 0.0;
   frameStats.budgetViolation = std::max(memoryViolation, timeViolation);
   return selected;
+}
+
+const char* toString(AtlasControlPolicy policy) {
+  switch (policy) {
+    case AtlasControlPolicy::DistanceOnly: return "distance-only";
+    case AtlasControlPolicy::VelocityOnly: return "velocity-only";
+    case AtlasControlPolicy::RouteOnly: return "route-only";
+    case AtlasControlPolicy::RouteSemantics: return "route-semantics";
+    case AtlasControlPolicy::GeometryOnly: return "geometry-only";
+    case AtlasControlPolicy::LightingOnly: return "lighting-only";
+    case AtlasControlPolicy::FullAtlas: return "full-atlas";
+  }
+  return "unknown";
+}
+
+AtlasControlPolicy parseAtlasControlPolicy(const std::string& value) {
+  if (value == "distance-only") return AtlasControlPolicy::DistanceOnly;
+  if (value == "velocity-only") return AtlasControlPolicy::VelocityOnly;
+  if (value == "route-only") return AtlasControlPolicy::RouteOnly;
+  if (value == "route-semantics") return AtlasControlPolicy::RouteSemantics;
+  if (value == "geometry-only") return AtlasControlPolicy::GeometryOnly;
+  if (value == "lighting-only") return AtlasControlPolicy::LightingOnly;
+  if (value == "full-atlas") return AtlasControlPolicy::FullAtlas;
+  throw std::invalid_argument("unknown Atlas control policy: " + value);
 }
 
 }  // namespace vulkax::atlas

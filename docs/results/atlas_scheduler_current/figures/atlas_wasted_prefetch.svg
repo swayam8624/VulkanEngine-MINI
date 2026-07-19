@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520">
+<rect width="100%" height="100%" fill="#f7f8f6"/>
+<text x="490.0" y="36" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#182229">Wasted prefetch bytes by controller policy</text>
+<line x1="90" y1="400" x2="950" y2="400" stroke="#46545d" stroke-width="1"/>
+<rect x="112.11" y="70.00" width="78.63" height="330.00" fill="#315b7d"/>
+<text x="151.43" y="62.00" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#182229">3,145,728</text>
+<text x="151.43" y="420" text-anchor="end" transform="rotate(-35 151.43 420)" font-family="sans-serif" font-size="13" fill="#26343d">distance only</text>
+<rect x="234.97" y="104.38" width="78.63" height="295.62" fill="#4f7f6a"/>
+<text x="274.29" y="96.38" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#182229">2,818,048</text>
+<text x="274.29" y="420" text-anchor="end" transform="rotate(-35 274.29 420)" font-family="sans-serif" font-size="13" fill="#26343d">velocity only</text>
+<rect x="357.83" y="118.12" width="78.63" height="281.88" fill="#d07a34"/>
+<text x="397.14" y="110.12" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#182229">2,686,976</text>
+<text x="397.14" y="420" text-anchor="end" transform="rotate(-35 397.14 420)" font-family="sans-serif" font-size="13" fill="#26343d">route only</text>
+<rect x="480.69" y="118.12" width="78.63" height="281.88" fill="#8b5c9e"/>
+<text x="520.00" y="110.12" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#182229">2,686,976</text>
+<text x="520.00" y="420" text-anchor="end" transform="rotate(-35 520.00 420)" font-family="sans-serif" font-size="13" fill="#26343d">route semantics</text>
+<rect x="603.54" y="70.00" width="78.63" height="330.00" fill="#9b3f45"/>
+<text x="642.86" y="62.00" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#182229">3,145,728</text>
+<text x="642.86" y="420" text-anchor="end" transform="rotate(-35 642.86 420)" font-family="sans-serif" font-size="13" fill="#26343d">geometry only</text>
+<rect x="726.40" y="70.00" width="78.63" height="330.00" fill="#68717a"/>
+<text x="765.71" y="62.00" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#182229">3,145,728</text>
+<text x="765.71" y="420" text-anchor="end" transform="rotate(-35 765.71 420)" font-family="sans-serif" font-size="13" fill="#26343d">lighting only</text>
+<rect x="849.26" y="118.12" width="78.63" height="281.88" fill="#1f9d75"/>
+<text x="888.57" y="110.12" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#182229">2,686,976</text>
+<text x="888.57" y="420" text-anchor="end" transform="rotate(-35 888.57 420)" font-family="sans-serif" font-size="13" fill="#26343d">full atlas</text>
+</svg>

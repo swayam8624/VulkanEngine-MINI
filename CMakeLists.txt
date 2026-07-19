@@ -30,6 +30,20 @@ find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(glm REQUIRED)
 find_package(SQLite3 REQUIRED)
 find_package(CURL REQUIRED)
+if (TARGET SQLite3::SQLite3)
+  set(ATLAS_SQLITE_TARGET SQLite3::SQLite3)
+elseif (TARGET SQLite::SQLite3)
+  set(ATLAS_SQLITE_TARGET SQLite::SQLite3)
+else()
+  add_library(atlas_sqlite_imported INTERFACE)
+  target_include_directories(
+    atlas_sqlite_imported INTERFACE ${SQLite3_INCLUDE_DIRS}
+  )
+  target_link_libraries(
+    atlas_sqlite_imported INTERFACE ${SQLite3_LIBRARIES}
+  )
+  set(ATLAS_SQLITE_TARGET atlas_sqlite_imported)
+endif()
 if (NOT Vulkan_FOUND)
 	message(FATAL_ERROR "Could not find Vulkan library!")
 else()
@@ -131,7 +145,7 @@ target_include_directories(atlas_streaming PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_link_libraries(
   atlas_streaming
   PUBLIC atlas_core atlas_network atlas_navigation atlas_research
-         SQLite3::SQLite3
+         ${ATLAS_SQLITE_TARGET}
 )
 
 add_library(VulkaxAtlasCore INTERFACE)
@@ -145,6 +159,11 @@ add_executable(VulkaxAtlasBuilder tools/atlas_build.cpp)
 set_target_properties(VulkaxAtlasBuilder PROPERTIES OUTPUT_NAME atlas-build)
 target_compile_features(VulkaxAtlasBuilder PRIVATE cxx_std_20)
 target_link_libraries(VulkaxAtlasBuilder PRIVATE VulkaxAtlasCore)
+
+add_executable(VulkaxAtlasBenchmark tools/atlas_benchmark.cpp)
+set_target_properties(VulkaxAtlasBenchmark PROPERTIES OUTPUT_NAME atlas-benchmark)
+target_compile_features(VulkaxAtlasBenchmark PRIVATE cxx_std_20)
+target_link_libraries(VulkaxAtlasBenchmark PRIVATE VulkaxAtlasCore)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -299,5 +318,12 @@ if (BUILD_TESTING)
       ${Python3_EXECUTABLE}
       ${PROJECT_SOURCE_DIR}/tests/test_atlas_manifests.py
       $<TARGET_FILE:VulkaxAtlasBuilder>
+  )
+  add_test(
+    NAME atlas_research_benchmark
+    COMMAND
+      ${Python3_EXECUTABLE}
+      ${PROJECT_SOURCE_DIR}/tests/test_atlas_benchmark.py
+      $<TARGET_FILE:VulkaxAtlasBenchmark>
   )
 endif()

@@ -80,6 +80,32 @@ deadline misses and wasted prefetch bandwidth at a fixed frame/memory budget.
 Architecture and dataset details are in [docs/ATLAS_ARCHITECTURE.md](docs/ATLAS_ARCHITECTURE.md)
 and [docs/ATLAS_REGIONAL_PACKS.md](docs/ATLAS_REGIONAL_PACKS.md).
 
+## Checked Atlas controller result
+
+`docs/results/atlas_scheduler_current` contains a 600-frame constrained scheduler experiment across
+seven policies. It is explicitly an analytical scheduler simulation, not a Vulkan timing set.
+
+| Policy | Route-corridor deadline misses | Wasted prefetch bytes |
+| --- | ---: | ---: |
+| distance-only | 644 | 3,145,728 |
+| velocity-only | 204 | 2,818,048 |
+| route-only | 8 | 2,686,976 |
+| route-semantics | 4 | 2,686,976 |
+| full-atlas | 4 | 2,686,976 |
+
+Regenerate the raw rows and figures:
+
+```bash
+build/atlas-benchmark --frames 600 \
+  --output docs/results/atlas_scheduler_current
+python3 scripts/generate_atlas_figures.py \
+  docs/results/atlas_scheduler_current \
+  docs/results/atlas_scheduler_current/figures
+```
+
+The dedicated paper is
+[`docs/paper/vulkax_atlas_research.pdf`](docs/paper/vulkax_atlas_research.pdf).
+
 ## GeoBEACON foundation
 
 GeoBEACON is the checked urban digital-twin research baseline built around an OpenStreetMap extract

@@ -13,19 +13,17 @@ and regression executable, preserving every existing technique and CLI identifie
 ## Atlas quick start
 
 ```bash
-brew install cmake glfw glm nlohmann-json sqlite curl vulkan-loader glslang
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
-cmake --build build -j 8
-ctest --test-dir build --output-on-failure
-
-build/VulkaxAtlas \
-  --atlas-manifest data/atlas/regions/delhi-ncr/atlas-dataset.json \
-  --atlas-navigation-replay data/atlas/navigation_replay.json
+scripts/vulkax_macos.sh doctor
+scripts/vulkax_macos.sh deps
+scripts/vulkax_macos.sh test
+scripts/vulkax_macos.sh atlas
 ```
 
 The globe uses `W/A/S/D` for horizontal movement, `E/Q` for vertical movement, arrow keys for
 view rotation, and either Shift key for accelerated traversal. The window reports selected globe
 tiles and deepest selected quadtree level while permanently retaining OpenStreetMap attribution.
+The dependency step only needs to be run once. Later sessions normally need only
+`scripts/vulkax_macos.sh atlas`.
 
 Generate and validate the five checked reference manifests:
 
@@ -72,12 +70,25 @@ Atlas provider model. If an explicitly configured upstream fails, the gateway re
 than silently substituting replay data. Transit and traffic replay remain deterministic unless
 their deployment-specific adapters are configured separately.
 
-Or build the container:
+On Apple silicon with macOS 26 or newer, run the gateway with Apple `container`:
 
 ```bash
-docker build -f services/atlas_gateway/Dockerfile \
-  -t vulkax-atlas-gateway .
-docker run --rm -p 8080:8080 vulkax-atlas-gateway
+scripts/atlas_gateway_container.sh setup
+scripts/atlas_gateway_container.sh start
+scripts/atlas_gateway_container.sh health
+```
+
+The first `setup` may request permission to install Apple's recommended Linux kernel. Later
+sessions only need `start`; use `stop`, `restart`, `status`, or `logs` for lifecycle management.
+The recipe is the OCI-standard `services/atlas_gateway/Containerfile`, and the runtime binds the
+checked `data` directory read-only for range-addressable content.
+
+To connect real self-hosted services:
+
+```bash
+PELIAS_URL=http://pelias-host:4000 \
+VALHALLA_URL=http://valhalla-host:8002 \
+scripts/atlas_gateway_container.sh restart
 ```
 
 The native `GatewayNavigationProvider` and `CurlHttpTransport` consume this contract. The same
@@ -92,7 +103,8 @@ is whether route probability, time-to-arrival, maneuver importance, and semantic
 deadline misses and wasted prefetch bandwidth at a fixed frame/memory budget.
 
 Architecture and dataset details are in [docs/ATLAS_ARCHITECTURE.md](docs/ATLAS_ARCHITECTURE.md)
-and [docs/ATLAS_REGIONAL_PACKS.md](docs/ATLAS_REGIONAL_PACKS.md).
+and [docs/ATLAS_REGIONAL_PACKS.md](docs/ATLAS_REGIONAL_PACKS.md). The complete local operating
+guide is [docs/RUNNING_VULKAX.md](docs/RUNNING_VULKAX.md).
 
 ## Checked Atlas controller result
 

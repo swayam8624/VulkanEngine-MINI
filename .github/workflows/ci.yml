@@ -21,8 +21,21 @@ jobs:
         run: cmake --build build
       - name: Test
         run: ctest --test-dir build --output-on-failure
-      - name: Build self-hosted gateway image
-        run: docker build -f services/atlas_gateway/Dockerfile -t vulkax-atlas-gateway:ci .
+      - name: Validate gateway runtime entrypoint
+        run: |
+          python3 -m py_compile services/atlas_gateway/server.py
+          python3 services/atlas_gateway/server.py \
+            --listen 127.0.0.1 --port 18080 \
+            --replay data/atlas/navigation_replay.json &
+          GATEWAY_PID=$!
+          trap 'kill "$GATEWAY_PID" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:18080/v1/status >/dev/null; then
+              exit 0
+            fi
+            sleep 0.25
+          done
+          exit 1
       - name: Resolve Lavapipe driver
         run: |
           LVP_ICD="$(find /usr/share/vulkan/icd.d /etc/vulkan/icd.d \

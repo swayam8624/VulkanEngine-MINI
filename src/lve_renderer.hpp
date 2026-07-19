@@ -2,7 +2,7 @@
 
 #include "lve_device.hpp"
 #include "lve_swap_chain.hpp"
-#include "lve_window.hpp"
+#include "platform/vulkan_surface_host.hpp"
 
 // std
 #include <cassert>
@@ -12,7 +12,7 @@
 namespace lve {
 class LveRenderer {
  public:
-  LveRenderer(LveWindow &window, LveDevice &device);
+  LveRenderer(VulkanSurfaceHost &surfaceHost, LveDevice &device);
   ~LveRenderer();
 
   LveRenderer(const LveRenderer &) = delete;
@@ -36,13 +36,16 @@ class LveRenderer {
   void endFrame();
   void beginSwapChainRenderPass(VkCommandBuffer commandBuffer);
   void endSwapChainRenderPass(VkCommandBuffer commandBuffer);
+  void waitForLastSubmittedFrame() {
+    lveSwapChain->waitForLastSubmittedFrame();
+  }
 
  private:
   void createCommandBuffers();
   void freeCommandBuffers();
   void recreateSwapChain();
 
-  LveWindow &lveWindow;
+  VulkanSurfaceHost &surfaceHost;
   LveDevice &lveDevice;
   std::unique_ptr<LveSwapChain> lveSwapChain;
   std::vector<VkCommandBuffer> commandBuffers;

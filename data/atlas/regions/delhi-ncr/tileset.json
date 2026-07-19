@@ -1,0 +1,238 @@
+{
+  "asset": {
+    "tilesetVersion": "Vulkax-Atlas-2",
+    "version": "1.1"
+  },
+  "extras": {
+    "attribution": "(c) OpenStreetMap contributors",
+    "cubeFaceRoots": 6,
+    "datasetId": "delhi-ncr"
+  },
+  "geometricError": 2000000.0,
+  "root": {
+    "boundingVolume": {
+      "box": [
+        0.0,
+        0.0,
+        0.0,
+        6378137.0,
+        0.0,
+        0.0,
+        0.0,
+        6378137.0,
+        0.0,
+        0.0,
+        0.0,
+        6378137.0
+      ]
+    },
+    "children": [
+      {
+        "boundingVolume": {
+          "box": [
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0
+          ]
+        },
+        "content": {
+          "uri": "content/terrain/px/{level}/{x}/{y}.glb"
+        },
+        "extras": {
+          "cubeFace": "px"
+        },
+        "geometricError": 2000000.0,
+        "implicitTiling": {
+          "availableLevels": 19,
+          "subdivisionScheme": "QUADTREE",
+          "subtreeLevels": 5,
+          "subtrees": {
+            "uri": "subtrees/px/{level}/{x}/{y}.subtree"
+          }
+        },
+        "refine": "REPLACE"
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0
+          ]
+        },
+        "content": {
+          "uri": "content/terrain/nx/{level}/{x}/{y}.glb"
+        },
+        "extras": {
+          "cubeFace": "nx"
+        },
+        "geometricError": 2000000.0,
+        "implicitTiling": {
+          "availableLevels": 19,
+          "subdivisionScheme": "QUADTREE",
+          "subtreeLevels": 5,
+          "subtrees": {
+            "uri": "subtrees/nx/{level}/{x}/{y}.subtree"
+          }
+        },
+        "refine": "REPLACE"
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0
+          ]
+        },
+        "content": {
+          "uri": "content/terrain/py/{level}/{x}/{y}.glb"
+        },
+        "extras": {
+          "cubeFace": "py"
+        },
+        "geometricError": 2000000.0,
+        "implicitTiling": {
+          "availableLevels": 19,
+          "subdivisionScheme": "QUADTREE",
+          "subtreeLevels": 5,
+          "subtrees": {
+            "uri": "subtrees/py/{level}/{x}/{y}.subtree"
+          }
+        },
+        "refine": "REPLACE"
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0
+          ]
+        },
+        "content": {
+          "uri": "content/terrain/ny/{level}/{x}/{y}.glb"
+        },
+        "extras": {
+          "cubeFace": "ny"
+        },
+        "geometricError": 2000000.0,
+        "implicitTiling": {
+          "availableLevels": 19,
+          "subdivisionScheme": "QUADTREE",
+          "subtreeLevels": 5,
+          "subtrees": {
+            "uri": "subtrees/ny/{level}/{x}/{y}.subtree"
+          }
+        },
+        "refine": "REPLACE"
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0
+          ]
+        },
+        "content": {
+          "uri": "content/terrain/pz/{level}/{x}/{y}.glb"
+        },
+        "extras": {
+          "cubeFace": "pz"
+        },
+        "geometricError": 2000000.0,
+        "implicitTiling": {
+          "availableLevels": 19,
+          "subdivisionScheme": "QUADTREE",
+          "subtreeLevels": 5,
+          "subtrees": {
+            "uri": "subtrees/pz/{level}/{x}/{y}.subtree"
+          }
+        },
+        "refine": "REPLACE"
+      },
+      {
+        "boundingVolume": {
+          "box": [
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0,
+            0.0,
+            0.0,
+            0.0,
+            6378137.0
+          ]
+        },
+        "content": {
+          "uri": "content/terrain/nz/{level}/{x}/{y}.glb"
+        },
+        "extras": {
+          "cubeFace": "nz"
+        },
+        "geometricError": 2000000.0,
+        "implicitTiling": {
+          "availableLevels": 19,
+          "subdivisionScheme": "QUADTREE",
+          "subtreeLevels": 5,
+          "subtrees": {
+            "uri": "subtrees/nz/{level}/{x}/{y}.subtree"
+          }
+        },
+        "refine": "REPLACE"
+      }
+    ],
+    "geometricError": 2000000.0,
+    "refine": "REPLACE"
+  }
+}

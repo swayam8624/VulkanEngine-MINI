@@ -92,8 +92,8 @@ std::string physicalDeviceUuid(VkPhysicalDevice device) {
 }
 }  // namespace
 
-LveDevice::LveDevice(LveWindow &window, const beacon::BenchmarkConfig& config)
-    : selectionConfig{config}, window{window} {
+LveDevice::LveDevice(VulkanSurfaceHost &surfaceHost, const beacon::BenchmarkConfig& config)
+    : selectionConfig{config}, surfaceHost{surfaceHost} {
   createInstance();
   setupDebugMessenger();
   createSurface();
@@ -161,7 +161,7 @@ void LveDevice::createInstance() {
     throw std::runtime_error("failed to create Vulkan instance, VkResult=" + std::to_string(instanceResult));
   }
 
-  hasGflwRequiredInstanceExtensions();
+  validateRequiredInstanceExtensions();
 }
 
 void LveDevice::pickPhysicalDevice() {
@@ -284,7 +284,7 @@ void LveDevice::createCommandPool() {
   }
 }
 
-void LveDevice::createSurface() { window.createWindowSurface(instance, &surface_); }
+void LveDevice::createSurface() { surface_ = surfaceHost.createVulkanSurface(instance); }
 
 bool LveDevice::isDeviceSuitable(VkPhysicalDevice device) {
   QueueFamilyIndices indices = findQueueFamilies(device);
@@ -351,11 +351,7 @@ bool LveDevice::checkValidationLayerSupport() {
 }
 
 std::vector<const char *> LveDevice::getRequiredExtensions() {
-  uint32_t glfwExtensionCount = 0;
-  const char **glfwExtensions;
-  glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-  std::vector<const char *> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+  auto extensions = surfaceHost.requiredInstanceExtensions();
 
   if (enableValidationLayers) {
     extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -364,7 +360,7 @@ std::vector<const char *> LveDevice::getRequiredExtensions() {
   return extensions;
 }
 
-void LveDevice::hasGflwRequiredInstanceExtensions() {
+void LveDevice::validateRequiredInstanceExtensions() {
   uint32_t extensionCount = 0;
   vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
   std::vector<VkExtensionProperties> extensions(extensionCount);
@@ -382,7 +378,7 @@ void LveDevice::hasGflwRequiredInstanceExtensions() {
   for (const auto &required : requiredExtensions) {
     std::cout << "\t" << required << std::endl;
     if (available.find(required) == available.end()) {
-      throw std::runtime_error("Missing required glfw extension");
+      throw std::runtime_error("missing required Vulkan surface-host extension");
     }
   }
 }

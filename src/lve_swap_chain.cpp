@@ -126,9 +126,23 @@ VkResult LveSwapChain::submitCommandBuffers(const VkCommandBuffer *buffers, uint
 
   auto result = vkQueuePresentKHR(device.presentQueue(), &presentInfo);
 
+  lastSubmittedFrame = currentFrame;
+  hasSubmittedFrame = true;
   currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
   return result;
+}
+
+void LveSwapChain::waitForLastSubmittedFrame() {
+  if (!hasSubmittedFrame) return;
+  if (vkWaitForFences(
+          device.device(),
+          1,
+          &inFlightFences[lastSubmittedFrame],
+          VK_TRUE,
+          std::numeric_limits<uint64_t>::max()) != VK_SUCCESS) {
+    throw std::runtime_error("failed waiting for submitted frame fence");
+  }
 }
 
 void LveSwapChain::createSwapChain() {

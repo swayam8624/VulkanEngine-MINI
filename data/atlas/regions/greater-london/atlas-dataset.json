@@ -1,0 +1,120 @@
+{
+  "attribution": "(c) OpenStreetMap contributors",
+  "capabilities": {
+    "offlineRouting": true,
+    "offlineSearch": true,
+    "requiresNetwork": false,
+    "traffic": true,
+    "transit": true
+  },
+  "copyrightUrl": "https://www.openstreetmap.org/copyright",
+  "datasetId": "greater-london",
+  "defaultView": [
+    51.5074,
+    -0.1278,
+    6000.0
+  ],
+  "displayName": "Greater London",
+  "format": "Vulkax-Atlas-dataset",
+  "formatVersion": 2,
+  "generatedAt": "2026-07-19T00:00:00Z",
+  "layers": [
+    {
+      "contentTemplate": "content/terrain/{face}/{level}/{x}/{y}.glb",
+      "layer": "terrain",
+      "maximumLevel": 18,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 2000000.0
+    },
+    {
+      "contentTemplate": "content/buildings/{face}/{level}/{x}/{y}.glb",
+      "layer": "buildings",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/roads/{face}/{level}/{x}/{y}.glb",
+      "layer": "roads",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/land-use/{face}/{level}/{x}/{y}.glb",
+      "layer": "land-use",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/water/{face}/{level}/{x}/{y}.glb",
+      "layer": "water",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/vegetation/{face}/{level}/{x}/{y}.glb",
+      "layer": "vegetation",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/poi/{face}/{level}/{x}/{y}.glb",
+      "layer": "poi",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/labels/{face}/{level}/{x}/{y}.glb",
+      "layer": "labels",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": false,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/transit/{face}/{level}/{x}/{y}.glb",
+      "layer": "transit",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": true,
+      "rootGeometricErrorMeters": 500000.0
+    },
+    {
+      "contentTemplate": "content/traffic/{face}/{level}/{x}/{y}.glb",
+      "layer": "traffic",
+      "maximumLevel": 20,
+      "minimumLevel": 0,
+      "optional": true,
+      "rootGeometricErrorMeters": 500000.0
+    }
+  ],
+  "sources": [
+    {
+      "capturedAt": "2026-07-19T00:00:00Z",
+      "checksumSha256": "",
+      "license": "ODbL-1.0",
+      "name": "OpenStreetMap",
+      "url": "https://planet.openstreetmap.org"
+    },
+    {
+      "capturedAt": "2026-07-19T00:00:00Z",
+      "checksumSha256": "",
+      "license": "Copernicus free and open data",
+      "name": "Copernicus DEM GLO-30",
+      "url": "https://dataspace.copernicus.eu"
+    }
+  ],
+  "verticalDatum": "WGS84-ellipsoidal"
+}

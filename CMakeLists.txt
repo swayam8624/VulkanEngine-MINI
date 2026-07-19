@@ -15,7 +15,7 @@ if (CMAKE_GENERATOR STREQUAL "MinGW Makefiles")
     set(CMAKE_CXX_COMPILER  ${MINGW_PATH}/bin/g++.exe)
 endif()
 
-project(${NAME} VERSION 0.23.0)
+project(${NAME} VERSION 0.24.0)
 
 # 1. Set VULKAN_SDK_PATH in .env.cmake to target specific vulkan version
 if (DEFINED VULKAN_SDK_PATH)
@@ -28,6 +28,8 @@ else()
 endif()
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(glm REQUIRED)
+find_package(SQLite3 REQUIRED)
+find_package(CURL REQUIRED)
 if (NOT Vulkan_FOUND)
 	message(FATAL_ERROR "Could not find Vulkan library!")
 else()
@@ -64,13 +66,91 @@ if (NOT TINYOBJ_PATH)
   set(TINYOBJ_PATH external/tinyobjloader)
 endif()
 
-file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
+list(FILTER SOURCES EXCLUDE REGEX "/src/atlas/")
+
+add_library(
+  atlas_core STATIC
+  src/atlas/core/geodesy.cpp
+  src/atlas/core/sha256.cpp
+  src/atlas/core/tile_key.cpp
+  src/atlas/core/dataset.cpp
+)
+target_compile_features(atlas_core PUBLIC cxx_std_20)
+target_include_directories(atlas_core PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(
+  atlas_core PUBLIC glm::glm nlohmann_json::nlohmann_json
+)
+
+add_library(
+  atlas_network STATIC
+  src/atlas/streaming/tile_source.cpp
+)
+target_compile_features(atlas_network PUBLIC cxx_std_20)
+target_include_directories(atlas_network PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(atlas_network PUBLIC atlas_core CURL::libcurl)
+
+add_library(
+  atlas_navigation STATIC
+  src/atlas/navigation/replay_providers.cpp
+  src/atlas/navigation/gateway_provider.cpp
+)
+target_compile_features(atlas_navigation PUBLIC cxx_std_20)
+target_include_directories(atlas_navigation PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(
+  atlas_navigation
+  PUBLIC atlas_core atlas_network nlohmann_json::nlohmann_json
+)
+
+add_library(
+  atlas_research STATIC
+  src/atlas/research/route_predictive_scheduler.cpp
+)
+target_compile_features(atlas_research PUBLIC cxx_std_20)
+target_include_directories(atlas_research PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(atlas_research PUBLIC atlas_core atlas_navigation)
+
+add_library(
+  atlas_renderer STATIC
+  src/atlas/renderer/globe_mesh.cpp
+  src/atlas/renderer/route_mesh.cpp
+)
+target_compile_features(atlas_renderer PUBLIC cxx_std_20)
+target_include_directories(atlas_renderer PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(atlas_renderer PUBLIC atlas_core atlas_navigation)
+
+add_library(
+  atlas_streaming STATIC
+  src/atlas/atlas_runtime.cpp
+  src/atlas/streaming/tile_cache.cpp
+  src/atlas/streaming/regional_pack.cpp
+  src/atlas/streaming/globe_selector.cpp
+)
+target_compile_features(atlas_streaming PUBLIC cxx_std_20)
+target_include_directories(atlas_streaming PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_link_libraries(
+  atlas_streaming
+  PUBLIC atlas_core atlas_network atlas_navigation atlas_research
+         SQLite3::SQLite3
+)
+
+add_library(VulkaxAtlasCore INTERFACE)
+target_link_libraries(
+  VulkaxAtlasCore
+  INTERFACE atlas_core atlas_network atlas_navigation atlas_research
+            atlas_renderer atlas_streaming
+)
+
+add_executable(VulkaxAtlasBuilder tools/atlas_build.cpp)
+set_target_properties(VulkaxAtlasBuilder PROPERTIES OUTPUT_NAME atlas-build)
+target_compile_features(VulkaxAtlasBuilder PRIVATE cxx_std_20)
+target_link_libraries(VulkaxAtlasBuilder PRIVATE VulkaxAtlasCore)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 target_compile_definitions(${PROJECT_NAME} PRIVATE ENGINE_DIR="${PROJECT_SOURCE_DIR}/")
-target_link_libraries(${PROJECT_NAME} glm::glm)
+target_link_libraries(${PROJECT_NAME} glm::glm VulkaxAtlasCore)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
@@ -148,6 +228,15 @@ add_custom_target(
 )
 
 add_dependencies(${PROJECT_NAME} Shaders)
+add_custom_target(atlas_app_desktop DEPENDS ${PROJECT_NAME})
+add_custom_command(
+  TARGET ${PROJECT_NAME}
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy
+          $<TARGET_FILE:${PROJECT_NAME}>
+          $<TARGET_FILE_DIR:${PROJECT_NAME}>/VulkaxAtlas
+  COMMENT "Creating the VulkaxAtlas application entrypoint"
+)
 
 include(CTest)
 if (BUILD_TESTING)
@@ -162,9 +251,53 @@ if (BUILD_TESTING)
   target_link_libraries(BeaconCoreTests PRIVATE glm::glm)
   add_test(NAME beacon_core COMMAND BeaconCoreTests)
 
+  add_executable(AtlasCoreTests tests/atlas_core_tests.cpp)
+  target_compile_features(AtlasCoreTests PRIVATE cxx_std_20)
+  target_compile_definitions(
+    AtlasCoreTests PRIVATE ENGINE_DIR="${PROJECT_SOURCE_DIR}/"
+  )
+  target_link_libraries(AtlasCoreTests PRIVATE VulkaxAtlasCore)
+  add_test(NAME atlas_core COMMAND AtlasCoreTests)
+
+  set(ATLAS_TEST_OUTPUT ${CMAKE_BINARY_DIR}/atlas-test-output)
+  add_test(
+    NAME atlas_manifest_generate
+    COMMAND
+      VulkaxAtlasBuilder generate-manifest
+      ${PROJECT_SOURCE_DIR}/config/atlas/regions/delhi-ncr.json
+      ${ATLAS_TEST_OUTPUT}/atlas-dataset.json
+  )
+  add_test(
+    NAME atlas_manifest_validate
+    COMMAND
+      VulkaxAtlasBuilder validate
+      ${ATLAS_TEST_OUTPUT}/atlas-dataset.json
+  )
+  set_tests_properties(
+    atlas_manifest_validate PROPERTIES DEPENDS atlas_manifest_generate
+  )
+  add_test(
+    NAME atlas_pack_geobeacon
+    COMMAND
+      VulkaxAtlasBuilder pack-geobeacon
+      ${PROJECT_SOURCE_DIR}/data/connaught_place/generated/geobeacon.json
+      ${ATLAS_TEST_OUTPUT}/connaught-place.vxa
+  )
+
   find_package(Python3 COMPONENTS Interpreter REQUIRED)
   add_test(
     NAME geobeacon_tools
     COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tests/test_geobeacon_tools.py
+  )
+  add_test(
+    NAME atlas_gateway
+    COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tests/test_atlas_gateway.py
+  )
+  add_test(
+    NAME atlas_reference_manifests
+    COMMAND
+      ${Python3_EXECUTABLE}
+      ${PROJECT_SOURCE_DIR}/tests/test_atlas_manifests.py
+      $<TARGET_FILE:VulkaxAtlasBuilder>
   )
 endif()

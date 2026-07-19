@@ -1,5 +1,6 @@
 #pragma once
 
+#include "atlas/core/geodesy.hpp"
 #include "beacon/benchmark_config.hpp"
 #include "lve_descriptors.hpp"
 #include "lve_device.hpp"
@@ -30,6 +31,7 @@ class FirstApp {
   void loadTutorialScene();
   void loadGeneratedScene();
   void loadGeoLights();
+  void loadAtlasScene();
 
   beacon::BenchmarkConfig config{};
   LveWindow lveWindow;
@@ -39,5 +41,6 @@ class FirstApp {
   // note: order of declarations matters
   std::unique_ptr<LveDescriptorPool> globalPool{};
   LveGameObject::Map gameObjects;
+  std::vector<vulkax::atlas::GeodeticPosition> atlasRouteShape;
 };
 }  // namespace lve

@@ -1,0 +1,12 @@
+{
+  "id": "tokyo-metro",
+  "name": "Tokyo Metro",
+  "bounds": [35.45, 139.45, 35.90, 140.05],
+  "defaultView": [35.6762, 139.6503, 7000.0],
+  "sourceCapturedAt": "2026-07-19T00:00:00Z",
+  "verticalDatum": "WGS84-ellipsoidal",
+  "sources": [
+    {"name": "OpenStreetMap", "url": "https://planet.openstreetmap.org", "license": "ODbL-1.0"},
+    {"name": "Copernicus DEM GLO-30", "url": "https://dataspace.copernicus.eu", "license": "Copernicus free and open data"}
+  ]
+}

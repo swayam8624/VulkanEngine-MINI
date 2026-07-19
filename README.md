@@ -1,10 +1,91 @@
-# GeoBEACON Vulkan Research Renderer
+# Vulkax Atlas
 
-GeoBEACON is a reproducible Vulkan urban digital-twin renderer built around a checked OpenStreetMap
-extract of Connaught Place, New Delhi. It extends BEACON's adaptive clustered lighting with
-semantic tile selection, asynchronous city streaming, memory and upload budgets, deterministic
-camera routes, exact diffuse reference captures, and separate GPU-query, CPU-fallback, and
-analytical measurement classes.
+Vulkax Atlas is a C++20 Vulkan globe and navigation SDK built on the reproducible BEACON and
+GeoBEACON research renderer. The current Atlas runtime provides WGS84 geodesy, double-precision
+ECEF and local frames, six-face cube-quadtree addressing, horizon/SSE tile selection,
+route-predictive resource scheduling, asynchronous file/HTTP/memory/SQLite tile sources, disk
+cache control, `.vxa` regional packs, normalized navigation APIs, deterministic replay, and a
+rendered WGS84 globe with route geometry.
+
+`VulkaxAtlas` is the consumer globe entrypoint. `LveEngine` remains the BEACON/GeoBEACON research
+and regression executable, preserving every existing technique and CLI identifier.
+
+## Atlas quick start
+
+```bash
+brew install cmake glfw glm nlohmann-json sqlite curl vulkan-loader glslang
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+cmake --build build -j 8
+ctest --test-dir build --output-on-failure
+
+build/VulkaxAtlas \
+  --atlas-manifest data/atlas/regions/delhi-ncr/atlas-dataset.json \
+  --atlas-navigation-replay data/atlas/navigation_replay.json
+```
+
+The globe uses `W/A/S/D` for horizontal movement, `E/Q` for vertical movement, arrow keys for
+view rotation, and either Shift key for accelerated traversal. The window reports selected globe
+tiles and deepest selected quadtree level while permanently retaining OpenStreetMap attribution.
+
+Generate and validate the five checked reference manifests:
+
+```bash
+for region in delhi-ncr greater-london tokyo-metro new-york-metro swiss-alps; do
+  build/atlas-build generate-manifest \
+    config/atlas/regions/$region.json \
+    data/atlas/regions/$region/atlas-dataset.json
+  build/atlas-build validate data/atlas/regions/$region/atlas-dataset.json
+done
+```
+
+Create an offline `.vxa` pack from the checked Connaught Place GeoBEACON database:
+
+```bash
+build/atlas-build pack-geobeacon \
+  data/connaught_place/generated/geobeacon.json \
+  build/connaught-place.vxa
+```
+
+## Navigation gateway
+
+The SDK and applications use one self-hostable contract: `/v1/search`, `/v1/reverse`,
+`/v1/route`, `/v1/transit`, `/v1/traffic`, `/v1/status`, and range-addressable
+`/v1/content/*`. Run the deterministic local gateway:
+
+```bash
+python3 services/atlas_gateway/server.py \
+  --replay data/atlas/navigation_replay.json \
+  --content-root data
+```
+
+Or build the container:
+
+```bash
+docker build -f services/atlas_gateway/Dockerfile \
+  -t vulkax-atlas-gateway .
+docker run --rm -p 8080:8080 vulkax-atlas-gateway
+```
+
+The native `GatewayNavigationProvider` and `CurlHttpTransport` consume this contract. The same
+provider interfaces also support deterministic replay and offline SQLite POI search.
+
+## Atlas research claim
+
+Atlas evaluates route-predictive joint allocation of tile detail, residency, upload bandwidth,
+cluster depth, light-list representation, and bounded diffuse-light error. Globe rendering,
+routing, LOD, HTTP streaming, and clustered lighting are supporting systems; the research variable
+is whether route probability, time-to-arrival, maneuver importance, and semantic importance reduce
+deadline misses and wasted prefetch bandwidth at a fixed frame/memory budget.
+
+Architecture and dataset details are in [docs/ATLAS_ARCHITECTURE.md](docs/ATLAS_ARCHITECTURE.md)
+and [docs/ATLAS_REGIONAL_PACKS.md](docs/ATLAS_REGIONAL_PACKS.md).
+
+## GeoBEACON foundation
+
+GeoBEACON is the checked urban digital-twin research baseline built around an OpenStreetMap extract
+of Connaught Place, New Delhi. It provides semantic tile selection, asynchronous city streaming,
+memory and upload budgets, deterministic camera routes, exact diffuse reference captures, and
+separate GPU-query, CPU-fallback, and analytical measurement classes.
 
 ## Research claim
 

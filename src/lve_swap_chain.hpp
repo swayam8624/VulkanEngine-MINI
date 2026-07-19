@@ -41,6 +41,7 @@ class LveSwapChain {
 
   VkResult acquireNextImage(uint32_t *imageIndex);
   VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
+  void waitForLastSubmittedFrame();
 
   bool compareSwapFormats(const LveSwapChain &swapChain) const {
     return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
@@ -87,6 +88,8 @@ class LveSwapChain {
   std::vector<VkFence> inFlightFences;
   std::vector<VkFence> imagesInFlight;
   size_t currentFrame = 0;
+  size_t lastSubmittedFrame = 0;
+  bool hasSubmittedFrame = false;
 };
 
 }  // namespace lve

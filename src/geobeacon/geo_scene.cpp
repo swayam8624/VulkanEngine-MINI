@@ -183,7 +183,7 @@ GeoScene::~GeoScene() {
   for (auto& worker : workers) {
     if (worker.joinable()) worker.join();
   }
-  vkDeviceWaitIdle(device.device());
+  vkQueueWaitIdle(device.graphicsQueue());
 }
 
 void GeoScene::workerMain() {
@@ -362,19 +362,14 @@ void GeoScene::integrateUploads(float frameTime, uint64_t frameNumber) {
     changes++;
   }
   if (!latencies.empty()) frameStats.streamingLatencyP95Ms = percentile95(std::move(latencies));
-  bool hasRetirementDue = std::any_of(
-      retired.begin(),
-      retired.end(),
-      [&](const RetiredModel& entry) { return entry.retireAfterFrame <= frameNumber; });
-  if (hasRetirementDue) {
-    vkDeviceWaitIdle(device.device());
-    retired.erase(
-        std::remove_if(
-            retired.begin(),
-            retired.end(),
-            [&](const RetiredModel& entry) { return entry.retireAfterFrame <= frameNumber; }),
-        retired.end());
-  }
+  retired.erase(
+      std::remove_if(
+          retired.begin(),
+          retired.end(),
+          [&](const RetiredModel& entry) {
+            return entry.retireAfterFrame <= frameNumber;
+          }),
+      retired.end());
 }
 
 void GeoScene::enforceMemoryBudget(uint64_t frameNumber) {

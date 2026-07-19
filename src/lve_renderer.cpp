@@ -7,8 +7,8 @@
 
 namespace lve {
 
-LveRenderer::LveRenderer(LveWindow& window, LveDevice& device)
-    : lveWindow{window}, lveDevice{device} {
+LveRenderer::LveRenderer(VulkanSurfaceHost& surfaceHost, LveDevice& device)
+    : surfaceHost{surfaceHost}, lveDevice{device} {
   recreateSwapChain();
   createCommandBuffers();
 }
@@ -16,10 +16,10 @@ LveRenderer::LveRenderer(LveWindow& window, LveDevice& device)
 LveRenderer::~LveRenderer() { freeCommandBuffers(); }
 
 void LveRenderer::recreateSwapChain() {
-  auto extent = lveWindow.getExtent();
+  auto extent = surfaceHost.framebufferExtent();
   while (extent.width == 0 || extent.height == 0) {
-    extent = lveWindow.getExtent();
-    glfwWaitEvents();
+    extent = surfaceHost.framebufferExtent();
+    surfaceHost.waitForEvents();
   }
   vkDeviceWaitIdle(lveDevice.device());
 
@@ -93,8 +93,8 @@ void LveRenderer::endFrame() {
 
   auto result = lveSwapChain->submitCommandBuffers(&commandBuffer, &currentImageIndex);
   if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR ||
-      lveWindow.wasWindowResized()) {
-    lveWindow.resetWindowResizedFlag();
+      surfaceHost.wasResized()) {
+    surfaceHost.resetResizedFlag();
     recreateSwapChain();
   } else if (result != VK_SUCCESS) {
     throw std::runtime_error("failed to present swap chain image!");

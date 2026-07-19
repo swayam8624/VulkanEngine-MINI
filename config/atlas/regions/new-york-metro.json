@@ -1,0 +1,12 @@
+{
+  "id": "new-york-metro",
+  "name": "New York Metro",
+  "bounds": [40.45, -74.30, 41.00, -73.65],
+  "defaultView": [40.7128, -74.0060, 7000.0],
+  "sourceCapturedAt": "2026-07-19T00:00:00Z",
+  "verticalDatum": "WGS84-ellipsoidal",
+  "sources": [
+    {"name": "OpenStreetMap", "url": "https://planet.openstreetmap.org", "license": "ODbL-1.0"},
+    {"name": "Copernicus DEM GLO-30", "url": "https://dataspace.copernicus.eu", "license": "Copernicus free and open data"}
+  ]
+}

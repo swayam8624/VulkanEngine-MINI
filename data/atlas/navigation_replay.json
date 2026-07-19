@@ -1,0 +1,71 @@
+{
+  "format": "Vulkax-Atlas-navigation-replay-1",
+  "search": [
+    {
+      "id": "osm:w1950397",
+      "name": "India Gate",
+      "subtitle": "New Delhi, India",
+      "position": [28.6129, 77.2295, 216.0],
+      "confidence": 0.99,
+      "category": "landmark"
+    },
+    {
+      "id": "osm:w100",
+      "name": "Connaught Place",
+      "subtitle": "New Delhi, India",
+      "position": [28.6315, 77.2167, 215.0],
+      "confidence": 0.95,
+      "category": "district"
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-delhi-1",
+      "mode": "driving",
+      "distanceMeters": 3200.0,
+      "durationSeconds": 720.0,
+      "trafficDelaySeconds": 90.0,
+      "trafficAware": true,
+      "shape": [
+        [28.6315, 77.2167, 215.0],
+        [28.6230, 77.2200, 215.0],
+        [28.6129, 77.2295, 216.0]
+      ],
+      "maneuvers": [
+        {
+          "instruction": "Head south toward India Gate",
+          "position": [28.6315, 77.2167, 215.0],
+          "distanceMeters": 3200.0,
+          "durationSeconds": 720.0,
+          "routeShapeIndex": 0
+        }
+      ]
+    }
+  ],
+  "transit": [
+    {
+      "id": "transit-delhi-1",
+      "mode": "transit",
+      "distanceMeters": 3500.0,
+      "durationSeconds": 1100.0,
+      "realtimeTransit": true,
+      "shape": [
+        [28.6315, 77.2167, 215.0],
+        [28.6129, 77.2295, 216.0]
+      ]
+    }
+  ],
+  "traffic": [
+    {
+      "id": "traffic-segment-1",
+      "currentSpeedKph": 18.0,
+      "freeFlowSpeedKph": 45.0,
+      "confidence": 0.9,
+      "closed": false,
+      "shape": [
+        [28.6230, 77.2200, 215.0],
+        [28.6129, 77.2295, 216.0]
+      ]
+    }
+  ]
+}

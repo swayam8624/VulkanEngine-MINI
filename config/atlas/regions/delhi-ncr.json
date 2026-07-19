@@ -1,0 +1,12 @@
+{
+  "id": "delhi-ncr",
+  "name": "Delhi NCR",
+  "bounds": [28.40, 76.80, 28.90, 77.50],
+  "defaultView": [28.6139, 77.2090, 5000.0],
+  "sourceCapturedAt": "2026-07-19T00:00:00Z",
+  "verticalDatum": "WGS84-ellipsoidal",
+  "sources": [
+    {"name": "OpenStreetMap", "url": "https://planet.openstreetmap.org", "license": "ODbL-1.0"},
+    {"name": "Copernicus DEM GLO-30", "url": "https://dataspace.copernicus.eu", "license": "Copernicus free and open data"}
+  ]
+}

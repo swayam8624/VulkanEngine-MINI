@@ -116,6 +116,8 @@ BenchmarkConfig parseCommandLine(int argc, char** argv) {
     std::string_view arg{argv[i]};
     if (arg == "--benchmark") {
       config.benchmark = true;
+    } else if (arg == "--atlas") {
+      config.atlasEnabled = true;
     } else if (arg == "--geo") {
       config.geoEnabled = true;
     } else if (arg == "--list-devices") {
@@ -162,6 +164,15 @@ BenchmarkConfig parseCommandLine(int argc, char** argv) {
     } else if (consumeValue(i, argc, argv, "--geo-manifest", value)) {
       config.geoManifest = value;
       config.geoEnabled = true;
+    } else if (consumeValue(i, argc, argv, "--atlas-manifest", value)) {
+      config.atlasManifest = value;
+      config.atlasEnabled = true;
+    } else if (consumeValue(i, argc, argv, "--atlas-pack", value)) {
+      config.atlasPack = value;
+      config.atlasEnabled = true;
+    } else if (consumeValue(i, argc, argv, "--atlas-navigation-replay", value)) {
+      config.atlasNavigationReplay = value;
+      config.atlasEnabled = true;
     } else if (consumeValue(i, argc, argv, "--geo-policy", value)) {
       config.geoPolicy = parseGeoPolicy(value);
       config.geoEnabled = true;

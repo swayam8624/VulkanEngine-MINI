@@ -9,6 +9,11 @@
 #include "beacon/adaptive_vulkan_builder.hpp"
 #include "geobeacon/geo_scene.hpp"
 #include "geobeacon/geo_camera_path.hpp"
+#include "atlas/core/dataset.hpp"
+#include "atlas/navigation/replay_providers.hpp"
+#include "atlas/renderer/globe_mesh.hpp"
+#include "atlas/renderer/route_mesh.hpp"
+#include "atlas/streaming/globe_selector.hpp"
 #include "systems/clustered_lighting_system.hpp"
 #include "systems/point_light_system.hpp"
 #include "systems/simple_render_system.hpp"
@@ -18,6 +23,7 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 // std
 #include <array>
@@ -145,6 +151,29 @@ ClusterConfigData makeClusterRuntimeConfig(const ClusterBuildPushConstants& buil
   return runtime;
 }
 
+glm::dquat rotationBetween(
+    const glm::dvec3& from,
+    const glm::dvec3& to) {
+  const glm::dvec3 normalizedFrom = glm::normalize(from);
+  const glm::dvec3 normalizedTo = glm::normalize(to);
+  const double cosine =
+      std::clamp(glm::dot(normalizedFrom, normalizedTo), -1.0, 1.0);
+  if (cosine < -0.999999) {
+    const glm::dvec3 axis =
+        glm::normalize(
+            glm::cross(
+                normalizedFrom,
+                std::abs(normalizedFrom.x) < 0.9
+                    ? glm::dvec3{1.0, 0.0, 0.0}
+                    : glm::dvec3{0.0, 1.0, 0.0}));
+    return glm::angleAxis(glm::pi<double>(), axis);
+  }
+  const glm::dvec3 axis =
+      glm::cross(normalizedFrom, normalizedTo);
+  return glm::normalize(
+      glm::dquat{1.0 + cosine, axis.x, axis.y, axis.z});
+}
+
 }  // namespace
 
 FirstApp::FirstApp(beacon::BenchmarkConfig appConfig)
@@ -152,7 +181,25 @@ FirstApp::FirstApp(beacon::BenchmarkConfig appConfig)
       lveWindow{
           static_cast<int>(config.width),
           static_cast<int>(config.height),
-          "BEACON Little Vulkan Engine"} {
+          config.atlasEnabled ? "Vulkax Atlas" : "BEACON Little Vulkan Engine"} {
+  if (config.atlasEnabled && config.geoEnabled) {
+    throw std::runtime_error("--atlas and --geo cannot be enabled together");
+  }
+  if (config.atlasEnabled) {
+    config.technique = beacon::RenderTechnique::SsboDiffuseReference;
+    config.showLightBillboards = false;
+    config.lightCount = 2;
+    if (!config.atlasManifest.empty()) {
+      const auto manifest =
+          vulkax::atlas::loadDatasetManifest(config.atlasManifest);
+      if (config.verbose) {
+        std::cout << "Vulkax Atlas dataset: " << manifest.displayName << " ("
+                  << manifest.datasetId << ")\n"
+                  << "  layers: " << manifest.layers.size() << "\n"
+                  << "  attribution: " << manifest.attribution << std::endl;
+      }
+    }
+  }
   if (config.geoEnabled) {
     if (config.geoPolicy == beacon::GeoRenderPolicy::GeoBeaconExact) {
       config.technique = beacon::RenderTechnique::AdaptiveClusteredExact;
@@ -376,14 +423,20 @@ void FirstApp::run() {
   LveCamera camera{};
 
   auto viewerObject = LveGameObject::createGameObject();
-  if (config.geoEnabled) {
+  if (config.atlasEnabled) {
+    viewerObject.transform.translation = {0.f, 0.f, -28.f};
+    viewerObject.transform.rotation = {0.f, 0.f, 0.f};
+  } else if (config.geoEnabled) {
     viewerObject.transform.translation = {0.f, -130.f, -720.f};
     viewerObject.transform.rotation.x = -0.18f;
   } else {
     viewerObject.transform.translation.z = -2.5f;
   }
   KeyboardMovementController cameraController{};
-  if (config.geoEnabled) {
+  if (config.atlasEnabled) {
+    cameraController.moveSpeed = 8.f;
+    cameraController.sprintMultiplier = 8.f;
+  } else if (config.geoEnabled) {
     cameraController.moveSpeed = 120.f;
     cameraController.sprintMultiplier = 5.f;
   }
@@ -408,7 +461,9 @@ void FirstApp::run() {
            "geoVisibleTiles,geoResidentTiles,"
            "geoRequestedTiles,geoResidentBytes,geoUploadedBytes,geoStreamingP95Ms,"
            "geoSemanticUtility,geoSemanticWeightedError,geoRepresentationChurn,"
-           "geoBudgetViolation,measurementGroup\n";
+           "geoBudgetViolation,atlasSelectedTiles,atlasVisitedTiles,"
+           "atlasHorizonCulledTiles,atlasFrustumCulledTiles,"
+           "atlasDeepestLevel,atlasRouteBiasedTiles,measurementGroup\n";
     std::ofstream manifest{config.outputDirectory / "manifest.json"};
     const auto capabilities = lveDevice.getCapabilities();
     manifest << "{\n";
@@ -422,6 +477,11 @@ void FirstApp::run() {
     manifest << "  \"showLightBillboards\": " << (config.showLightBillboards ? "true" : "false") << ",\n";
     manifest << "  \"captureReference\": " << (config.captureReference ? "true" : "false") << ",\n";
     manifest << "  \"geoEnabled\": " << (config.geoEnabled ? "true" : "false") << ",\n";
+    manifest << "  \"atlasEnabled\": " << (config.atlasEnabled ? "true" : "false") << ",\n";
+    manifest << "  \"atlasManifest\": \"" << config.atlasManifest.string() << "\",\n";
+    manifest << "  \"atlasPack\": \"" << config.atlasPack.string() << "\",\n";
+    manifest << "  \"atlasNavigationReplay\": \""
+             << config.atlasNavigationReplay.string() << "\",\n";
     manifest << "  \"geoPolicy\": \"" << beacon::toString(config.geoPolicy) << "\",\n";
     manifest << "  \"geoCacheMode\": \"" << beacon::toString(config.geoCacheMode) << "\",\n";
     manifest << "  \"geoCameraPath\": \"" << beacon::toString(config.geoCameraPath) << "\",\n";
@@ -473,6 +533,13 @@ void FirstApp::run() {
   }
   uint64_t frameNumber = 0;
   double previousFrameMs = 0.0;
+  vulkax::atlas::GlobeSelectionConfig atlasSelectionConfig{};
+  atlasSelectionConfig.maximumLevel = 18;
+  atlasSelectionConfig.maximumSelectedTiles = 384;
+  vulkax::atlas::GlobeTileSelector atlasSelector{atlasSelectionConfig};
+  std::vector<vulkax::atlas::AtlasTileCandidate> atlasSelectedTiles;
+  vulkax::atlas::RoutePrediction atlasRoute{
+      atlasRouteShape, 500.0, 30.0, 13.9, false};
   while (!lveWindow.shouldClose()) {
     auto frameCpuStart = std::chrono::high_resolution_clock::now();
     double cpuClusterBuildMs = 0.0;
@@ -493,7 +560,55 @@ void FirstApp::run() {
     camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
 
     float aspect = lveRenderer.getAspectRatio();
-    camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, config.geoEnabled ? 3000.f : 100.f);
+    camera.setPerspectiveProjection(
+        glm::radians(50.f),
+        aspect,
+        config.atlasEnabled ? 0.01f : 0.1f,
+        config.atlasEnabled ? 1000.f : (config.geoEnabled ? 3000.f : 100.f));
+    if (config.atlasEnabled) {
+      const double ecefScale =
+          vulkax::atlas::Wgs84::semiMajorAxisMeters / 10.0;
+      const glm::dvec3 worldCamera = viewerObject.transform.translation;
+      const glm::dvec3 ecefCamera{
+          worldCamera.x * ecefScale,
+          worldCamera.z * ecefScale,
+          worldCamera.y * ecefScale,
+      };
+      const float yaw = viewerObject.transform.rotation.y;
+      const float pitch = viewerObject.transform.rotation.x;
+      const glm::dvec3 worldForward{
+          std::sin(yaw) * std::cos(pitch),
+          -std::sin(pitch),
+          std::cos(yaw) * std::cos(pitch),
+      };
+      const glm::dvec3 ecefForward =
+          glm::normalize(
+              glm::dvec3{
+                  worldForward.x, worldForward.z, worldForward.y});
+      vulkax::atlas::AtlasCameraState atlasCamera{};
+      atlasCamera.ecef = {ecefCamera};
+      atlasCamera.geodetic =
+          vulkax::atlas::ecefToGeodetic(atlasCamera.ecef);
+      atlasCamera.orientation =
+          rotationBetween(glm::dvec3{0.0, 0.0, 1.0}, ecefForward);
+      atlasCamera.verticalFieldOfViewRadians = glm::radians(50.0);
+      atlasCamera.viewportWidth = config.width;
+      atlasCamera.viewportHeight = config.height;
+      atlasSelectedTiles =
+          atlasSelector.select(
+              atlasCamera,
+              atlasRouteShape.empty() ? nullptr : &atlasRoute);
+    }
+    if (config.atlasEnabled && frameNumber % 30 == 0) {
+      const auto& atlasStats = atlasSelector.stats();
+      const std::string title =
+          "Vulkax Atlas | tiles " +
+          std::to_string(atlasSelectedTiles.size()) + " | depth " +
+          std::to_string(atlasStats.deepestSelectedLevel) +
+          " | W/A/S/D + E/Q | Shift sprint | "
+          "(c) OpenStreetMap contributors";
+      glfwSetWindowTitle(lveWindow.getGLFWwindow(), title.c_str());
+    }
     if (geoScene != nullptr) {
       geoScene->update(
           viewerObject.transform.translation,
@@ -692,7 +807,7 @@ void FirstApp::run() {
       beacon::ImageComparisonMetrics imageMetrics{};
       bool hasImageMetrics = false;
       if (offscreenComparison != nullptr) {
-        vkDeviceWaitIdle(lveDevice.device());
+        lveRenderer.waitForLastSubmittedFrame();
         imageMetrics = offscreenComparison->compare();
         hasImageMetrics = true;
         if (config.benchmark && submittedFrames == config.warmupFrames) {
@@ -803,6 +918,16 @@ void FirstApp::run() {
                         << (geoScene ? geoScene->stats().semanticWeightedError : 0.f) << ","
                         << (geoScene ? geoScene->stats().representationChurn : 0) << ","
                         << (geoScene ? geoScene->stats().budgetViolation : 0.f) << ","
+                        << (config.atlasEnabled ? atlasSelectedTiles.size() : 0) << ","
+                        << (config.atlasEnabled ? atlasSelector.stats().visitedTiles : 0) << ","
+                        << (config.atlasEnabled ? atlasSelector.stats().horizonCulledTiles : 0) << ","
+                        << (config.atlasEnabled ? atlasSelector.stats().frustumCulledTiles : 0) << ","
+                        << (config.atlasEnabled
+                                ? static_cast<uint32_t>(
+                                      atlasSelector.stats().deepestSelectedLevel)
+                                : 0)
+                        << ","
+                        << (config.atlasEnabled ? atlasSelector.stats().routeBiasedTiles : 0) << ","
                         << (timingSource == "vulkan-query-pool" ? "vulkan_gpu_measurements"
                                                                  : "vulkan_cpu_measurements")
                         << "\n";
@@ -845,6 +970,10 @@ void FirstApp::run() {
 }
 
 void FirstApp::loadGameObjects() {
+  if (config.atlasEnabled) {
+    loadAtlasScene();
+    return;
+  }
   if (config.geoEnabled) {
     loadGeoLights();
     return;
@@ -855,6 +984,68 @@ void FirstApp::loadGameObjects() {
   } else {
     loadGeneratedScene();
   }
+}
+
+void FirstApp::loadAtlasScene() {
+  const auto globe = vulkax::atlas::buildWgs84Ellipsoid();
+  LveModel::Builder builder{};
+  builder.vertices.reserve(globe.vertices.size());
+  for (const auto& source : globe.vertices) {
+    builder.vertices.push_back(
+        {source.position, source.color, source.normal, source.uv});
+  }
+  builder.indices = globe.indices;
+  auto globeModel = std::make_shared<LveModel>(lveDevice, builder);
+  auto globeObject = LveGameObject::createGameObject();
+  globeObject.model = std::move(globeModel);
+  gameObjects.emplace(globeObject.getId(), std::move(globeObject));
+
+  const std::filesystem::path replayPath =
+      config.atlasNavigationReplay.is_absolute()
+          ? config.atlasNavigationReplay
+          : std::filesystem::path{ENGINE_DIR} /
+                config.atlasNavigationReplay;
+  if (std::filesystem::exists(replayPath)) {
+    vulkax::atlas::ReplayNavigationProvider navigation{replayPath};
+    vulkax::atlas::RouteRequest request{};
+    request.origin = {28.6315, 77.2167, 215.0};
+    request.destination = {28.6129, 77.2295, 216.0};
+    request.mode = vulkax::atlas::TravelMode::Driving;
+    request.alternatives = 0;
+    const auto routes = navigation.route(request).get();
+    if (!routes.empty() && routes.front().shape.size() >= 2) {
+      atlasRouteShape = routes.front().shape;
+      const auto ribbon = vulkax::atlas::buildRouteRibbon(
+          routes.front().shape);
+      LveModel::Builder routeBuilder{};
+      routeBuilder.vertices.reserve(ribbon.vertices.size());
+      for (const auto& source : ribbon.vertices) {
+        routeBuilder.vertices.push_back(
+            {source.position, source.color, source.normal, source.uv});
+      }
+      routeBuilder.indices = ribbon.indices;
+      auto routeObject = LveGameObject::createGameObject();
+      routeObject.model =
+          std::make_shared<LveModel>(lveDevice, routeBuilder);
+      gameObjects.emplace(routeObject.getId(), std::move(routeObject));
+      if (config.verbose) {
+        std::cout << "Atlas navigation replay: " << routes.front().id
+                  << " | " << routes.front().distanceMeters
+                  << " m | " << routes.front().maneuvers.size()
+                  << " maneuver(s)" << std::endl;
+      }
+    }
+  }
+
+  auto sun = LveGameObject::makePointLight(
+      700.f, 0.2f, {1.f, 0.94f, 0.82f}, 80.f);
+  sun.transform.translation = {-24.f, -18.f, -24.f};
+  gameObjects.emplace(sun.getId(), std::move(sun));
+
+  auto fill = LveGameObject::makePointLight(
+      120.f, 0.15f, {0.2f, 0.45f, 1.f}, 65.f);
+  fill.transform.translation = {22.f, 10.f, -8.f};
+  gameObjects.emplace(fill.getId(), std::move(fill));
 }
 
 void FirstApp::loadGeoLights() {

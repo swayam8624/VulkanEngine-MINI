@@ -33,9 +33,28 @@ void LveWindow::initWindow() {
 }
 
 void LveWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
-  if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
-    throw std::runtime_error("failed to craete window surface");
+  *surface = createVulkanSurface(instance);
+}
+
+void LveWindow::waitForEvents() {
+  glfwWaitEvents();
+}
+
+std::vector<const char*> LveWindow::requiredInstanceExtensions() const {
+  uint32_t extensionCount = 0;
+  const char** extensions = glfwGetRequiredInstanceExtensions(&extensionCount);
+  if (extensions == nullptr || extensionCount == 0) {
+    throw std::runtime_error("GLFW did not report required Vulkan instance extensions");
   }
+  return {extensions, extensions + extensionCount};
+}
+
+VkSurfaceKHR LveWindow::createVulkanSurface(VkInstance instance) const {
+  VkSurfaceKHR surface = VK_NULL_HANDLE;
+  if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS) {
+    throw std::runtime_error("failed to create GLFW Vulkan surface");
+  }
+  return surface;
 }
 
 void LveWindow::framebufferResizeCallback(GLFWwindow *window, int width, int height) {

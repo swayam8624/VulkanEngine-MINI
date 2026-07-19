@@ -80,6 +80,11 @@ struct BenchmarkConfig {
   std::string deviceName;
   std::string deviceUuid;
   bool geoEnabled = false;
+  bool atlasEnabled = false;
+  std::filesystem::path atlasManifest;
+  std::filesystem::path atlasPack;
+  std::filesystem::path atlasNavigationReplay =
+      "data/atlas/navigation_replay.json";
   GeoRenderPolicy geoPolicy = GeoRenderPolicy::GeoBeaconBounded;
   GeoCacheMode geoCacheMode = GeoCacheMode::Cold;
   GeoCameraPath geoCameraPath = GeoCameraPath::OuterOrbit;

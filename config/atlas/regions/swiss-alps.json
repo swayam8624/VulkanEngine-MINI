@@ -1,0 +1,12 @@
+{
+  "id": "swiss-alps",
+  "name": "Swiss Alps",
+  "bounds": [45.75, 6.80, 47.10, 10.60],
+  "defaultView": [46.5589, 8.5610, 25000.0],
+  "sourceCapturedAt": "2026-07-19T00:00:00Z",
+  "verticalDatum": "WGS84-ellipsoidal",
+  "sources": [
+    {"name": "OpenStreetMap", "url": "https://planet.openstreetmap.org", "license": "ODbL-1.0"},
+    {"name": "Copernicus DEM GLO-30", "url": "https://dataspace.copernicus.eu", "license": "Copernicus free and open data"}
+  ]
+}

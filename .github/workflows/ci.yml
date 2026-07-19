@@ -1,4 +1,4 @@
-name: GeoBEACON CI
+name: Vulkax Atlas CI
 
 on:
   push:
@@ -13,14 +13,16 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build g++ libglfw3-dev libglm-dev \
-            nlohmann-json3-dev libvulkan-dev vulkan-tools mesa-vulkan-drivers \
-            glslang-tools xvfb
+            nlohmann-json3-dev libsqlite3-dev libvulkan-dev vulkan-tools mesa-vulkan-drivers \
+            libcurl4-openssl-dev glslang-tools xvfb
       - name: Configure
         run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
       - name: Build
         run: cmake --build build
       - name: Test
         run: ctest --test-dir build --output-on-failure
+      - name: Build self-hosted gateway image
+        run: docker build -f services/atlas_gateway/Dockerfile -t vulkax-atlas-gateway:ci .
       - name: Resolve Lavapipe driver
         run: |
           LVP_ICD="$(find /usr/share/vulkan/icd.d /etc/vulkan/icd.d \
@@ -35,8 +37,15 @@ jobs:
           xvfb-run -a build/LveEngine --geo --geo-policy fixed-lod1 \
             --lights 10 --width 320 --height 180 --warmup-frames 1 --frames 1 \
             --capture-reference false --output /tmp/geobeacon-ci --quiet
+      - name: Vulkax Atlas globe smoke test
+        run: |
+          xvfb-run -a build/VulkaxAtlas \
+            --width 320 --height 180 --warmup-frames 1 --frames 1 \
+            --output /tmp/atlas-ci --quiet
       - name: Upload smoke measurements
         uses: actions/upload-artifact@v4
         with:
-          name: geobeacon-lavapipe-smoke
-          path: /tmp/geobeacon-ci
+          name: vulkax-lavapipe-smoke
+          path: |
+            /tmp/geobeacon-ci
+            /tmp/atlas-ci

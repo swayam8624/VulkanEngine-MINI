@@ -1,0 +1,12 @@
+{
+  "name": "vulkax-atlas",
+  "version-string": "0.24.0",
+  "dependencies": [
+    "glm",
+    "glfw3",
+    "curl",
+    "nlohmann-json",
+    "sqlite3",
+    "vulkan"
+  ]
+}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "beacon/benchmark_config.hpp"
-#include "lve_window.hpp"
+#include "platform/vulkan_surface_host.hpp"
 
 // std lib headers
 #include <string>
@@ -44,7 +44,7 @@ class LveDevice {
   const bool enableValidationLayers = true;
 #endif
 
-  LveDevice(LveWindow &window, const beacon::BenchmarkConfig& config);
+  LveDevice(VulkanSurfaceHost &surfaceHost, const beacon::BenchmarkConfig& config);
   ~LveDevice();
 
   // Not copyable or movable
@@ -102,7 +102,7 @@ class LveDevice {
   bool checkValidationLayerSupport();
   QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
   void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
-  void hasGflwRequiredInstanceExtensions();
+  void validateRequiredInstanceExtensions();
   bool checkDeviceExtensionSupport(VkPhysicalDevice device);
   SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
 
@@ -112,7 +112,7 @@ class LveDevice {
   beacon::BenchmarkConfig selectionConfig{};
   std::string deviceUuid;
   DeviceCapabilities capabilities{};
-  LveWindow &window;
+  VulkanSurfaceHost &surfaceHost;
   VkCommandPool commandPool;
 
   VkDevice device_;

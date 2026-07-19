@@ -4,6 +4,7 @@
 
 // std
 #include <cstdlib>
+#include <filesystem>
 #include <iostream>
 #include <stdexcept>
 
@@ -20,6 +21,9 @@ bool usesHeadlessResearchRunner(lve::beacon::RenderTechnique technique) {
 int main(int argc, char** argv) {
   try {
     auto config = lve::beacon::parseCommandLine(argc, argv);
+    if (std::filesystem::path{argv[0]}.stem() == "VulkaxAtlas") {
+      config.atlasEnabled = true;
+    }
     if (config.benchmark && usesHeadlessResearchRunner(config.technique)) {
       return lve::beacon::runResearchBenchmark(config);
     }

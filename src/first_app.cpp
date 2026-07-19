@@ -806,6 +806,7 @@ void FirstApp::run() {
           mapControls->setCities(
               makeDesktopCityOptions(
                   geoCities, localNavigation->regionId()));
+          mapControls->setSearchQuery("");
           mapControls->setSearchResults(displayedSearchResults);
           mapControls->setRouteSummary(
               "Choose a destination", 0.0, 0.0);

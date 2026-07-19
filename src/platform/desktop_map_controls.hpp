@@ -48,6 +48,7 @@ class DesktopMapControls {
   std::optional<DesktopMapAction> pollAction();
   void setMapName(const std::string& mapName);
   void setCities(const std::vector<DesktopCityOption>& cities);
+  void setSearchQuery(const std::string& query);
   void setSearchResults(
       const std::vector<vulkax::atlas::SearchResult>& results);
   void setStatus(const std::string& status);

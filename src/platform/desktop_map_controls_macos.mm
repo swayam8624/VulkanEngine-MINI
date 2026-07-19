@@ -298,6 +298,10 @@ void DesktopMapControls::setCities(
   }
 }
 
+void DesktopMapControls::setSearchQuery(const std::string& query) {
+  impl->search.stringValue = nsString(query);
+}
+
 void DesktopMapControls::setSearchResults(
     const std::vector<vulkax::atlas::SearchResult>& results) {
   [impl->results removeAllItems];

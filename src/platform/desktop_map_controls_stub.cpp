@@ -13,6 +13,7 @@ std::optional<DesktopMapAction> DesktopMapControls::pollAction() {
 }
 void DesktopMapControls::setMapName(const std::string&) {}
 void DesktopMapControls::setCities(const std::vector<DesktopCityOption>&) {}
+void DesktopMapControls::setSearchQuery(const std::string&) {}
 void DesktopMapControls::setSearchResults(
     const std::vector<vulkax::atlas::SearchResult>&) {}
 void DesktopMapControls::setStatus(const std::string&) {}

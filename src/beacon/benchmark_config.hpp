@@ -89,6 +89,8 @@ struct BenchmarkConfig {
   GeoCacheMode geoCacheMode = GeoCacheMode::Cold;
   GeoCameraPath geoCameraPath = GeoCameraPath::OuterOrbit;
   std::filesystem::path geoManifest = "data/connaught_place/generated/geobeacon.json";
+  std::filesystem::path geoNavigationData =
+      "data/connaught_place/navigation.json";
   float geoTargetFrameMs = 16.67f;
   uint64_t geoMemoryBudgetMiB = 512;
   float geoUploadBudgetMiBPerSecond = 100.f;
@@ -97,6 +99,9 @@ struct BenchmarkConfig {
 };
 
 BenchmarkConfig parseCommandLine(int argc, char** argv);
+void applyExecutableDefaults(
+    BenchmarkConfig& config,
+    const std::string& executableStem);
 std::string toString(RenderTechnique technique);
 std::string toString(ScenePreset scene);
 std::string toString(LightDistribution distribution);

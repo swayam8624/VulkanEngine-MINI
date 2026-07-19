@@ -48,8 +48,9 @@ jobs:
       - name: Vulkan software smoke test
         run: |
           xvfb-run -a build/LveEngine --geo --geo-policy fixed-lod1 \
-            --lights 10 --width 320 --height 180 --warmup-frames 1 --frames 1 \
-            --capture-reference false --output /tmp/geobeacon-ci --quiet
+            --lights 10 --width 320 --height 180 --warmup-frames 30 --frames 1 \
+            --capture-reference true --output /tmp/geobeacon-ci --quiet
+          python3 tests/verify_geobeacon_capture.py /tmp/geobeacon-ci
       - name: Vulkax Atlas globe smoke test
         run: |
           xvfb-run -a build/VulkaxAtlas \

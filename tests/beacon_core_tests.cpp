@@ -1,4 +1,5 @@
 #include "beacon/beacon_research.hpp"
+#include "beacon/benchmark_config.hpp"
 #include "beacon/cluster_scan_reference.hpp"
 
 #include <cassert>
@@ -7,6 +8,13 @@
 
 int main() {
   using namespace lve::beacon;
+  BenchmarkConfig productDefaults{};
+  applyExecutableDefaults(productDefaults, "VulkaxGeoBEACON");
+  assert(productDefaults.geoEnabled);
+  assert(!productDefaults.atlasEnabled);
+  applyExecutableDefaults(productDefaults, "VulkaxAtlas");
+  assert(productDefaults.atlasEnabled);
+  assert(!productDefaults.geoEnabled);
 
   auto scan = buildClusterScanReference({3, 0, 5}, 4, 7);
   assert((scan.offsets == std::vector<uint32_t>{0, 3, 3}));

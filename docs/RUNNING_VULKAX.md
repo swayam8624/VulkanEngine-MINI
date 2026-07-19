@@ -43,7 +43,17 @@ scripts/vulkax_macos.sh app
 ```
 
 The generated application is `build/Vulkax.app`. It opens the complete checked Connaught Place
-GeoBEACON dataset. For terminal-attached city diagnostics and benchmark output:
+GeoBEACON dataset. Its native map panel provides:
+
+- offline place and road search;
+- walking, driving, and cycling route calculation from the current camera position;
+- a rendered route ribbon over the city;
+- automatic route-follow camera movement;
+- clear route and route status controls.
+
+Search and routing use `data/connaught_place/navigation.json`. They do not require Apple
+`container`, the Atlas gateway, Pelias, Valhalla, or an API key. For terminal-attached city
+diagnostics and benchmark output:
 
 ```bash
 scripts/vulkax_macos.sh geo --geo-policy geo-beacon-bounded
@@ -57,6 +67,11 @@ scripts/vulkax_macos.sh atlas
 
 Controls:
 
+- Search field and **Search**: find checked OSM places and roads
+- Result and travel-mode selectors: choose a destination and walking, driving, or cycling
+- **Route**: calculate and draw a local route
+- **Follow**: move the camera along the active route
+- **Clear**: remove the active route
 - `W`, `A`, `S`, `D`: move horizontally
 - `E`, `Q`: move vertically
 - Arrow keys: rotate the view
@@ -67,6 +82,15 @@ Additional Atlas command-line options can be appended to the launcher:
 
 ```bash
 scripts/vulkax_macos.sh atlas --width 1920 --height 1080
+```
+
+Regenerate the checked navigation graph from the canonical OSM extract:
+
+```bash
+python3 tools/build_connaught_navigation.py \
+  --source data/connaught_place/source.osm \
+  --output data/connaught_place/navigation.json
+ctest --test-dir build -R connaught_navigation --output-on-failure
 ```
 
 ## Run the navigation gateway

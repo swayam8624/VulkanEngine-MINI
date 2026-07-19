@@ -21,12 +21,22 @@ scripts/vulkax_macos.sh app
 ```
 
 The Connaught Place application uses `W/A/S/D` for horizontal movement, `E/Q` for vertical
-movement, arrow keys for view rotation, and either Shift key for accelerated traversal. It
-permanently retains OpenStreetMap attribution.
+movement, arrow keys for view rotation, and either Shift key for accelerated traversal. The
+in-window map panel searches the 242 checked offline places, calculates walking, driving, or
+cycling routes from the current camera position, draws the selected route over the city, and can
+follow it automatically. It permanently retains OpenStreetMap attribution.
 The dependency step only needs to be run once. Later sessions normally need only
-`scripts/vulkax_macos.sh atlas`.
+`scripts/vulkax_macos.sh app`.
 Use `app` for the packaged Connaught Place application, `geo` for terminal-attached GeoBEACON
 diagnostics, and `atlas` only for the separate globe research view.
+
+The local navigation database is generated deterministically from the checked OSM extract:
+
+```bash
+python3 tools/build_connaught_navigation.py \
+  --source data/connaught_place/source.osm \
+  --output data/connaught_place/navigation.json
+```
 
 Generate and validate the five checked reference manifests:
 
@@ -231,7 +241,10 @@ build/LveEngine --geo --geo-policy geo-beacon-bounded \
 
 Interactive controls use `W/A/S/D` for horizontal movement, `E/Q` for vertical movement, arrow
 keys for view rotation, and either Shift key for fast traversal. City mode uses metre-scale movement
-speeds appropriate for the full Connaught Place extent.
+speeds appropriate for the full Connaught Place extent. In the native application, enter a place or
+road in the search field, select a result and travel mode, then use **Route**, **Follow**, or
+**Clear**. Search and route calculation run locally from the checked Connaught Place OSM data and
+do not require the Atlas gateway or an API key.
 
 Deterministic measured run:
 

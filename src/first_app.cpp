@@ -11,12 +11,14 @@
 #include "geobeacon/geo_camera_path.hpp"
 #include "atlas/core/dataset.hpp"
 #include "atlas/navigation/replay_providers.hpp"
+#include "atlas/navigation/local_navigation.hpp"
 #include "atlas/renderer/globe_mesh.hpp"
 #include "atlas/renderer/route_mesh.hpp"
 #include "atlas/streaming/globe_selector.hpp"
 #include "systems/clustered_lighting_system.hpp"
 #include "systems/point_light_system.hpp"
 #include "systems/simple_render_system.hpp"
+#include "platform/desktop_map_controls.hpp"
 
 // libs
 #define GLM_FORCE_RADIANS
@@ -149,6 +151,86 @@ ClusterConfigData makeClusterRuntimeConfig(const ClusterBuildPushConstants& buil
   runtime.lightIndexCapacity = buildConfig.lightIndexCapacity;
   runtime.flags = 0;
   return runtime;
+}
+
+std::shared_ptr<LveModel> buildLocalRouteModel(
+    LveDevice& device,
+    const std::vector<vulkax::atlas::GeodeticPosition>& route,
+    const glm::dvec3& originWgs84) {
+  if (route.size() < 2) return {};
+  const auto frame = vulkax::atlas::makeLocalFrame(
+      {originWgs84.x, originWgs84.y, originWgs84.z});
+  std::vector<glm::vec3> centerline;
+  centerline.reserve(route.size());
+  for (auto position : route) {
+    position.altitudeMeters = originWgs84.z;
+    const glm::dvec3 local =
+        frame.toLocal(vulkax::atlas::geodeticToEcef(position));
+    centerline.push_back(
+        {static_cast<float>(local.x), -0.65f, static_cast<float>(local.y)});
+  }
+
+  LveModel::Builder builder{};
+  builder.vertices.reserve(centerline.size() * 2);
+  builder.indices.reserve((centerline.size() - 1) * 6);
+  constexpr float halfWidth = 2.4f;
+  for (size_t index = 0; index < centerline.size(); ++index) {
+    const glm::vec3 previous =
+        centerline[index == 0 ? index : index - 1];
+    const glm::vec3 next =
+        centerline[index + 1 < centerline.size() ? index + 1 : index];
+    glm::vec2 tangent{next.x - previous.x, next.z - previous.z};
+    if (glm::dot(tangent, tangent) < 1e-8f) tangent = {0.f, 1.f};
+    tangent = glm::normalize(tangent);
+    const glm::vec2 side{-tangent.y * halfWidth, tangent.x * halfWidth};
+    const float progress =
+        static_cast<float>(index) /
+        static_cast<float>(centerline.size() - 1);
+    builder.vertices.push_back(
+        {{centerline[index].x + side.x, -0.65f, centerline[index].z + side.y},
+         {0.05f, 1.0f, 0.72f},
+         {0.f, -1.f, 0.f},
+         {progress, 0.f}});
+    builder.vertices.push_back(
+        {{centerline[index].x - side.x, -0.65f, centerline[index].z - side.y},
+         {0.05f, 1.0f, 0.72f},
+         {0.f, -1.f, 0.f},
+         {progress, 1.f}});
+  }
+  for (uint32_t index = 0;
+       index + 1 < static_cast<uint32_t>(centerline.size());
+       ++index) {
+    const uint32_t left = index * 2;
+    builder.indices.insert(
+        builder.indices.end(),
+        {left, left + 1, left + 2, left + 1, left + 3, left + 2});
+  }
+  return std::make_shared<LveModel>(device, builder);
+}
+
+glm::vec3 routeLocalPosition(
+    const vulkax::atlas::GeodeticPosition& position,
+    const glm::dvec3& originWgs84) {
+  const auto frame = vulkax::atlas::makeLocalFrame(
+      {originWgs84.x, originWgs84.y, originWgs84.z});
+  auto groundPosition = position;
+  groundPosition.altitudeMeters = originWgs84.z;
+  const auto local =
+      frame.toLocal(vulkax::atlas::geodeticToEcef(groundPosition));
+  return {
+      static_cast<float>(local.x),
+      -18.f,
+      static_cast<float>(local.y),
+  };
+}
+
+vulkax::atlas::GeodeticPosition geodeticFromGeoWorld(
+    const glm::vec3& world,
+    const glm::dvec3& originWgs84) {
+  const auto frame = vulkax::atlas::makeLocalFrame(
+      {originWgs84.x, originWgs84.y, originWgs84.z});
+  return vulkax::atlas::ecefToGeodetic(
+      frame.toEcef({world.x, world.z, 0.0}));
 }
 
 glm::dquat rotationBetween(
@@ -366,6 +448,15 @@ void FirstApp::run() {
       config.technique};
   std::unique_ptr<geo::GeoScene> geoScene;
   std::unique_ptr<geo::GeoScene> referenceGeoScene;
+  std::unique_ptr<vulkax::atlas::LocalNavigationProvider> localNavigation;
+  std::unique_ptr<DesktopMapControls> mapControls;
+  std::vector<vulkax::atlas::SearchResult> displayedSearchResults;
+  std::optional<vulkax::atlas::RouteResult> activeLocalRoute;
+  std::shared_ptr<LveModel> activeLocalRouteModel;
+  std::vector<glm::vec3> activeRouteLocalPoints;
+  bool followingRoute = false;
+  size_t followSegment = 0;
+  float followSegmentProgress = 0.f;
   if (config.geoEnabled) {
     geo::GeoBudgetConfig geoBudget{};
     geoBudget.targetFrameMs = config.geoTargetFrameMs;
@@ -387,6 +478,32 @@ void FirstApp::run() {
           beacon::GeoCacheMode::Warm,
           referenceBudget,
           true);
+    }
+    if (!config.benchmark) {
+      std::filesystem::path navigationPath = config.geoNavigationData;
+      if (navigationPath.is_relative()) {
+        navigationPath = std::filesystem::path{ENGINE_DIR} / navigationPath;
+      }
+      localNavigation =
+          std::make_unique<vulkax::atlas::LocalNavigationProvider>(
+              navigationPath);
+      mapControls =
+          std::make_unique<DesktopMapControls>(lveWindow.getGLFWwindow());
+      vulkax::atlas::SearchRequest initialSearch{};
+      initialSearch.limit = 30;
+      initialSearch.focus = {
+          geoScene->manifest().geodeticOrigin.x,
+          geoScene->manifest().geodeticOrigin.y,
+          geoScene->manifest().geodeticOrigin.z,
+      };
+      displayedSearchResults =
+          localNavigation->search(std::move(initialSearch)).get();
+      mapControls->setSearchResults(displayedSearchResults);
+      mapControls->setStatus(
+          std::to_string(localNavigation->placeCount()) +
+          " offline places · " +
+          std::to_string(localNavigation->nodeCount()) +
+          " road nodes");
     }
   }
   std::unique_ptr<beacon::OffscreenComparison> offscreenComparison;
@@ -557,6 +674,135 @@ void FirstApp::run() {
     } else {
       cameraController.moveInPlaneXZ(lveWindow.getGLFWwindow(), frameTime, viewerObject);
     }
+
+    if (mapControls != nullptr && localNavigation != nullptr &&
+        geoScene != nullptr) {
+      while (auto action = mapControls->pollAction()) {
+        if (action->kind == DesktopMapActionKind::Search) {
+          vulkax::atlas::SearchRequest request{};
+          request.query = action->query;
+          request.limit = 30;
+          request.focus = geodeticFromGeoWorld(
+              viewerObject.transform.translation,
+              geoScene->manifest().geodeticOrigin);
+          displayedSearchResults =
+              localNavigation->search(std::move(request)).get();
+          mapControls->setSearchResults(displayedSearchResults);
+          mapControls->setStatus(
+              std::to_string(displayedSearchResults.size()) +
+              " matching offline place(s)");
+        } else if (action->kind == DesktopMapActionKind::Route) {
+          const auto destination = std::find_if(
+              displayedSearchResults.begin(),
+              displayedSearchResults.end(),
+              [&](const vulkax::atlas::SearchResult& result) {
+                return result.id == action->destinationId;
+              });
+          if (destination == displayedSearchResults.end()) {
+            mapControls->setStatus("Selected place is no longer available");
+            continue;
+          }
+          vulkax::atlas::RouteRequest request{};
+          request.origin = geodeticFromGeoWorld(
+              viewerObject.transform.translation,
+              geoScene->manifest().geodeticOrigin);
+          request.destination = destination->position;
+          request.mode = action->mode;
+          request.alternatives = 0;
+          auto routes = localNavigation->route(std::move(request)).get();
+          if (routes.empty()) {
+            mapControls->setStatus(
+                "No route found for the selected travel mode");
+            continue;
+          }
+          activeLocalRoute = std::move(routes.front());
+          activeLocalRouteModel = buildLocalRouteModel(
+              lveDevice,
+              activeLocalRoute->shape,
+              geoScene->manifest().geodeticOrigin);
+          activeRouteLocalPoints.clear();
+          activeRouteLocalPoints.reserve(activeLocalRoute->shape.size());
+          for (const auto& point : activeLocalRoute->shape) {
+            activeRouteLocalPoints.push_back(
+                routeLocalPosition(
+                    point, geoScene->manifest().geodeticOrigin));
+          }
+          followingRoute = false;
+          followSegment = 0;
+          followSegmentProgress = 0.f;
+          mapControls->setRouteSummary(
+              destination->name,
+              activeLocalRoute->distanceMeters,
+              activeLocalRoute->durationSeconds);
+          mapControls->setStatus(
+              std::string{"Route ready · "} +
+              vulkax::atlas::toString(activeLocalRoute->mode));
+        } else if (
+            action->kind == DesktopMapActionKind::FollowRoute) {
+          if (activeRouteLocalPoints.size() < 2) {
+            mapControls->setStatus("Create a route before following it");
+            continue;
+          }
+          followingRoute = true;
+          followSegment = 0;
+          followSegmentProgress = 0.f;
+          mapControls->setStatus("Following route");
+        } else if (
+            action->kind == DesktopMapActionKind::ClearRoute) {
+          activeLocalRoute.reset();
+          activeLocalRouteModel.reset();
+          activeRouteLocalPoints.clear();
+          followingRoute = false;
+          mapControls->setRouteSummary(
+              "Choose a destination", 0.0, 0.0);
+          mapControls->setStatus("Route cleared");
+        }
+      }
+    }
+
+    if (followingRoute && activeRouteLocalPoints.size() >= 2) {
+      float travelMeters = 12.f * std::min(frameTime, 0.1f);
+      while (travelMeters > 0.f &&
+             followSegment + 1 < activeRouteLocalPoints.size()) {
+        const glm::vec3 start = activeRouteLocalPoints[followSegment];
+        const glm::vec3 end = activeRouteLocalPoints[followSegment + 1];
+        const float segmentLength =
+            glm::length(glm::vec2{end.x - start.x, end.z - start.z});
+        if (segmentLength < 0.01f) {
+          ++followSegment;
+          followSegmentProgress = 0.f;
+          continue;
+        }
+        const float remaining =
+            segmentLength * (1.f - followSegmentProgress);
+        if (travelMeters >= remaining) {
+          travelMeters -= remaining;
+          ++followSegment;
+          followSegmentProgress = 0.f;
+          continue;
+        }
+        followSegmentProgress += travelMeters / segmentLength;
+        travelMeters = 0.f;
+      }
+      if (followSegment + 1 >= activeRouteLocalPoints.size()) {
+        followingRoute = false;
+        if (mapControls != nullptr) mapControls->setStatus("Arrived");
+      } else {
+        const glm::vec3 start = activeRouteLocalPoints[followSegment];
+        const glm::vec3 end = activeRouteLocalPoints[followSegment + 1];
+        const glm::vec3 position =
+            glm::mix(start, end, followSegmentProgress);
+        const glm::vec3 direction =
+            glm::normalize(
+                glm::vec3{end.x - start.x, 0.f, end.z - start.z});
+        viewerObject.transform.translation =
+            position - direction * 24.f;
+        viewerObject.transform.translation.y = -18.f;
+        viewerObject.transform.rotation.x = -0.32f;
+        viewerObject.transform.rotation.y =
+            std::atan2(direction.x, direction.z);
+      }
+    }
     camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
 
     float aspect = lveRenderer.getAspectRatio();
@@ -624,6 +870,12 @@ void FirstApp::run() {
             std::to_string(stats.residentTiles) + " | " +
             geoScene->manifest().sourceAttribution;
         glfwSetWindowTitle(lveWindow.getGLFWwindow(), title.c_str());
+        if (mapControls != nullptr && !activeLocalRoute.has_value()) {
+          mapControls->setStatus(
+              std::to_string(stats.visibleTiles) + " visible tiles · " +
+              std::to_string(stats.residentTiles) +
+              " resident · offline");
+        }
       }
     }
     if (referenceGeoScene != nullptr) {
@@ -795,6 +1047,10 @@ void FirstApp::run() {
         simpleRenderSystem.begin(frameInfo);
         for (const auto& item : geoScene->drawItems()) {
           simpleRenderSystem.renderModel(frameInfo, *item.model, item.transform);
+        }
+        if (activeLocalRouteModel != nullptr) {
+          simpleRenderSystem.renderModel(
+              frameInfo, *activeLocalRouteModel);
         }
       }
       if (config.showLightBillboards) {

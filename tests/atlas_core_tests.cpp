@@ -4,6 +4,7 @@
 #include "atlas/core/sha256.hpp"
 #include "atlas/core/tile_key.hpp"
 #include "atlas/navigation/gateway_provider.hpp"
+#include "atlas/navigation/local_navigation.hpp"
 #include "atlas/navigation/replay_providers.hpp"
 #include "atlas/renderer/route_mesh.hpp"
 #include "atlas/research/route_predictive_scheduler.hpp"
@@ -107,6 +108,25 @@ int main() {
   assert(close(localRoundTrip.x, 100.0, 1e-8));
   assert(close(localRoundTrip.y, 0.0, 1e-8));
   assert(close(localRoundTrip.z, 0.0, 1e-8));
+
+  LocalNavigationProvider localNavigation{
+      std::filesystem::path{ENGINE_DIR} /
+      "data/connaught_place/navigation.json"};
+  assert(localNavigation.nodeCount() > 3000);
+  assert(localNavigation.edgeCount() > 6000);
+  assert(localNavigation.placeCount() > 200);
+  const auto localPlaces =
+      localNavigation.search({"Rajiv Chowk", "en", std::nullopt, 5}).get();
+  assert(!localPlaces.empty());
+  assert(localPlaces.front().name.find("Rajiv Chowk") != std::string::npos);
+  RouteRequest localRouteRequest{};
+  localRouteRequest.origin = {28.6315, 77.2167, 0.0};
+  localRouteRequest.destination = localPlaces.front().position;
+  localRouteRequest.mode = TravelMode::Walking;
+  const auto localRoutes = localNavigation.route(localRouteRequest).get();
+  assert(!localRoutes.empty());
+  assert(localRoutes.front().shape.size() >= 3);
+  assert(localRoutes.front().distanceMeters >= 0.0);
 
   for (const auto direction : {
            glm::dvec3{1.0, 0.2, -0.4},

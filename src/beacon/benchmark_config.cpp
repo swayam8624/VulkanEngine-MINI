@@ -164,6 +164,9 @@ BenchmarkConfig parseCommandLine(int argc, char** argv) {
     } else if (consumeValue(i, argc, argv, "--geo-manifest", value)) {
       config.geoManifest = value;
       config.geoEnabled = true;
+    } else if (consumeValue(i, argc, argv, "--geo-navigation", value)) {
+      config.geoNavigationData = value;
+      config.geoEnabled = true;
     } else if (consumeValue(i, argc, argv, "--atlas-manifest", value)) {
       config.atlasManifest = value;
       config.atlasEnabled = true;
@@ -195,6 +198,18 @@ BenchmarkConfig parseCommandLine(int argc, char** argv) {
     }
   }
   return config;
+}
+
+void applyExecutableDefaults(
+    BenchmarkConfig& config,
+    const std::string& executableStem) {
+  if (executableStem == "VulkaxAtlas") {
+    config.atlasEnabled = true;
+    config.geoEnabled = false;
+  } else if (executableStem == "VulkaxGeoBEACON") {
+    config.geoEnabled = true;
+    config.atlasEnabled = false;
+  }
 }
 
 std::string toString(RenderTechnique technique) {

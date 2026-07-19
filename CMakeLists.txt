@@ -82,6 +82,13 @@ endif()
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/src/*.cpp)
 list(FILTER SOURCES EXCLUDE REGEX "/src/atlas/")
+if (APPLE)
+  enable_language(OBJCXX)
+  list(REMOVE_ITEM SOURCES
+       "${PROJECT_SOURCE_DIR}/src/platform/desktop_map_controls_stub.cpp")
+  list(APPEND SOURCES
+       "${PROJECT_SOURCE_DIR}/src/platform/desktop_map_controls_macos.mm")
+endif()
 
 add_library(
   atlas_core STATIC
@@ -108,6 +115,7 @@ add_library(
   atlas_navigation STATIC
   src/atlas/navigation/replay_providers.cpp
   src/atlas/navigation/gateway_provider.cpp
+  src/atlas/navigation/local_navigation.cpp
 )
 target_compile_features(atlas_navigation PUBLIC cxx_std_20)
 target_include_directories(atlas_navigation PUBLIC ${PROJECT_SOURCE_DIR}/src)
@@ -206,6 +214,9 @@ elseif (UNIX)
       ${TINYOBJ_PATH}
     )
     target_link_libraries(${PROJECT_NAME} glfw ${Vulkan_LIBRARIES} nlohmann_json::nlohmann_json)
+    if (APPLE)
+      target_link_libraries(${PROJECT_NAME} "-framework Cocoa" "-framework QuartzCore")
+    endif()
 endif()
 
 
@@ -285,6 +296,7 @@ if (BUILD_TESTING)
     BeaconCoreTests
     tests/beacon_core_tests.cpp
     src/beacon/beacon_research.cpp
+    src/beacon/benchmark_config.cpp
     src/beacon/cluster_scan_reference.cpp
   )
   target_compile_features(BeaconCoreTests PRIVATE cxx_std_17)
@@ -333,6 +345,11 @@ if (BUILD_TESTING)
   add_test(
     NAME atlas_gateway
     COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tests/test_atlas_gateway.py
+  )
+  add_test(
+    NAME connaught_navigation
+    COMMAND ${Python3_EXECUTABLE}
+            ${PROJECT_SOURCE_DIR}/tests/test_connaught_navigation.py
   )
   add_test(
     NAME atlas_reference_manifests

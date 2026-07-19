@@ -103,6 +103,7 @@ case "$command" in
       --geo \
       --geo-policy geo-beacon-bounded \
       --geo-manifest "$ROOT/data/connaught_place/generated/geobeacon.json" \
+      --geo-navigation "$ROOT/data/connaught_place/navigation.json" \
       --geo-cache-mode warm \
       --lights 500 \
       --width 1440 \

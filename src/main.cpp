@@ -22,12 +22,7 @@ int main(int argc, char** argv) {
   try {
     auto config = lve::beacon::parseCommandLine(argc, argv);
     const auto executableName = std::filesystem::path{argv[0]}.stem();
-    if (executableName == "VulkaxAtlas") {
-      config.atlasEnabled = true;
-    } else if (executableName == "VulkaxGeoBEACON") {
-      config.geoEnabled = true;
-      config.atlasEnabled = false;
-    }
+    lve::beacon::applyExecutableDefaults(config, executableName.string());
     if (config.benchmark && usesHeadlessResearchRunner(config.technique)) {
       return lve::beacon::runResearchBenchmark(config);
     }

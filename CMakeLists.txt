@@ -293,6 +293,7 @@ if (APPLE)
             "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/shaders"
             "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/connaught_place"
             "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/central_london"
+            "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/central_tokyo"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${PROJECT_SOURCE_DIR}/shaders"
             "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/shaders"
@@ -302,6 +303,9 @@ if (APPLE)
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${PROJECT_SOURCE_DIR}/data/central_london/generated"
             "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/central_london/generated"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${PROJECT_SOURCE_DIR}/data/central_tokyo/generated"
+            "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/central_tokyo/generated"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${PROJECT_SOURCE_DIR}/data/cities.json"
             "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/cities.json"
@@ -315,6 +319,11 @@ if (APPLE)
             "${PROJECT_SOURCE_DIR}/data/central_london/LICENSE-ODbL.md"
             "${PROJECT_SOURCE_DIR}/data/central_london/README.md"
             "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/central_london"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${PROJECT_SOURCE_DIR}/data/central_tokyo/navigation.json"
+            "${PROJECT_SOURCE_DIR}/data/central_tokyo/LICENSE-ODbL.md"
+            "${PROJECT_SOURCE_DIR}/data/central_tokyo/README.md"
+            "${VULKAX_ATLAS_APP_DIR}/Contents/Resources/data/central_tokyo"
     DEPENDS ${PROJECT_NAME} Shaders
     COMMENT "Bundling checked Vulkax city and shader resources"
   )

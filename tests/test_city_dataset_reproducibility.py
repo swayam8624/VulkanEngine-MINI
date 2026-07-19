@@ -48,6 +48,12 @@ def main() -> int:
             "central-london",
             "Central London",
         ),
+        (
+            "central_tokyo",
+            ["35.6740", "139.7520", "35.6865", "139.7750"],
+            "central-tokyo",
+            "Central Tokyo",
+        ),
     ]
     with tempfile.TemporaryDirectory() as directory:
         temporary = Path(directory)

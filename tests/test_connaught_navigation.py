@@ -27,6 +27,13 @@ def main() -> int:
             "subtitle": "Central London, United Kingdom",
             "minimums": (14000, 30000, 5000),
         },
+        {
+            "directory": "central_tokyo",
+            "region": "central-tokyo",
+            "display": "Central Tokyo",
+            "subtitle": "Central Tokyo, Japan",
+            "minimums": (10000, 22000, 3000),
+        },
     ]
     with tempfile.TemporaryDirectory() as directory:
         for configuration in configurations:

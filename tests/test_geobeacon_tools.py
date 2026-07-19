@@ -72,12 +72,34 @@ class GeoBeaconToolsTests(unittest.TestCase):
                 self.assertGreater(indices, 0)
                 self.assertEqual(path.stat().st_size, representation["bytes"])
 
+    def test_central_tokyo_dataset_glbs_reload(self):
+        root = ROOT / "data/central_tokyo"
+        manifest_path = root / "generated/geobeacon.json"
+        manifest = json.loads(manifest_path.read_text())
+        report = json.loads((root / "generated/tile_report.json").read_text())
+        self.assertEqual(manifest["datasetId"], "central-tokyo")
+        self.assertEqual(manifest["displayName"], "Central Tokyo")
+        self.assertGreater(len(manifest["tiles"]), 200)
+        self.assertGreater(report["featureCount"], 5000)
+        self.assertEqual(report["invalidFeatures"], {})
+        self.assertEqual(
+            hashlib.sha256((root / "source.osm").read_bytes()).hexdigest(),
+            manifest["sourceChecksum"],
+        )
+        for tile in manifest["tiles"]:
+            for representation in tile["representations"]:
+                path = manifest_path.parent / representation["uri"]
+                vertices, indices = TILES.glb_counts(path)
+                self.assertGreater(vertices, 0)
+                self.assertGreater(indices, 0)
+                self.assertEqual(path.stat().st_size, representation["bytes"])
+
     def test_checked_city_registry(self):
         registry = json.loads((ROOT / "data/cities.json").read_text())
         self.assertEqual(registry["format"], "Vulkax-city-registry-1")
         self.assertEqual(
             [city["id"] for city in registry["cities"]],
-            ["connaught-place", "central-london"],
+            ["connaught-place", "central-london", "central-tokyo"],
         )
         for city in registry["cities"]:
             self.assertEqual(len(city["center"]), 3)

@@ -1,0 +1,17 @@
+{
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "query": "[out:xml][timeout:120];\n(\n  way[\"building\"](35.674,139.752,35.6865,139.775);\n  relation[\"building\"](35.674,139.752,35.6865,139.775);\n  way[\"highway\"](35.674,139.752,35.6865,139.775);\n  relation[\"highway\"](35.674,139.752,35.6865,139.775);\n  way[\"landuse\"](35.674,139.752,35.6865,139.775);\n  relation[\"landuse\"](35.674,139.752,35.6865,139.775);\n  way[\"natural\"=\"water\"](35.674,139.752,35.6865,139.775);\n  relation[\"natural\"=\"water\"](35.674,139.752,35.6865,139.775);\n  way[\"leisure\"=\"park\"](35.674,139.752,35.6865,139.775);\n  relation[\"leisure\"=\"park\"](35.674,139.752,35.6865,139.775);\n  node[\"public_transport\"](35.674,139.752,35.6865,139.775);\n  way[\"public_transport\"](35.674,139.752,35.6865,139.775);\n  node[\"name\"][\"amenity\"](35.674,139.752,35.6865,139.775);\n  node[\"name\"][\"shop\"](35.674,139.752,35.6865,139.775);\n  node[\"name\"][\"tourism\"](35.674,139.752,35.6865,139.775);\n  node[\"name\"][\"historic\"](35.674,139.752,35.6865,139.775);\n  node[\"name\"][\"railway\"](35.674,139.752,35.6865,139.775);\n  node[\"name\"][\"place\"](35.674,139.752,35.6865,139.775);\n  node[\"barrier\"](35.674,139.752,35.6865,139.775);\n  way[\"barrier\"](35.674,139.752,35.6865,139.775);\n);\n(._;>;);\nout body;",
+  "bbox": [
+    35.674,
+    139.752,
+    35.6865,
+    139.775
+  ],
+  "fetchedUtc": "2026-07-19T08:16:35.214144+00:00",
+  "sha256": "88e1efe1cfe582cb6fc55f558d6153141f65892ef3e823434475675e6f3f0e28",
+  "bytes": 4572099,
+  "userAgent": "Vulkax-GeoBEACON/1.0 (https://github.com/swayam8624/Vulkax)",
+  "license": "ODbL-1.0",
+  "attribution": "\u00a9 OpenStreetMap contributors",
+  "copyrightUrl": "https://www.openstreetmap.org/copyright"
+}

@@ -69,8 +69,18 @@ This loads Central London's checked OSM geometry, three semantic LODs, 5,000-plu
 places, mode-aware road graph, route rendering, and route-follow camera. It is independent of the
 experimental globe and does not replace the Connaught Place default.
 
-The **Installed city** selector in the native panel switches between Connaught Place and Central
-London in the running application. The selector reports each checked city's installed size.
+Open Central Tokyo with the same complete local workflow:
+
+```bash
+scripts/vulkax_macos.sh tokyo
+```
+
+The Tokyo slice covers Tokyo Station, Marunouchi, Ginza, and the eastern edge of the Imperial
+Palace, with 3,000-plus searchable places and its checked mode-aware road graph.
+
+The **Installed city** selector in the native panel switches among Connaught Place, Central
+London, and Central Tokyo in the running application. The selector reports each checked city's
+installed size.
 Changing city retires old GPU resources after the in-flight frame window, clears the old route,
 loads the new local search graph, and resets the camera to the new city.
 

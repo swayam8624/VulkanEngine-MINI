@@ -317,9 +317,15 @@ std::shared_ptr<LveModel> buildWorldCityMarkerModel(
         base - tangent * 0.22f,
         base - bitangent * 0.22f,
     };
-    const glm::vec3 color =
-        index % 2 == 0 ? glm::vec3{1.f, 0.65f, 0.08f}
-                       : glm::vec3{0.05f, 0.95f, 0.78f};
+    constexpr std::array<glm::vec3, 6> markerColors{
+        glm::vec3{1.f, 0.65f, 0.08f},
+        glm::vec3{0.05f, 0.95f, 0.78f},
+        glm::vec3{0.95f, 0.2f, 0.35f},
+        glm::vec3{0.35f, 0.65f, 1.f},
+        glm::vec3{0.75f, 0.4f, 1.f},
+        glm::vec3{0.55f, 1.f, 0.25f},
+    };
+    const glm::vec3 color = markerColors[index % markerColors.size()];
     for (size_t side = 0; side < ring.size(); ++side) {
       appendTriangle(
           tip, ring[side], ring[(side + 1) % ring.size()], color);
@@ -1079,10 +1085,17 @@ void FirstApp::run() {
         const glm::vec3 direction =
             glm::normalize(
                 glm::vec3{end.x - start.x, 0.f, end.z - start.z});
+        const float followHeight =
+            std::min(
+                -120.f,
+                static_cast<float>(
+                    geoScene->manifest().localBounds.min.y - 180.0));
+        const float trailingDistance =
+            std::clamp(std::abs(followHeight) * 0.25f, 50.f, 120.f);
         viewerObject.transform.translation =
-            position - direction * 24.f;
-        viewerObject.transform.translation.y = -18.f;
-        viewerObject.transform.rotation.x = -0.32f;
+            position - direction * trailingDistance;
+        viewerObject.transform.translation.y = followHeight;
+        viewerObject.transform.rotation.x = -1.02f;
         viewerObject.transform.rotation.y =
             std::atan2(direction.x, direction.z);
       }

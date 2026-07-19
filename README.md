@@ -41,10 +41,19 @@ semantic LODs, and bounded GeoBEACON lighting path as Connaught Place. Both inst
 also available from the **Installed city** selector inside the application; switching replaces the
 active streamed scene, search index, route state, and camera without launching the globe.
 
+Central Tokyo is the third complete checked city slice:
+
+```bash
+scripts/vulkax_macos.sh tokyo
+```
+
+It covers Tokyo Station, Marunouchi, Ginza, and the eastern edge of the Imperial Palace with the
+same semantic tile, offline search, local routing, route rendering, and route-follow workflow.
+
 The **World** button opens a non-default WGS84 overview with markers for installed cities. The
 active city remains resident, the camera is constrained outside the ellipsoid, and **Open**
 returns to the selected full city. Connaught Place remains the default launch experience.
-On macOS, `build/Vulkax.app` contains its compiled shaders, both checked city databases,
+On macOS, `build/Vulkax.app` contains its compiled shaders, all three checked city databases,
 navigation graphs, and ODbL notices, so opening the application does not depend on the repository
 working directory.
 
